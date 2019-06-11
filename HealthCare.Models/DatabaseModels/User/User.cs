@@ -15,7 +15,7 @@
 
         public int? ParentId { get; set; }
         public User Parent { get; set; }
-      
+
         public List<Phone> Phones = new List<Phone>();
     } 
 }

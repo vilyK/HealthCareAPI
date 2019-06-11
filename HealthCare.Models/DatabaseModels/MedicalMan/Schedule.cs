@@ -1,4 +1,4 @@
-﻿namespace HealthCare.Models.DatabaseModels.MedMan
+﻿namespace HealthCare.Models.DatabaseModels.MedicalMan
 {
     using System;
 
@@ -6,8 +6,9 @@
     {
         public int Id { get; set; }
 
-        //public int MedMedId { get; set; }
-        // public User UserdId {get;set;}
+        public int MedicalMedId { get; set; }
+        public MedicalManInfo MedicalManInfo { get; set; }
+
         public DateTime Date { get; set; }
 
         public DateTime From { get; set; }

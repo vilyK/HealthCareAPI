@@ -1,4 +1,4 @@
-﻿namespace HealthCare.Models.DatabaseModels.MedMan
+﻿namespace HealthCare.Models.DatabaseModels.MedicalMan
 {
     using System.Collections.Generic;
 
@@ -8,6 +8,6 @@
 
         public string Name { get; set; }
 
-        public List<MedManInfoPrice> MedMen = new List<MedManInfoPrice>();
+        public List<MedicalManInfoPrice> MedMen = new List<MedicalManInfoPrice>();
     }
 }

@@ -1,11 +1,13 @@
-﻿namespace HealthCare.Models.DatabaseModels.MedMan
+﻿namespace HealthCare.Models.DatabaseModels.MedicalMan
 {
-    public class MedManInfoPrice
+    using MedMan;
+
+    public class MedicalManInfoPrice
     {
         public int Id { get; set; }
 
         public int MedManInfoId { get; set; }
-        public MedManInfo MedManInfo { get; set; }
+        public MedicalManInfo MedManInfo { get; set; }
 
         public int PriceTypeId { get; set; }
         public Price PriceType { get; set; }

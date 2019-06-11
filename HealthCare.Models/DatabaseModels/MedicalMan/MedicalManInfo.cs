@@ -1,9 +1,10 @@
-﻿namespace HealthCare.Models.DatabaseModels.MedMan
+﻿namespace HealthCare.Models.DatabaseModels.MedicalMan
 {
     using System.Collections.Generic;
-    using Enums;
+    using MedMan;
+    using Utilities.Enums;
 
-    public class MedManInfo
+    public class MedicalManInfo
     {
         public int Id { get; set; }
 
@@ -19,8 +20,8 @@
 
         public List<Award> Awards = new List<Award>();
 
-        public List<MedMenSpecialty> Specialties = new List<MedMenSpecialty>();
+        public List<MedicalMenSpecialty> Specialties = new List<MedicalMenSpecialty>();
 
-        public List<MedManInfoPrice> Prices = new List<MedManInfoPrice>();
+        public List<MedicalManInfoPrice> Prices = new List<MedicalManInfoPrice>();
     }
 }
