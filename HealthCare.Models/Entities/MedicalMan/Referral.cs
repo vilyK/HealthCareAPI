@@ -14,5 +14,7 @@
         public User Sender { get; set; }
 
         public RelationType Relation { get; set; }
+
+        public string Comment { get; set; }
     }
 }
