@@ -1,6 +1,8 @@
-﻿namespace HealthCare.Models.DatabaseModels.User
+﻿namespace HealthCare.DataLayer.Entities.User
 {
-    public class Country
+    using Base;
+
+    public class Country : SystemData
     {
         public int Id { get; set; }
 

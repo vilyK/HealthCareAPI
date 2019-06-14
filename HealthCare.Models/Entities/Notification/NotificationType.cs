@@ -1,13 +1,15 @@
-﻿namespace HealthCare.Models.DatabaseModels.Notification
+﻿namespace HealthCare.DataLayer.Entities.Notification
 {
     using System.Collections.Generic;
 
-    public class NotificationType
+    using Base;
+
+    public class NotificationType : SystemData
     {
         public int Id { get; set; }
 
         public string Name { get; set; }
 
-        public List<NotificationTypeUser> NotificationTypeUsers = new List<NotificationTypeUser>();
+        public List<NotificationTypeUser> NotificationTypeUsers { get; set; } = new List<NotificationTypeUser>();
     }
 }

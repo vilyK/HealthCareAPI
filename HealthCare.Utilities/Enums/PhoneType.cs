@@ -1,4 +1,4 @@
-﻿namespace HealthCare.Models.DatabaseModels.Enums
+﻿namespace HealthCare.Utilities.Enums
 {
     public enum PhoneType
     {

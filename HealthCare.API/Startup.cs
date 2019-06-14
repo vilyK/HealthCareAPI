@@ -1,8 +1,10 @@
 ﻿namespace HealthCare.API
 {
+    using DataLayer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
@@ -17,6 +19,9 @@
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<HealthCareDbContext>(op 
+                => op.UseSqlServer(Configuration["ConnectionString"]));
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 

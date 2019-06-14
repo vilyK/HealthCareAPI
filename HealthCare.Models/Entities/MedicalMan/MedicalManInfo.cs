@@ -1,10 +1,13 @@
-﻿namespace HealthCare.Models.DatabaseModels.MedicalMan
+﻿namespace HealthCare.DataLayer.Entities.MedicalMan
 {
     using System.Collections.Generic;
-    using MedMan;
+    using System.ComponentModel.DataAnnotations.Schema;
+
+    using Base;
+    using User;
     using Utilities.Enums;
 
-    public class MedicalManInfo
+    public class MedicalManInfo : SystemData
     {
         public int Id { get; set; }
 
@@ -18,10 +21,15 @@
 
         public bool IsNzok { get; set; } 
 
+        public int MedicalCenterId { get; set; }
+
+        [ForeignKey("MedicalCenterId")]
+        public User MedicalCenter { get; set; }
+
         public List<Award> Awards = new List<Award>();
 
-        public List<MedicalMenSpecialty> Specialties = new List<MedicalMenSpecialty>();
+        public List<MedicalMenSpecialty> Specialties { get; set; } = new List<MedicalMenSpecialty>();
 
-        public List<MedicalManInfoPrice> Prices = new List<MedicalManInfoPrice>();
+        public List<MedicalManInfoPrice> Prices { get; set; } = new List<MedicalManInfoPrice>();
     }
 }

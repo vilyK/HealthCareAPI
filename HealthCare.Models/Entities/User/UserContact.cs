@@ -1,19 +1,24 @@
-﻿namespace HealthCare.Models.DatabaseModels.User
+﻿namespace HealthCare.DataLayer.Entities.User
 {
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations.Schema;
 
-    public class UserContact
+    using Base;
+
+    public class UserContact : SystemData
     {
-        public int Id { get; set; }
+        public int Id { get; set; }      
 
-        public User User { get; set; }
         public int UserId { get; set; }
 
-        public List<Email> Emails = new List<Email>();
+        [ForeignKey("UserId")]
+        public User User { get; set; }
 
-        public List<Address> Addresses = new List<Address>();
+        public List<Email> Emails { get; set; } = new List<Email>();
 
-        public List<Phone> Phones = new List<Phone>();
+        public List<Address> Addresses { get; set; } = new List<Address>();
+
+        public List<Phone> Phones { get; set; } = new List<Phone>();
 
     }
 }

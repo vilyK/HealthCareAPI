@@ -1,8 +1,8 @@
-﻿namespace HealthCare.Models.DatabaseModels.MedicalMan
+﻿namespace HealthCare.DataLayer.Entities.MedicalMan
 {
-    using MedMan;
+    using Base;
 
-    public class MedicalMenSpecialty
+    public class MedicalMenSpecialty : SystemData
     {
         public int Id { get; set; }
 

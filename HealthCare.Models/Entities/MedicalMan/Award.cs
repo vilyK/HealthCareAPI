@@ -1,20 +1,23 @@
-﻿namespace HealthCare.Models.DatabaseModels.MedMan
+﻿namespace HealthCare.DataLayer.Entities.MedicalMan
 {
     using System;
-    using MedicalMan;
+    using System.ComponentModel.DataAnnotations.Schema;
 
-    public class Award
+    using Base;
+
+    public class Award : SystemData
     {
         public int Id { get; set; }
-
-        public int MedManInfoId { get; set; }
-
-        public MedicalManInfo MedManInfo { get; set; }
-
+     
         public string Name { get; set; }
 
         public DateTime Year { get; set; }
 
         public string AdditionalInfo { get; set; }
+
+        public int MedManInfoId { get; set; }
+
+        [ForeignKey("MedManInfoId")]
+        public MedicalManInfo MedManInfo { get; set; }
     }
 }

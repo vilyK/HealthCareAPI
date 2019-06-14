@@ -1,8 +1,11 @@
-﻿namespace HealthCare.Models.DatabaseModels.User
+﻿namespace HealthCare.DataLayer.Entities.User
 {
-    public class Area
+    using Base;
+
+    public class Area : SystemData
     {
         public int Id { get; set; }
+
         public string Name { get; set; }
     }
 }

@@ -1,8 +1,9 @@
-﻿namespace HealthCare.Models.DatabaseModels.Notification
+﻿namespace HealthCare.DataLayer.Entities.Notification
 {
+    using Base;
     using User;
 
-    public class NotificationTypeUser
+    public class NotificationTypeUser : SystemData
     {
         public int Id { get; set; }
 
@@ -12,5 +13,4 @@
         public int UserId { get; set; }
         public User User { get; set; }
     }
-
 }

@@ -1,14 +1,20 @@
-﻿namespace HealthCare.Models.DatabaseModels.User
+﻿namespace HealthCare.DataLayer.Entities.User
 {
-    public class Photo
+    using System.ComponentModel.DataAnnotations.Schema;
+
+    using Base;
+
+    public class Photo : SystemData
     {
         public int Id { get; set; }
-
-        public int UserId { get; set; }
-        public User User { get; set; }
        
         public string Url { get; set; }
 
         public bool IsMain { get; set; }
+
+        public int UserId { get; set; }
+
+        [ForeignKey("UserId")]
+        public User User { get; set; }
     }
 }

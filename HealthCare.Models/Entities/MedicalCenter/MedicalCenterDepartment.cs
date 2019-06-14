@@ -1,6 +1,8 @@
-﻿namespace HealthCare.Models.DatabaseModels.MedicalCenter
+﻿namespace HealthCare.DataLayer.Entities.MedicalCenter
 {
-    public class MedicalCenterDepartment
+    using Base;
+
+    public class MedicalCenterDepartment : SystemData
     {
         public int Id { get; set; }
 

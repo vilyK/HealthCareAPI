@@ -1,10 +1,12 @@
-﻿namespace HealthCare.Models.DatabaseModels.Notification
+﻿namespace HealthCare.DataLayer.Entities.Notification
 {
     using System;
     using System.Collections.Generic;
+
+    using Base;
     using Utilities.Enums;
 
-    public class Notification
+    public class Notification : SystemData
     {
         public int Id { get; set; }
 
@@ -12,6 +14,6 @@
 
         public DateTime NotificationDate { get; set; }
 
-        public List<UserNotification> UsrNotifications = new List<UserNotification>();
+        public List<NotificationUser> UserNotifications { get; set; } = new List<NotificationUser>();
     }
 }
