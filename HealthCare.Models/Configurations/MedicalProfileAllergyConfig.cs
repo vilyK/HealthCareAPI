@@ -11,12 +11,14 @@
             modelBuilder
                 .HasOne(e => e.MedicalProfile)
                 .WithMany(e => e.MedicalProfileAllergies)
-                .HasForeignKey(e => e.MedicalProfileId);
+                .HasForeignKey(e => e.MedicalProfileId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder
                 .HasOne(e => e.Allergy)
                 .WithMany(e => e.MedicalProfileAllergies)
-                .HasForeignKey(e => e.AllergyId);
+                .HasForeignKey(e => e.AllergyId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

@@ -1474,12 +1474,12 @@ namespace HealthCare.DataLayer.Migrations
                     b.HasOne("HealthCare.DataLayer.Entities.User.User", "Doctor")
                         .WithMany("DoctorAppointments")
                         .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("HealthCare.DataLayer.Entities.User.User", "Patient")
                         .WithMany("PatientAppointments")
                         .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("HealthCare.DataLayer.Entities.Appraisal", b =>
@@ -1487,12 +1487,12 @@ namespace HealthCare.DataLayer.Migrations
                     b.HasOne("HealthCare.DataLayer.Entities.User.User", "Recipient")
                         .WithMany("ReceivedAppraisals")
                         .HasForeignKey("RecipientId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("HealthCare.DataLayer.Entities.User.User", "Sender")
                         .WithMany("SentAppraisals")
                         .HasForeignKey("SenderId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("HealthCare.DataLayer.Entities.MedicalCenter.MedicalCenterDepartment", b =>
@@ -1500,12 +1500,12 @@ namespace HealthCare.DataLayer.Migrations
                     b.HasOne("HealthCare.DataLayer.Entities.MedicalCenter.Department", "Department")
                         .WithMany("MedicalCenterDepartments")
                         .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("HealthCare.DataLayer.Entities.MedicalCenter.MedicalCenterInfo", "MedicalCenter")
                         .WithMany("MedicalCenterDepartments")
                         .HasForeignKey("MedicalCenterId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("HealthCare.DataLayer.Entities.MedicalCenter.MedicalCenterDoctor", b =>
@@ -1513,12 +1513,12 @@ namespace HealthCare.DataLayer.Migrations
                     b.HasOne("HealthCare.DataLayer.Entities.User.User", "Doctor")
                         .WithMany("DoctorWorkPlaces")
                         .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("HealthCare.DataLayer.Entities.User.User", "MedicalCenter")
                         .WithMany("MedicalCenterEmployees")
                         .HasForeignKey("MedicalCenterId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("HealthCare.DataLayer.Entities.MedicalCenter.MedicalCenterInfo", b =>
@@ -1542,12 +1542,12 @@ namespace HealthCare.DataLayer.Migrations
                     b.HasOne("HealthCare.DataLayer.Entities.MedicalData.Allergy", "Allergy")
                         .WithMany("AllergyTreatments")
                         .HasForeignKey("AllergyId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("HealthCare.DataLayer.Entities.MedicalData.Treatment", "Treatment")
                         .WithMany("AllergyTreatments")
                         .HasForeignKey("TreatmentId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("HealthCare.DataLayer.Entities.MedicalData.Illness", b =>
@@ -1563,12 +1563,12 @@ namespace HealthCare.DataLayer.Migrations
                     b.HasOne("HealthCare.DataLayer.Entities.MedicalData.Illness", "Illness")
                         .WithMany("IllnessTreatments")
                         .HasForeignKey("IllnessId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("HealthCare.DataLayer.Entities.MedicalData.Treatment", "Treatment")
                         .WithMany("IllnessTreatments")
                         .HasForeignKey("TreatmentId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("HealthCare.DataLayer.Entities.MedicalData.IllnessType", b =>
@@ -1592,12 +1592,12 @@ namespace HealthCare.DataLayer.Migrations
                     b.HasOne("HealthCare.DataLayer.Entities.MedicalData.Allergy", "Allergy")
                         .WithMany("MedicalProfileAllergies")
                         .HasForeignKey("AllergyId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("HealthCare.DataLayer.Entities.MedicalData.MedicalProfile", "MedicalProfile")
                         .WithMany("MedicalProfileAllergies")
                         .HasForeignKey("MedicalProfileId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("HealthCare.DataLayer.Entities.MedicalData.MedicalProfileIllness", b =>
@@ -1618,12 +1618,12 @@ namespace HealthCare.DataLayer.Migrations
                     b.HasOne("HealthCare.DataLayer.Entities.MedicalData.MedicalProfile", "MedicalProfile")
                         .WithMany("MedicalProfileMedicalTests")
                         .HasForeignKey("MedicalProfileId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("HealthCare.DataLayer.Entities.MedicalData.MedicalTest", "MedicalTest")
                         .WithMany("MedicalProfileMedicalTests")
                         .HasForeignKey("MedicalTestId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("HealthCare.DataLayer.Entities.MedicalData.MedicalTest", b =>
@@ -1662,9 +1662,9 @@ namespace HealthCare.DataLayer.Migrations
             modelBuilder.Entity("HealthCare.DataLayer.Entities.MedicalData.OutpatientCard", b =>
                 {
                     b.HasOne("HealthCare.DataLayer.Entities.User.User", "Doctor")
-                        .WithMany()
+                        .WithMany("DoctorsOutpatientCards")
                         .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("HealthCare.DataLayer.Entities.User.User", "Patient")
                         .WithMany()
@@ -1677,12 +1677,12 @@ namespace HealthCare.DataLayer.Migrations
                     b.HasOne("HealthCare.DataLayer.Entities.MedicalData.Allergy", "Allergy")
                         .WithMany("OutpatientCardAllergies")
                         .HasForeignKey("AllergyId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("HealthCare.DataLayer.Entities.MedicalData.OutpatientCard", "OutpatientCard")
                         .WithMany("OutpatientCardAllergies")
                         .HasForeignKey("OutpatientCardId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("HealthCare.DataLayer.Entities.MedicalData.OutpatientCardIllness", b =>
@@ -1690,12 +1690,12 @@ namespace HealthCare.DataLayer.Migrations
                     b.HasOne("HealthCare.DataLayer.Entities.MedicalData.Illness", "Illness")
                         .WithMany("OutpatientCardIllnesses")
                         .HasForeignKey("IllnessId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("HealthCare.DataLayer.Entities.MedicalData.OutpatientCard", "OutpatientCard")
                         .WithMany("OutpatientCardIllnesses")
                         .HasForeignKey("OutpatientCardId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("HealthCare.DataLayer.Entities.MedicalData.OutpatientCardMedicalTest", b =>
@@ -1703,12 +1703,12 @@ namespace HealthCare.DataLayer.Migrations
                     b.HasOne("HealthCare.DataLayer.Entities.MedicalData.MedicalTest", "MedicalTest")
                         .WithMany("OutpatientCardMedicalTests")
                         .HasForeignKey("MedicalTestId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("HealthCare.DataLayer.Entities.MedicalData.OutpatientCard", "OutpatientCard")
                         .WithMany("OutpatientCardMedicalTests")
                         .HasForeignKey("OutpatientCardId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("HealthCare.DataLayer.Entities.MedicalData.TreatmentMedicament", b =>
@@ -1716,12 +1716,12 @@ namespace HealthCare.DataLayer.Migrations
                     b.HasOne("HealthCare.DataLayer.Entities.MedicalData.Medicament", "Medicament")
                         .WithMany("TreatmentMedicaments")
                         .HasForeignKey("MedicamentId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("HealthCare.DataLayer.Entities.MedicalData.Treatment", "Treatment")
                         .WithMany("TreatmentMedicaments")
                         .HasForeignKey("TreatmentId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("HealthCare.DataLayer.Entities.MedicalMan.Award", b =>
@@ -1745,12 +1745,12 @@ namespace HealthCare.DataLayer.Migrations
                     b.HasOne("HealthCare.DataLayer.Entities.MedicalMan.MedicalManInfo", "MedManInfo")
                         .WithMany("Prices")
                         .HasForeignKey("MedManInfoId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("HealthCare.DataLayer.Entities.MedicalMan.PriceType", "PriceType")
                         .WithMany("MedicalMen")
                         .HasForeignKey("PriceTypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("HealthCare.DataLayer.Entities.MedicalMan.MedicalMenSpecialty", b =>
@@ -1758,12 +1758,12 @@ namespace HealthCare.DataLayer.Migrations
                     b.HasOne("HealthCare.DataLayer.Entities.MedicalMan.MedicalManInfo", "MedManInfo")
                         .WithMany("Specialties")
                         .HasForeignKey("MedMenInfoId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("HealthCare.DataLayer.Entities.MedicalMan.Specialty", "Specialty")
                         .WithMany("MedicalMan")
                         .HasForeignKey("SpecialtyId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("HealthCare.DataLayer.Entities.MedicalMan.Schedule", b =>
@@ -1779,12 +1779,12 @@ namespace HealthCare.DataLayer.Migrations
                     b.HasOne("HealthCare.DataLayer.Entities.Notification.NotificationType", "NotificationType")
                         .WithMany("NotificationTypeUsers")
                         .HasForeignKey("NotificationTypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("HealthCare.DataLayer.Entities.User.User", "User")
                         .WithMany("NotificationTypeUsers")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("HealthCare.DataLayer.Entities.Notification.NotificationUser", b =>
@@ -1792,12 +1792,12 @@ namespace HealthCare.DataLayer.Migrations
                     b.HasOne("HealthCare.DataLayer.Entities.Notification.Notification", "Notification")
                         .WithMany("UserNotifications")
                         .HasForeignKey("NotificationId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("HealthCare.DataLayer.Entities.User.User", "User")
                         .WithMany("UserNotifications")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("HealthCare.DataLayer.Entities.Patient.PatientInfo", b =>
@@ -1813,12 +1813,12 @@ namespace HealthCare.DataLayer.Migrations
                     b.HasOne("HealthCare.DataLayer.Entities.User.User", "Distributor")
                         .WithMany("PharmaciesPerDistributor")
                         .HasForeignKey("DistributorId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("HealthCare.DataLayer.Entities.User.User", "Pharmacy")
                         .WithMany("DistributorsPerPharmacy")
                         .HasForeignKey("PharmacyId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("HealthCare.DataLayer.Entities.Pharmacy.PharmacyInfo", b =>
@@ -1842,12 +1842,12 @@ namespace HealthCare.DataLayer.Migrations
                     b.HasOne("HealthCare.DataLayer.Entities.PharmacyCompany.CompanyType", "CompanyType")
                         .WithMany("PharmacyCompanyTypes")
                         .HasForeignKey("CompanyTypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("HealthCare.DataLayer.Entities.PharmacyCompany.PharmacyCompanyInfo", "PharmacyCompanyInfo")
                         .WithMany("PharmacyCompanyTypes")
                         .HasForeignKey("PharmacyCompanyInfoId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("HealthCare.DataLayer.Entities.Tooltip.Tooltip", b =>

@@ -401,13 +401,13 @@ namespace HealthCare.DataLayer.Migrations
                         column: x => x.DoctorId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Appointments_Users_PatientId",
                         column: x => x.PatientId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -434,13 +434,13 @@ namespace HealthCare.DataLayer.Migrations
                         column: x => x.RecipientId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Appraisals_Users_SenderId",
                         column: x => x.SenderId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -463,13 +463,13 @@ namespace HealthCare.DataLayer.Migrations
                         column: x => x.DoctorId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_MedicalCenterDoctors_Users_MedicalCenterId",
                         column: x => x.MedicalCenterId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -545,13 +545,13 @@ namespace HealthCare.DataLayer.Migrations
                         column: x => x.NotificationTypeId,
                         principalTable: "NotificationTypes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_NotificationTypeUsers_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -574,13 +574,13 @@ namespace HealthCare.DataLayer.Migrations
                         column: x => x.NotificationId,
                         principalTable: "Notifications",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_NotificationUsers_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -605,7 +605,7 @@ namespace HealthCare.DataLayer.Migrations
                         column: x => x.DoctorId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_OutpatientCards_Users_PatientId",
                         column: x => x.PatientId,
@@ -682,13 +682,13 @@ namespace HealthCare.DataLayer.Migrations
                         column: x => x.DistributorId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_PharmacyDistributors_Users_PharmacyId",
                         column: x => x.PharmacyId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -779,13 +779,13 @@ namespace HealthCare.DataLayer.Migrations
                         column: x => x.AllergyId,
                         principalTable: "Allergies",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_AllergyTreatments_Treatments_TreatmentId",
                         column: x => x.TreatmentId,
                         principalTable: "Treatments",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -857,13 +857,13 @@ namespace HealthCare.DataLayer.Migrations
                         column: x => x.DepartmentId,
                         principalTable: "Departments",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_MedicalCenterDepartments_MedicalCenterInfos_MedicalCenterId",
                         column: x => x.MedicalCenterId,
                         principalTable: "MedicalCenterInfos",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -944,13 +944,13 @@ namespace HealthCare.DataLayer.Migrations
                         column: x => x.MedManInfoId,
                         principalTable: "MedicalManInfos",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_MedicalManInfoPrices_PricesType_PriceTypeId",
                         column: x => x.PriceTypeId,
                         principalTable: "PricesType",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -973,13 +973,13 @@ namespace HealthCare.DataLayer.Migrations
                         column: x => x.MedMenInfoId,
                         principalTable: "MedicalManInfos",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_MedicalMenSpecialties_Specialties_SpecialtyId",
                         column: x => x.SpecialtyId,
                         principalTable: "Specialties",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1027,13 +1027,13 @@ namespace HealthCare.DataLayer.Migrations
                         column: x => x.AllergyId,
                         principalTable: "Allergies",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_OutpatientCardAllergies_OutpatientCards_OutpatientCardId",
                         column: x => x.OutpatientCardId,
                         principalTable: "OutpatientCards",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1115,13 +1115,13 @@ namespace HealthCare.DataLayer.Migrations
                         column: x => x.CompanyTypeId,
                         principalTable: "CompanyTypes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_PharmacyCompanyTypes_PharmacyCompanyInfos_PharmacyCompanyInfoId",
                         column: x => x.PharmacyCompanyInfoId,
                         principalTable: "PharmacyCompanyInfos",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1227,13 +1227,13 @@ namespace HealthCare.DataLayer.Migrations
                         column: x => x.IllnessId,
                         principalTable: "Illnesses",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_IllnessTreatments_Treatments_TreatmentId",
                         column: x => x.TreatmentId,
                         principalTable: "Treatments",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1256,13 +1256,13 @@ namespace HealthCare.DataLayer.Migrations
                         column: x => x.IllnessId,
                         principalTable: "Illnesses",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_OutpatientCardIllnesses_OutpatientCards_OutpatientCardId",
                         column: x => x.OutpatientCardId,
                         principalTable: "OutpatientCards",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1331,13 +1331,13 @@ namespace HealthCare.DataLayer.Migrations
                         column: x => x.MedicalTestId,
                         principalTable: "MedicalTests",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_OutpatientCardMedicalTests_OutpatientCards_OutpatientCardId",
                         column: x => x.OutpatientCardId,
                         principalTable: "OutpatientCards",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1360,13 +1360,13 @@ namespace HealthCare.DataLayer.Migrations
                         column: x => x.AllergyId,
                         principalTable: "Allergies",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_MedicalProfileAllergies_MedicalProfiles_MedicalProfileId",
                         column: x => x.MedicalProfileId,
                         principalTable: "MedicalProfiles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1418,13 +1418,13 @@ namespace HealthCare.DataLayer.Migrations
                         column: x => x.MedicalProfileId,
                         principalTable: "MedicalProfiles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_MedicalProfileMedicalTests_MedicalTests_MedicalTestId",
                         column: x => x.MedicalTestId,
                         principalTable: "MedicalTests",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1448,13 +1448,13 @@ namespace HealthCare.DataLayer.Migrations
                         column: x => x.MedicamentId,
                         principalTable: "Medicaments",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_TreatmentMedicaments_Treatments_TreatmentId",
                         column: x => x.TreatmentId,
                         principalTable: "Treatments",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(

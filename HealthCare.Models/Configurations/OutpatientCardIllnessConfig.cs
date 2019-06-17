@@ -11,12 +11,14 @@
             modelBuilder
                 .HasOne(e => e.OutpatientCard)
                 .WithMany(e => e.OutpatientCardIllnesses)
-                .HasForeignKey(e => e.OutpatientCardId);
+                .HasForeignKey(e => e.OutpatientCardId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder
                 .HasOne(e => e.Illness)
                 .WithMany(e => e.OutpatientCardIllnesses)
-                .HasForeignKey(e => e.IllnessId);
+                .HasForeignKey(e => e.IllnessId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

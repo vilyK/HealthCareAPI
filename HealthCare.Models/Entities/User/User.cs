@@ -5,6 +5,7 @@
 
     using Base;
     using MedicalCenter;
+    using MedicalData;
     using Models.DatabaseModels.Enums;
     using Notification;
     using Pharmacy;
@@ -29,6 +30,9 @@
         public List<NotificationUser> UserNotifications { get; set; } = new List<NotificationUser>();
 
         public List<NotificationTypeUser> NotificationTypeUsers { get; set; } = new List<NotificationTypeUser>();
+
+        [InverseProperty("Doctor")]
+        public List<OutpatientCard> DoctorsOutpatientCards { get; set; } = new List<OutpatientCard>();
 
         [InverseProperty("Doctor")]
         public List<Appointment> DoctorAppointments { get; set; } = new List<Appointment>();

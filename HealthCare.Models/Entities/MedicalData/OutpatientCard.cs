@@ -24,7 +24,7 @@
 
         [ForeignKey("PatientId")]
         public User Patient { get; set; }
-       
+
         public List<OutpatientCardMedicalTest> OutpatientCardMedicalTests { get; set; }  = new List<OutpatientCardMedicalTest>();
 
         public List<OutpatientCardIllness> OutpatientCardIllnesses { get; set; }  = new List<OutpatientCardIllness>();

@@ -11,12 +11,14 @@
             modelBuilder
                 .HasOne(e => e.Notification)
                 .WithMany(e => e.UserNotifications)
-                .HasForeignKey(e => e.NotificationId);
+                .HasForeignKey(e => e.NotificationId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder
                 .HasOne(e => e.User)
                 .WithMany(e => e.UserNotifications)
-                .HasForeignKey(e => e.UserId);
+                .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

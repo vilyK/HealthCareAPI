@@ -11,12 +11,14 @@
             modelBuilder
                 .HasOne(e => e.MedManInfo)
                 .WithMany(e => e.Prices)
-                .HasForeignKey(e => e.MedManInfoId);
+                .HasForeignKey(e => e.MedManInfoId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder
                 .HasOne(e => e.PriceType)
                 .WithMany(e => e.MedicalMen)
-                .HasForeignKey(e => e.PriceTypeId);
+                .HasForeignKey(e => e.PriceTypeId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

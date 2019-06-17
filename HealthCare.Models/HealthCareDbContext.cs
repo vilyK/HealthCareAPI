@@ -190,6 +190,12 @@
             modelBuilder.ApplyConfiguration(new PharmacyDistributorConfig());
 
             modelBuilder.ApplyConfiguration(new TreatmentMedicamentConfig());
+
+            modelBuilder.ApplyConfiguration(new AppointmentConfiguration());
+
+            modelBuilder.ApplyConfiguration(new AppraisalConfiguration());
+
+            modelBuilder.ApplyConfiguration(new OutpatientCardConfiguration());
         }
     }
 }
