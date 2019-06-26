@@ -22,7 +22,7 @@
                 .AddControllersAsServices()
                 .AddFluentValidation(f =>
                 {
-                    f.RegisterValidatorsFromAssemblyContaining<CalculateBetValidator>();
+                    f.RegisterValidatorsFromAssemblyContaining<RegisterUserValidator>();
                 });
 
             return services;
