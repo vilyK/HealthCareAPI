@@ -1,9 +1,10 @@
 ﻿namespace HealthCare.Validation.ModelValidators.Example
 {
-    using Extensions;
     using FluentValidation;
-    using Interfaces.Request;
 
+    using Contracts.Models.Requests;
+    using Extensions;
+    
     public class RegisterUserValidator : BaseValidator<RegisterUserRequest>
     {
         public RegisterUserValidator()

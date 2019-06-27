@@ -1,4 +1,4 @@
-﻿namespace HealthCare.Interfaces.Request
+﻿namespace HealthCare.Contracts.Models.Requests
 {
     public class RegisterUserRequest
     {

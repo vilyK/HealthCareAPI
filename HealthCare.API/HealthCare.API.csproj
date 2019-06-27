@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\HealthCare.DataLayer\HealthCare.DataLayer.csproj" />
     <ProjectReference Include="..\HealthCare.Models\HealthCare.DataLayer.csproj" />
     <ProjectReference Include="..\HealthCare.Validation\HealthCare.Validation.csproj" />
   </ItemGroup>
