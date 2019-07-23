@@ -5,7 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="ModelValidators\" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="8.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HealthCare.Contracts\HealthCare.Contracts.csproj" />
+    <ProjectReference Include="..\HealthCare.Interfaces\HealthCare.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>
