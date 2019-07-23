@@ -4,6 +4,6 @@
 
     public class SeedSettings : ISeedSettings
     {
-        public string BasePath { get; set; }
+        public string SeedDirectory { get; set; }
     }
 }

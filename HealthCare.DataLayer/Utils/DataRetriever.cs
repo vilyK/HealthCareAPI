@@ -1,5 +1,6 @@
 ﻿namespace HealthCare.DataLayer.Utils
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using Microsoft.Extensions.Options;
@@ -19,9 +20,11 @@
 
         public List<TEntity> GetData<TEntity>() where TEntity : class
         {
-            var path = Path.Combine(_seedSettings.Value.BasePath, $"{typeof(TEntity).Name}.json");
+            var localPath = Directory.GetParent(Environment.CurrentDirectory).FullName;
+            var fullPath = Path.Combine(localPath, _seedSettings.Value.SeedDirectory, $"{typeof(TEntity).Name}.json");
 
-            var content = File.ReadAllText(path);
+            var content = File.ReadAllText(fullPath);
+
             return JsonConvert.DeserializeObject<List<TEntity>>(content);
         }
     }

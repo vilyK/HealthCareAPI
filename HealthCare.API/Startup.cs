@@ -22,7 +22,7 @@
                 .AddCustomMvc()
                 .AddDbContext(Configuration)
                 .AddConfigurations(Configuration)
-                .AddDataRetriever();
+                .AddServices();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

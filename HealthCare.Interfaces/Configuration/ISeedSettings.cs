@@ -2,6 +2,6 @@
 {
     public interface ISeedSettings
     {
-        string BasePath { get; set; }
+        string SeedDirectory { get; set; }
     }
 }
