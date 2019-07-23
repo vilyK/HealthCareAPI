@@ -44,7 +44,7 @@
             return service;
         }
 
-        public static IServiceCollection AddDIContainers(this IServiceCollection services)
+        public static IServiceCollection AddDataRetriever(this IServiceCollection services)
         {
             services.AddScoped<IDataRetriever, DataRetriever>();
 
