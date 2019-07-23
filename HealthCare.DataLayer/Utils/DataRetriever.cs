@@ -9,7 +9,7 @@
     using Contracts.Configuration;
     using Interfaces;
 
-    public class DataRetriever : IDataRetriever, IDependencyInjection
+    public class DataRetriever : IDataRetriever
     {
         private readonly IOptionsSnapshot<SeedSettings> _seedSettings;
         
