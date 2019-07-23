@@ -1,5 +1,7 @@
 ﻿namespace HealthCare.DataLayer
 {
+    using Microsoft.EntityFrameworkCore;
+
     using Configurations;
     using Entities;
     using Entities.Event;
@@ -12,19 +14,21 @@
     using Entities.PharmacyCompany;
     using Entities.Tooltip;
     using Entities.User;
-    using Microsoft.EntityFrameworkCore;
+    using Interfaces;
+    using Utils;
 
     public class HealthCareDbContext : DbContext
     {
-        public HealthCareDbContext()
+        private readonly IDataRetriever _dataRetriever;
+
+        public HealthCareDbContext(IDataRetriever dataRetriever)
         {
-            
+            _dataRetriever = dataRetriever;
         }
 
-        public HealthCareDbContext(DbContextOptions options)
-            : base(options)
+        public HealthCareDbContext(DbContextOptions options, IDataRetriever dataRetriever) : base(options)
         {
-            
+            _dataRetriever = dataRetriever;
         }
 
         public DbSet<User> Users { get; set; }
@@ -89,7 +93,7 @@
 
         public DbSet<MedicalTestType> MedicalTestTypes { get; set; }
 
-        public DbSet<Illness> Illnesses { get; set; }
+        public DbSet<PatientIllness> Illnesses { get; set; }
 
         public DbSet<IllnessType> IllnessTypes { get; set; }
 
@@ -114,6 +118,7 @@
         public DbSet<Treatment> Treatments { get; set; }
 
         public DbSet<AllergyTreatment> AllergyTreatments { get; set; }
+
         public DbSet<IllnessTreatment> IllnessTreatments { get; set; }
 
         public DbSet<TreatmentMedicament> TreatmentMedicaments { get; set; }
@@ -160,7 +165,7 @@
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfiguration(new AllergyTreatmentConfig());
-
+           
             modelBuilder.ApplyConfiguration(new IllnessTreatmentConfig());
 
             modelBuilder.ApplyConfiguration(new MedicalCenterDepartmentConfig());
@@ -196,6 +201,8 @@
             modelBuilder.ApplyConfiguration(new AppraisalConfiguration());
 
             modelBuilder.ApplyConfiguration(new OutpatientCardConfiguration());
+
+            modelBuilder.Seed(_dataRetriever);
         }
     }
 }

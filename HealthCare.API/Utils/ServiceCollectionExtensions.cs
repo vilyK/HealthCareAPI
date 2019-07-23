@@ -7,7 +7,10 @@
     using Microsoft.Extensions.Configuration;
 
     using Behaviour.Filters;
+    using Contracts.Configuration;
     using DataLayer;
+    using DataLayer.Utils;
+    using Interfaces;
     using Validation.ModelValidators.Example;
 
     internal static class ServiceCollectionExtensions
@@ -31,6 +34,19 @@
         public static IServiceCollection AddDbContext(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<HealthCareDbContext>(op => op.UseSqlServer(configuration["ConnectionString"]));
+
+            return services;
+        }
+
+        public static IServiceCollection AddConfigurations(this IServiceCollection service, IConfiguration configuration)
+        {
+            service.Configure<SeedSettings>(configuration.GetSection("SeedSettings"));
+            return service;
+        }
+
+        public static IServiceCollection AddDIContainers(this IServiceCollection services)
+        {
+            services.AddScoped<IDataRetriever, DataRetriever>();
 
             return services;
         }

@@ -20,7 +20,9 @@
         {
             services
                 .AddCustomMvc()
-                .AddDbContext(Configuration);
+                .AddDbContext(Configuration)
+                .AddConfigurations(Configuration)
+                .AddDIContainers();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

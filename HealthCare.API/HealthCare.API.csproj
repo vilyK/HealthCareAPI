@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
@@ -13,8 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\HealthCare.BusinessLayer\HealthCare.BusinessLayer.csproj" />
+    <ProjectReference Include="..\HealthCare.Contracts\HealthCare.Contracts.csproj" />
     <ProjectReference Include="..\HealthCare.DataLayer\HealthCare.DataLayer.csproj" />
-    <ProjectReference Include="..\HealthCare.Models\HealthCare.DataLayer.csproj" />
     <ProjectReference Include="..\HealthCare.Validation\HealthCare.Validation.csproj" />
   </ItemGroup>
 
