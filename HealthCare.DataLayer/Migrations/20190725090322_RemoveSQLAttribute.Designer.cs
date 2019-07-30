@@ -4,14 +4,16 @@ using HealthCare.DataLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HealthCare.DataLayer.Migrations
 {
     [DbContext(typeof(HealthCareDbContext))]
-    partial class HealthCareDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190725090322_RemoveSQLAttribute")]
+    partial class RemoveSQLAttribute
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

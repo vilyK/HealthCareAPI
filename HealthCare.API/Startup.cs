@@ -22,6 +22,7 @@
                 .AddCustomMvc()
                 .AddDbContext(Configuration)
                 .AddConfigurations(Configuration)
+                .AddMapper()
                 .AddServices();
         }
 

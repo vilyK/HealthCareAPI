@@ -18,6 +18,10 @@
 
         public string Password { get; set; }
 
+        public string PasswordHash { get; set; }
+
+        public string PasswordSalt { get; set; }
+
         public RoleType RoleType { get; set; }
 
         public int? ParentId { get; set; }

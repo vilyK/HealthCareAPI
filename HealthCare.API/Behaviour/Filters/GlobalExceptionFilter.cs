@@ -12,13 +12,12 @@
 
             var response = new ErrorResponse
             {
-                Exception = exception,
-                Description = context.Exception.Message   
-           };
+                Exception = exception
+            };
 
             context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
             context.Result = new ObjectResult(response);
-
+            
             context.ExceptionHandled = true;
         }
     }
