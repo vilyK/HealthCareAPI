@@ -13,7 +13,7 @@
             RuleFor(request => request)
                 .HasValidData();
 
-            RuleFor(request => request.Username)
+            RuleFor(request => request.GeneralData.Username)
                 .Length(1, 30)
                 .WithMessage("Username length should be between 1 and 30 characters1")
                 .WithErrorCode("Invalid details");

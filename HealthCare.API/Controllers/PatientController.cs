@@ -14,18 +14,18 @@
     [Route("patient")]
     public class PatientController : ControllerBase
     {
-        private readonly IUserService _userService;
+        private readonly IPatientService _patientService;
 
-        public PatientController(IUserService userService)
+        public PatientController(IPatientService patientService)
         {
-            _userService = userService;
+            _patientService = patientService;
         }
 
-        [Route("register")]
-        [HttpPost]
-        public async Task<RegisterUserResponse> Register(RegisterUserRequest request)
-        {
-            return await _userService.RegisterUser(request);
-        }
+        //[Route("register")]
+        //[HttpPost]
+        //public async Task<RegisterUserResponse> Register(RegisterUserRequest request)
+        //{
+        //    //return await _userService.Register(request);
+        //}
     }
 }

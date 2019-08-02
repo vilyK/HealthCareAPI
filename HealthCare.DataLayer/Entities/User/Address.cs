@@ -8,19 +8,9 @@
     {
         public int Id { get; set; }
 
+        public string StreetAddress { get; set; }
+
         public bool IsCurrent { get; set; }
-
-        public string BlockEntrance { get; set; }
-
-        public string Entrance { get; set; }
-
-        public int Floor { get; set; }
-
-        public int FlatNumber { get; set; }
-
-        public string StreetName { get; set; }
-
-        public string StreetNumber { get; set; }
 
         public int CityId { get; set; }
 

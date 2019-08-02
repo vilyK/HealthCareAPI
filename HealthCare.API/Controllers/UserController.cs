@@ -20,10 +20,30 @@
             _userService = userService;
         }
 
-
         [Route("login")]
         [HttpGet]
         public async Task<LoginUserResponse> Login(LoginUserRequest request)
+        {
+            return await _userService.LoginUser(request);
+        }
+
+        [Route("register")]
+        [HttpPost]
+        public async Task<RegisterUserResponse> Register(RegisterUserRequest request)
+        {
+            return await _userService.RegisterUser(request);
+        }
+
+        [Route("addcontact")]
+        [HttpPost]
+        public async Task<RegisterUserResponse> AddContact(RegisterUserRequest request)
+        {
+            return await _userService.RegisterUser(request);
+        }
+
+        [Route("editdata")]
+        [HttpPost]
+        public async Task<LoginUserResponse> EditGeneralInfo(LoginUserRequest request)
         {
             return await _userService.LoginUser(request);
         }

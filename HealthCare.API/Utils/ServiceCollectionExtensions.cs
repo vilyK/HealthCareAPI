@@ -45,6 +45,8 @@
         public static IServiceCollection AddConfigurations(this IServiceCollection service, IConfiguration configuration)
         {
             service.Configure<SeedSettings>(configuration.GetSection("SeedSettings"));
+            service.Configure<JwtAuthentication>(configuration.GetSection("JwtAuthentication"));
+
             return service;
         }
 

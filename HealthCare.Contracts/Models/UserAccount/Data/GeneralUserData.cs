@@ -1,6 +1,6 @@
-﻿namespace HealthCare.Contracts.Models.Requests
+﻿namespace HealthCare.Contracts.CommonModels
 {
-    public class RegisterUserRequest
+    public class GeneralUserData
     {
         public string Username { get; set; }
 
