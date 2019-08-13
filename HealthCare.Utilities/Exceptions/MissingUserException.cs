@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class MissingUserException : Exception
+    public class ExistedUserException : Exception
     {
         public string StatusCode => "UserExists";
 

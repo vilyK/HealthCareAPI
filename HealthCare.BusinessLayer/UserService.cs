@@ -8,8 +8,7 @@
     using AutoMapper;
 
     using Contracts.CommonModels;
-    using Contracts.Models.Requests;
-    using Contracts.Models.Responses;
+    using Contracts.Interfaces;
     using Contracts.Models.UserAccount.Data;
     using Contracts.Models.UserAccount.Requests;
     using Contracts.Models.UserAccount.Responses;
@@ -25,29 +24,31 @@
     {
         private readonly HealthCareDbContext _dbContext;
         private readonly IMapper _mapper;
+        private readonly ISessionResolver _sessionResolver;
 
         private const int SaltByteSize = 64;
         private const int HashByteSize = 256;
         private const int HashingIterationsCount = 10000;
 
-        public UserService(HealthCareDbContext dbContext, IMapper mapper)
+        public UserService(HealthCareDbContext dbContext, IMapper mapper, ISessionResolver sessionResolver)
         {
             _dbContext = dbContext;
             _mapper = mapper;
+            _sessionResolver = sessionResolver;
         }
 
         public async Task<RegisterUserResponse> RegisterUser(RegisterUserRequest request)
         {
             var userExists = RetrieveUserByUsername(request.GeneralData.Username);
-            ValidationUtils.ValidateAndThrow<MissingUserException>(() => userExists != null);
+            ValidationUtils.ValidateAndThrow<ExistedUserException>(() => userExists != null);
 
-            var (hashedPassword, salt) = GenerateSaltedHash(request.GeneralData.Password);
+            var (hashedPassword, secret) = GenerateSaltedHash(request.GeneralData.Password);
 
             var user = new User
             {
                 Username = request.GeneralData.Username,
                 PasswordHash = hashedPassword,
-                PasswordSalt = salt,
+                Secret = secret,
                 RoleType = (RoleType)Enum.ToObject(typeof(RoleType), request.UserRole)
             };
 
@@ -66,9 +67,8 @@
         public async Task<LoginUserResponse> LoginUser(LoginUserRequest request)
         {
             var user = RetrieveUserByUsername(request.Username);
-            ValidationUtils.ValidateAndThrow<IncorrectUserDataException>(() => user == null);
 
-            var isPasswordMatch = VerifyPassword(request.Password, user.PasswordHash, user.PasswordSalt);
+            var isPasswordMatch = VerifyPassword(request.Password, user.PasswordHash, user.Secret);
             ValidationUtils.ValidateAndThrow<IncorrectUserDataException>(() => !isPasswordMatch);
 
             return new LoginUserResponse
@@ -77,11 +77,15 @@
             };
         }
 
+        public Task<AddContactResponse> AddContact(AddContactRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<EditUserGeneraDataResponse> EditGeneralData(EditUserGeneraDataRequest request)
         {
-            var user = RetrieveUserById(request.UserId); // should be taken from the token
-            ValidationUtils.ValidateAndThrow<IncorrectUserDataException>(() => user == null);
-
+            var user = RetrieveUser(_sessionResolver.SessionInfo.Username, _sessionResolver.SessionInfo.UserId);
+            
             if (!request.GeneralData.IsNullOrEmpty())
             {
                 EditGeneralData(request.GeneralData, user);
@@ -105,14 +109,20 @@
             };
         }
 
-        private User RetrieveUserByUsername(string username)
+        private User RetrieveUser(string username, int userId)
         {
-            return _dbContext.Users.SingleOrDefault(x => x.Username == username);
+            var user = _dbContext.Users.SingleOrDefault(x => x.Id == userId && x.Username == username);
+            ValidationUtils.ValidateAndThrow<IncorrectUserDataException>(() => user == null);
+
+            return user;
         }
 
-        private User RetrieveUserById(int id)
+        private User RetrieveUserByUsername(string username)
         {
-            return _dbContext.Users.SingleOrDefault(x => x.Id == id);
+            var user = _dbContext.Users.SingleOrDefault(x => x.Username == username);
+            ValidationUtils.ValidateAndThrow<IncorrectUserDataException>(() => user == null);
+
+            return user;
         }
 
         private void EditGeneralData(GeneralUserData data, User user)
@@ -126,7 +136,7 @@
             {
                 var (hashedPassword, salt) = GenerateSaltedHash(data.Password);
                 user.PasswordHash = hashedPassword;
-                user.PasswordSalt = salt;
+                user.Secret = salt;
             }
         }
 
@@ -201,8 +211,6 @@
 
             _dbContext.AddRange(userContact, userAddress, userPhone, userEmail);
         }
-
-
 
         private (string, string) GenerateSaltedHash(string password)
         {

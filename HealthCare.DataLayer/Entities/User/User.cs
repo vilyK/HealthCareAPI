@@ -20,7 +20,7 @@
 
         public string PasswordHash { get; set; }
 
-        public string PasswordSalt { get; set; }
+        public string Secret { get; set; }
 
         public RoleType RoleType { get; set; }
 

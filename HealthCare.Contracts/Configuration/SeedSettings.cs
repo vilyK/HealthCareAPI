@@ -1,6 +1,6 @@
 ﻿namespace HealthCare.Contracts.Configuration
 {
-    using Interfaces.Configuration;
+    using HealthCare.Interfaces.Configuration;
 
     public class SeedSettings : ISeedSettings
     {

@@ -1,8 +1,8 @@
 ﻿namespace HealthCare.BusinessLayer
 {
     using System.Threading.Tasks;
-    using Contracts.Models.Requests;
-    using Contracts.Models.Responses;
+    using Contracts.Models.UserAccount.Requests;
+    using Contracts.Models.UserAccount.Responses;
     using Interfaces;
 
     public class PatientService : IPatientService

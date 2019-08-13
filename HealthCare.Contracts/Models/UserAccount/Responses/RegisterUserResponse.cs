@@ -1,4 +1,4 @@
-﻿namespace HealthCare.Contracts.Models.Responses
+﻿namespace HealthCare.Contracts.Models.UserAccount.Responses
 {
     public class RegisterUserResponse
     {

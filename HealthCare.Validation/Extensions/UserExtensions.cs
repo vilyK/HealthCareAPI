@@ -1,6 +1,6 @@
 ﻿namespace HealthCare.Validation.Extensions
 {
-    using Contracts.Models.Requests;
+    using Contracts.Models.UserAccount.Requests;
     using FluentValidation;
 
     public static class UserExtensions

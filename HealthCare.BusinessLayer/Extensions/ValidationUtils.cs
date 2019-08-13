@@ -1,6 +1,7 @@
 ﻿namespace HealthCare.BusinessLayer.Extensions
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
 
     public static class ValidationUtils
@@ -15,6 +16,11 @@
         {
             return value.GetType().GetProperties()
                 .All(p => p.GetValue(value) == null);
+        }
+
+        public static bool IsEmpty<T>(this IEnumerable<T> collection)
+        {
+            return !collection.Any();
         }
     }
 }

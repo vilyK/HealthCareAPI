@@ -1,6 +1,11 @@
 ﻿namespace HealthCare.Utilities.Exceptions
 {
-    public class InvalidTokenException : Exceo
+    using System;
+
+    public class InvalidTokenException : Exception
     {
+        public string StatusCode => "InvalidToken";
+
+        public override string Message => "Given token is invalid";
     }
 }

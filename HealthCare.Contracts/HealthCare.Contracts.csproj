@@ -5,12 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\" />
     <Folder Include="Models\PatientAccount\Data\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\HealthCare.Interfaces\HealthCare.Interfaces.csproj" />
+    <ProjectReference Include="..\HealthCare.Utilities\HealthCare.Utilities.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
 ﻿namespace HealthCare.Validation.ModelValidators.UserValidators
 {
-    using Contracts.Models.Requests;
+    using Contracts.Models.UserAccount.Requests;
     using Extensions;
     using FluentValidation;
 

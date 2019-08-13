@@ -1,4 +1,4 @@
-﻿namespace HealthCare.Contracts.Models.Requests
+﻿namespace HealthCare.Contracts.Models.UserAccount.Requests
 {
     public class LoginUserRequest
     {

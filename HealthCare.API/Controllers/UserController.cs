@@ -5,11 +5,12 @@
 
     using Behaviour.Filters;
     using BusinessLayer.Interfaces;
-    using Contracts.Models.Requests;
-    using Contracts.Models.Responses;
+    using Contracts.Models.UserAccount.Requests;
+    using Contracts.Models.UserAccount.Responses;
 
     [ApiController]
     [ValidationFilter]
+    [SessionFilter]
     [Route("user")]
     public class UserController : ControllerBase
     {
@@ -21,7 +22,8 @@
         }
 
         [Route("login")]
-        [HttpGet]
+        [HttpPost]
+        [DisableSessionFilter]
         public async Task<LoginUserResponse> Login(LoginUserRequest request)
         {
             return await _userService.LoginUser(request);
@@ -29,6 +31,7 @@
 
         [Route("register")]
         [HttpPost]
+        [DisableSessionFilter]
         public async Task<RegisterUserResponse> Register(RegisterUserRequest request)
         {
             return await _userService.RegisterUser(request);
@@ -43,9 +46,9 @@
 
         [Route("editdata")]
         [HttpPost]
-        public async Task<LoginUserResponse> EditGeneralInfo(LoginUserRequest request)
+        public async Task<EditUserGeneraDataResponse> EditGeneralInfo(EditUserGeneraDataRequest request)
         {
-            return await _userService.LoginUser(request);
+            return await _userService.EditGeneralData(request);
         }
     }
 }
