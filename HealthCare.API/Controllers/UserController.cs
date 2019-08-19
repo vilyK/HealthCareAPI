@@ -7,10 +7,12 @@
     using BusinessLayer.Interfaces;
     using Contracts.Models.UserAccount.Requests;
     using Contracts.Models.UserAccount.Responses;
+    using Utilities.Enums;
+
 
     [ApiController]
     [ValidationFilter]
-    [SessionFilter]
+    [CustomAuthorizationFilter(RoleType.Admin)]
     [Route("user")]
     public class UserController : ControllerBase
     {
@@ -39,9 +41,9 @@
 
         [Route("addcontact")]
         [HttpPost]
-        public async Task<RegisterUserResponse> AddContact(RegisterUserRequest request)
+        public async Task<AddContactResponse> AddContact(AddContactRequest request)
         {
-            return await _userService.RegisterUser(request);
+            return await _userService.AddContact(request);
         }
 
         [Route("editdata")]

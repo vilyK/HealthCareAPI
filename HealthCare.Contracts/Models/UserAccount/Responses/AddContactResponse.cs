@@ -2,5 +2,6 @@
 {
     public class AddContactResponse
     {
+        public string Token { get; set; }
     }
 }

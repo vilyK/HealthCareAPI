@@ -1,6 +1,5 @@
 ﻿namespace HealthCare.Contracts.Models.UserAccount.Requests
 {
-    using CommonModels;
     using Data;
 
     public class RegisterUserRequest 

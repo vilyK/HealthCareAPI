@@ -3,8 +3,9 @@
     using System.ComponentModel.DataAnnotations.Schema;
 
     using Base;
+    using Interfaces;
 
-    public class Email : SystemData
+    public class Email : SystemData, IIdentity
     {
         public int Id { get; set; }
 

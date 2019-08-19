@@ -1,4 +1,4 @@
-﻿namespace HealthCare.Contracts.CommonModels
+﻿namespace HealthCare.Contracts.Models.UserAccount.Data
 {
     public class GeneralUserData
     {

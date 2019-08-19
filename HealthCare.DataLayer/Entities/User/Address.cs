@@ -3,8 +3,9 @@
     using System.ComponentModel.DataAnnotations.Schema;
 
     using Base;
+    using Interfaces;
 
-    public class Address : SystemData
+    public class Address : SystemData, IIdentity
     {
         public int Id { get; set; }
 
@@ -21,7 +22,6 @@
 
         [ForeignKey("UserContactId")]
         public UserContact UserContact { get; set; }
-              
     }
 }
 

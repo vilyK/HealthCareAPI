@@ -6,9 +6,9 @@
     using Base;
     using MedicalCenter;
     using MedicalData;
-    using Models.DatabaseModels.Enums;
     using Notification;
     using Pharmacy;
+    using Utilities.Enums;
 
     public class User : SystemData
     {

@@ -1,13 +1,11 @@
 ﻿namespace HealthCare.BusinessLayer
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using System.Security.Cryptography;
     using AutoMapper;
 
-    using Contracts.CommonModels;
     using Contracts.Interfaces;
     using Contracts.Models.UserAccount.Data;
     using Contracts.Models.UserAccount.Requests;
@@ -16,7 +14,6 @@
     using DataLayer.Entities.User;
     using Extensions;
     using Interfaces;
-    using Models.DatabaseModels.Enums;
     using Utilities.Enums;
     using Utilities.Exceptions;
 
@@ -25,16 +22,18 @@
         private readonly HealthCareDbContext _dbContext;
         private readonly IMapper _mapper;
         private readonly ISessionResolver _sessionResolver;
+        private readonly IContactsService _contactsService;
 
         private const int SaltByteSize = 64;
         private const int HashByteSize = 256;
         private const int HashingIterationsCount = 10000;
 
-        public UserService(HealthCareDbContext dbContext, IMapper mapper, ISessionResolver sessionResolver)
+        public UserService(HealthCareDbContext dbContext, IMapper mapper, ISessionResolver sessionResolver, IContactsService contactsService)
         {
             _dbContext = dbContext;
             _mapper = mapper;
             _sessionResolver = sessionResolver;
+            _contactsService = contactsService;
         }
 
         public async Task<RegisterUserResponse> RegisterUser(RegisterUserRequest request)
@@ -52,9 +51,14 @@
                 RoleType = (RoleType)Enum.ToObject(typeof(RoleType), request.UserRole)
             };
 
-            _dbContext.Users.Add(user);
+            var userContact = new UserContact
+            {
+                User = user
+            };
 
-            AddUserContact(user, request);
+            _dbContext.AddRange(user, userContact);
+
+            PersistUserContacts(request.Contacts, userContact.Id, DatabaseOperation.Insert);
 
             await _dbContext.SaveChangesAsync();
 
@@ -67,6 +71,7 @@
         public async Task<LoginUserResponse> LoginUser(LoginUserRequest request)
         {
             var user = RetrieveUserByUsername(request.Username);
+            ValidationUtils.ValidateAndThrow<IncorrectUserDataException>(() => user == null);
 
             var isPasswordMatch = VerifyPassword(request.Password, user.PasswordHash, user.Secret);
             ValidationUtils.ValidateAndThrow<IncorrectUserDataException>(() => !isPasswordMatch);
@@ -77,35 +82,41 @@
             };
         }
 
-        public Task<AddContactResponse> AddContact(AddContactRequest request)
+        public async Task<AddContactResponse> AddContact(AddContactRequest request)
         {
-            throw new NotImplementedException();
+            var userContactId = _dbContext.UserContacts.SingleOrDefault(x => x.UserId == _sessionResolver.SessionInfo.UserId)?.Id;
+
+            PersistUserContacts(request.Contacts, userContactId.GetValueOrDefault(), DatabaseOperation.Insert);
+
+            await _dbContext.SaveChangesAsync();
+
+            return new AddContactResponse
+            {
+                Token = _sessionResolver.SessionInfo.NewToken
+            };
         }
 
         public async Task<EditUserGeneraDataResponse> EditGeneralData(EditUserGeneraDataRequest request)
         {
             var user = RetrieveUser(_sessionResolver.SessionInfo.Username, _sessionResolver.SessionInfo.UserId);
-            
+
             if (!request.GeneralData.IsNullOrEmpty())
             {
                 EditGeneralData(request.GeneralData, user);
             }
 
-            if (!request.Contacts.IsNullOrEmpty())
-            {
-                var userContactId = _dbContext.UserContacts.SingleOrDefault(x => x.UserId == user.Id).Id;
-                var contacts = request.Contacts;
+            var userContactId = _dbContext.UserContacts.SingleOrDefault(x => x.UserId == _sessionResolver.SessionInfo.UserId)?.Id;
+            ValidationUtils.ValidateAndThrow<IncorrectUserDataException>(() => userContactId == 0);
 
-                EditAddresses(contacts.Addresses, userContactId);
-                EditEmails(contacts.Emails, userContactId);
-                EditPhones(contacts.Phones, userContactId);
-            }
+            var contacts = request.Contacts;
+
+            PersistUserContacts(contacts, userContactId.GetValueOrDefault(), DatabaseOperation.Update);
 
             await _dbContext.SaveChangesAsync();
 
             return new EditUserGeneraDataResponse
             {
-                UserId = request.UserId
+                Token = _sessionResolver.SessionInfo.NewToken
             };
         }
 
@@ -119,10 +130,7 @@
 
         private User RetrieveUserByUsername(string username)
         {
-            var user = _dbContext.Users.SingleOrDefault(x => x.Username == username);
-            ValidationUtils.ValidateAndThrow<IncorrectUserDataException>(() => user == null);
-
-            return user;
+            return  _dbContext.Users.SingleOrDefault(x => x.Username == username);
         }
 
         private void EditGeneralData(GeneralUserData data, User user)
@@ -138,78 +146,15 @@
                 user.PasswordHash = hashedPassword;
                 user.Secret = salt;
             }
+
+            user.UpdateDate = DateTime.Now;
         }
 
-        private void EditAddresses(IEnumerable<AddressData> addresses, int userContactId)
+        private void PersistUserContacts(ContactUserData contacts, int userContactId, DatabaseOperation operation)
         {
-            foreach (var add in addresses)
-            {
-                var addressRecord = _dbContext.Addresses.SingleOrDefault(x => x.Id == add.Id && x.UserContactId == userContactId);
-                ValidationUtils.ValidateAndThrow<DataMismatchException>(() => addressRecord == null);
-
-                addressRecord.CityId = add.CityId;
-                addressRecord.IsCurrent = add.IsCurrent;
-                addressRecord.StreetAddress = add.StreetAddress;
-            }
-        }
-
-        private void EditEmails(IEnumerable<EmailData> emails, int userContactId)
-        {
-            foreach (var email in emails)
-            {
-                var emailRecord = _dbContext.Emails.SingleOrDefault(x => x.Id == email.Id && x.UserContactId == userContactId);
-                ValidationUtils.ValidateAndThrow<DataMismatchException>(() => emailRecord == null);
-
-                emailRecord.EmailAddress = email.EmailAddress;
-            }
-        }
-
-        private void EditPhones(IEnumerable<PhoneData> phones, int userContactId)
-        {
-            foreach (var phone in phones)
-            {
-                var phoneRecord = _dbContext.Phones.SingleOrDefault(x => x.Id == phone.Id && x.UserContactId == userContactId);
-                ValidationUtils.ValidateAndThrow<DataMismatchException>(() => phoneRecord == null);
-
-                phoneRecord.Number = phone.PhoneNumber;
-                phoneRecord.Type = (PhoneType)phone.PhoneType;
-            }
-        }
-
-        private void AddUserContact(User user, RegisterUserRequest request)
-        {
-            var userContact = new UserContact
-            {
-                User = user
-            };
-
-            var contacts = request.Contacts;
-
-            var address = contacts.Addresses[0];
-            var userAddress = new Address
-            {
-                UserContact = userContact,
-                CityId = address.CityId,
-                IsCurrent = true,
-                StreetAddress = address.StreetAddress
-            };
-
-            var phone = contacts.Phones[0];
-            var userPhone = new Phone
-            {
-                UserContact = userContact,
-                Number = phone.PhoneNumber,
-                Type = (PhoneType)phone.PhoneType
-            };
-
-            var email = contacts.Emails[0];
-            var userEmail = new Email
-            {
-                UserContact = userContact,
-                EmailAddress = email.EmailAddress
-            };
-
-            _dbContext.AddRange(userContact, userAddress, userPhone, userEmail);
+            _contactsService.PersistEntities<AddressData, Address>(contacts.Addresses.EmptyIfNull(), userContactId, operation);
+            _contactsService.PersistEntities<EmailData, Email>(contacts.Emails.EmptyIfNull(), userContactId, operation);
+            _contactsService.PersistEntities<PhoneData, Phone>(contacts.Phones.EmptyIfNull(), userContactId, operation);
         }
 
         private (string, string) GenerateSaltedHash(string password)

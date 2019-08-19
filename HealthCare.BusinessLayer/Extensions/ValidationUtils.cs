@@ -6,7 +6,8 @@
 
     public static class ValidationUtils
     {
-        public static void ValidateAndThrow<TException>(Func<bool> condition) where TException : Exception, new()
+        public static void ValidateAndThrow<TException>(Func<bool> condition) 
+            where TException : Exception, new()
         {
             if (condition.Invoke())
                 throw new TException();
@@ -18,9 +19,6 @@
                 .All(p => p.GetValue(value) == null);
         }
 
-        public static bool IsEmpty<T>(this IEnumerable<T> collection)
-        {
-            return !collection.Any();
-        }
+        public static IEnumerable<T> EmptyIfNull<T>(this IEnumerable<T> enumerable) => enumerable ?? Enumerable.Empty<T>();
     }
 }

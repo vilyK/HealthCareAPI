@@ -3,9 +3,10 @@
     using System.ComponentModel.DataAnnotations.Schema;
 
     using Base;
+    using Interfaces;
     using Utilities.Enums;
 
-    public class Phone : SystemData
+    public class Phone : SystemData, IIdentity
     {
         public int Id { get; set; }
 

@@ -4,8 +4,8 @@
     {
         public int Id { get; set; }
 
-        public int PhoneType { get; set; }
+        public int Type { get; set; }
 
-        public string PhoneNumber { get; set; }
+        public string Number { get; set; }
     }
 }

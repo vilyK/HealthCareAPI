@@ -1,24 +1,31 @@
 ﻿namespace HealthCare.API.Behaviour.Filters
 {
     using System.Net;
-    using Contracts.Interfaces;
-    using Extensions;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Filters;
 
     using Utilities.Enums;
+    using Contracts.Interfaces;
+    using Extensions;
 
-    public class SessionFilterAttribute : TypeFilterAttribute
+    public class CustomAuthorizationFilterAttribute : TypeFilterAttribute
     {
-        public SessionFilterAttribute() : base(typeof(SessionFilterCustomAttribute)) { }
 
-        private class SessionFilterCustomAttribute : IAuthorizationFilter
+        public CustomAuthorizationFilterAttribute(params RoleType[] permissions) : base(typeof(CustomAuthorizationAttribute))
+        {
+            Arguments = new object[] { permissions };
+        }
+
+        private class CustomAuthorizationAttribute : IAuthorizationFilter
         {
             private ISessionResolver SessionResolver { get; }
 
-            public SessionFilterCustomAttribute(ISessionResolver sessionResolver)
+            private readonly RoleType[] _permissions;
+
+            public CustomAuthorizationAttribute(ISessionResolver sessionResolver, RoleType[] permissions)
             {
                 SessionResolver = sessionResolver;
+                _permissions = permissions;
             }
 
             public void OnAuthorization(AuthorizationFilterContext context)
@@ -26,7 +33,7 @@
                 if (context.IsAttrDisabled<DisableSessionFilterAttribute>())
                     return;
 
-                var result = SessionResolver.RetrieveSessionInfo(context.HttpContext.Request);
+                var result = SessionResolver.SetSessionInfo(context.HttpContext.Request, _permissions);
 
                 if (result.ResponseStatus == ResponseStatus.Success)
                     return;

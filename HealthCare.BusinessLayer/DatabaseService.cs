@@ -2,21 +2,26 @@
 {
     using System.Linq;
     using DataLayer;
+    using Extensions;
     using Interfaces;
+    using Utilities.Enums;
+    using Utilities.Exceptions;
 
-    public class DatabaseService : IDatabaseService
+    public class DatabaseService : IStorageService
     {
-        private HealthCareDbContext _dbContext;
+        private readonly HealthCareDbContext _dbContext;
 
         public DatabaseService(HealthCareDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        //public TEntity RetrieveEntityById<TEntity>(int id) where TEntity : class
-        //{
-        //   return _dbContext.Set<TEntity>().Where(x => x.Id == id);
-        //}
-    }
+        public RoleType RetrieveUserRole(int userId, string username)
+        {
+            var user = _dbContext.Users.SingleOrDefault(x => x.Id == userId && x.Username == username);
+            ValidationUtils.ValidateAndThrow<IncorrectUserDataException>(() => user == null);
 
+            return user.RoleType;
+        }
+    }
 }

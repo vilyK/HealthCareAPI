@@ -1,7 +1,15 @@
 ﻿namespace HealthCare.API.Extensions
 {
-    using Authentication.Managers;
+    using Authentication;
     using AutoMapper;
+    using FluentValidation.AspNetCore;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+
+    using Utils;
+    using Validation.ModelValidators.UserValidators;
     using Behaviour.Filters;
     using BusinessLayer;
     using BusinessLayer.Interfaces;
@@ -9,14 +17,9 @@
     using Contracts.Interfaces;
     using DataLayer;
     using DataLayer.Utils;
-    using FluentValidation.AspNetCore;
     using Interfaces;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Utils;
-    using Validation.ModelValidators.UserValidators;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using Microsoft.IdentityModel.Tokens;
 
     internal static class ServiceCollectionExtensions
     {
@@ -56,8 +59,11 @@
             services.AddScoped<IDataRetriever, DataRetriever>();
             services.AddScoped<ISessionResolver, HttpSessionResolver>();
 
+            services.AddScoped<IContactsService, ContactsService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPatientService, PatientService>();
+
+            services.AddScoped<IStorageService, DatabaseService>();
 
             services.AddTransient<IAuthService, JWTService>();
 

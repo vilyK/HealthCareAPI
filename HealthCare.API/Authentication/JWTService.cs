@@ -1,18 +1,16 @@
-﻿namespace HealthCare.API.Authentication.Managers
+﻿namespace HealthCare.API.Authentication
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.IdentityModel.Tokens.Jwt;
     using System.Linq;
     using System.Security.Claims;
-    using Microsoft.IdentityModel.Tokens;
     using Microsoft.Extensions.Options;
+    using Microsoft.IdentityModel.Tokens;
 
-    using Utilities.Exceptions;
     using BusinessLayer.Extensions;
     using Contracts.Configuration;
-    using Org.BouncyCastle.Bcpg;
+    using Utilities.Exceptions;
 
     public class JWTService : IAuthService
     {
@@ -30,15 +28,13 @@
         public (string, int) RetrieveTokenData(string token)
         {
             token = token.Replace("Bearer ", "");
-
             ValidationUtils.ValidateAndThrow<InvalidTokenException>(() => string.IsNullOrEmpty(token));
 
             var tokenClaims = ExtractClaims(token);
 
-            var userName = tokenClaims.Find(x => x.Type == ClaimTypes.Name).Value;
             var userId = tokenClaims.Find(x => x.Type == "userId").Value;
-
             int.TryParse(userId, out var id);
+            var userName = tokenClaims.Find(x => x.Type == ClaimTypes.Name).Value;
 
             return (userName, id);
         }
@@ -52,7 +48,7 @@
                     new Claim(ClaimTypes.Name, username),
                     new Claim("userId", userId.ToString()),
                 }),
-                Expires = DateTime.Now.AddMinutes(Convert.ToInt32(_config.Value.ExpirationInMinutes)),
+                Expires = DateTime.Now.AddMonths(Convert.ToInt32(_config.Value.ExpirationInMinutes)),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Convert.FromBase64String(SecurityKey)),
                     SecurityAlgorithms.HmacSha256)
             };
@@ -68,6 +64,7 @@
             return new TokenValidationParameters
             {
                 RequireExpirationTime = true,
+                
                 ValidateIssuer = false,
                 ValidateAudience = false,
                 IssuerSigningKey = new SymmetricSecurityKey(Convert.FromBase64String(SecurityKey)),
@@ -80,13 +77,19 @@
             {
                 var validationParameters = GetTokenValidationParameters();
 
+                var t = GenerateToken("newName", 8);
+
                 var tokenHandler = new JwtSecurityTokenHandler();
 
                 var tokenValid = tokenHandler.ValidateToken(token, validationParameters, out var validatedToken);
 
                 return tokenValid.Claims.ToList();
             }
-            catch (Exception ex)
+            catch (SecurityTokenExpiredException)
+            {
+                throw new ExpiredTokenException();
+            }
+            catch (Exception)
             {
                 throw new InvalidTokenException();
             }

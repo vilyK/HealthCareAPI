@@ -3,11 +3,12 @@
     using Microsoft.AspNetCore.Http;
 
     using Models;
+    using Utilities.Enums;
 
     public interface ISessionResolver
     {
         SessionInfo SessionInfo { get; }
 
-        ResponseResult RetrieveSessionInfo(HttpRequest request);
+        ResponseResult SetSessionInfo(HttpRequest request, RoleType [] permissions);
     }
 }

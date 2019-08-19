@@ -3,8 +3,8 @@
     using System.ComponentModel.DataAnnotations.Schema;
 
     using Base;
-    using Models.DatabaseModels.Enums;
     using User;
+    using Utilities.Enums;
 
     public class Referral : SystemData
     {

@@ -1,32 +1,41 @@
 ﻿namespace HealthCare.API.Utils
 {
     using System;
-    using Authentication.Managers;
+    using System.Linq;
+    using Microsoft.AspNetCore.Http;
+
+    using Authentication;
     using BusinessLayer.Interfaces;
-    using Contracts;
     using Contracts.Interfaces;
     using Contracts.Models;
-    using Microsoft.AspNetCore.Http;
     using Utilities.Enums;
+    using Utilities.Exceptions;
 
     public class HttpSessionResolver : ISessionResolver
     {
         private readonly IAuthService _jwtService;
+        private readonly IStorageService _storageService;
 
         public SessionInfo SessionInfo { get; private set; }
 
-        public HttpSessionResolver(IAuthService jwtService)
+        public HttpSessionResolver(IAuthService jwtService, IStorageService storageService)
         {
             _jwtService = jwtService;
+            _storageService = storageService;
         }
 
-        public ResponseResult RetrieveSessionInfo(HttpRequest request)
+        public ResponseResult SetSessionInfo(HttpRequest request, RoleType[] permissions)
         {
             try
             {
                 request.Headers.TryGetValue("Authorization", out var token);
 
                 var (userName, userId) = _jwtService.RetrieveTokenData(token);
+
+                var userRole = _storageService.RetrieveUserRole(userId, userName);
+
+                if (!permissions.Contains(userRole))
+                    throw new UnauthorizedUserException();
 
                 SessionInfo = new SessionInfo
                 {
