@@ -12,7 +12,7 @@
 
     [ApiController]
     [ValidationFilter]
-    [CustomAuthorizationFilter(RoleType.Admin)]
+    [CustomAuthorizationFilter(RoleType.Admin, RoleType.Patient, RoleType.Doctor, RoleType.MedicalCenter, RoleType.Pharmacy, RoleType.PharmacyCompany)]
     [Route("user")]
     public class UserController : ControllerBase
     {
@@ -23,27 +23,20 @@
             _userService = userService;
         }
 
-        [Route("login")]
-        [HttpPost]
-        [DisableSessionFilter]
-        public async Task<LoginUserResponse> Login(LoginUserRequest request)
-        {
-            return await _userService.LoginUser(request);
-        }
-
         [Route("register")]
         [HttpPost]
-        [DisableSessionFilter]
+        [DisableCustomAuthorizationFilter]
         public async Task<RegisterUserResponse> Register(RegisterUserRequest request)
         {
             return await _userService.RegisterUser(request);
         }
 
-        [Route("addcontact")]
+        [Route("login")]
         [HttpPost]
-        public async Task<AddContactResponse> AddContact(AddContactRequest request)
+        [DisableCustomAuthorizationFilter]
+        public async Task<LoginUserResponse> Login(LoginUserRequest request)
         {
-            return await _userService.AddContact(request);
+            return await _userService.LoginUser(request);
         }
 
         [Route("editdata")]
@@ -51,6 +44,13 @@
         public async Task<EditUserGeneraDataResponse> EditGeneralInfo(EditUserGeneraDataRequest request)
         {
             return await _userService.EditGeneralData(request);
+        }
+
+        [Route("addcontact")]
+        [HttpPost]
+        public async Task<AddContactResponse> AddContact(AddContactRequest request)
+        {
+            return await _userService.AddContact(request);
         }
     }
 }

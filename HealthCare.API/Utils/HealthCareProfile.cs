@@ -26,6 +26,11 @@
                 .ForMember(dest => dest.CreateDate, opt => opt.Ignore())
                 .ForAllMembers(opt => opt.Condition(
                     (source, destination, sourceMember, destMember) => (sourceMember != null)));
+
+            //CreateMap<PhotoData, Photo>()
+            //    .ForMember(dest => dest.CreateDate, opt => opt.Ignore())
+            //    .ForAllMembers(opt => opt.Condition(
+            //        (source, destination, sourceMember, destMember) => (sourceMember != null)));
         }
     }
 }

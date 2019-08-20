@@ -1,6 +1,7 @@
 ﻿namespace HealthCare.BusinessLayer
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using System.Security.Cryptography;
@@ -16,6 +17,7 @@
     using Interfaces;
     using Utilities.Enums;
     using Utilities.Exceptions;
+    using Utilities.Exceptions.ImagesExceptions;
 
     public class UserService : IUserService
     {
@@ -23,17 +25,23 @@
         private readonly IMapper _mapper;
         private readonly ISessionResolver _sessionResolver;
         private readonly IContactsService _contactsService;
+        private readonly IImageService _imageService;
 
         private const int SaltByteSize = 64;
         private const int HashByteSize = 256;
         private const int HashingIterationsCount = 10000;
 
-        public UserService(HealthCareDbContext dbContext, IMapper mapper, ISessionResolver sessionResolver, IContactsService contactsService)
+        public UserService(HealthCareDbContext dbContext, 
+            IMapper mapper, 
+            ISessionResolver sessionResolver,
+            IContactsService contactsService, 
+            IImageService imageService)
         {
             _dbContext = dbContext;
             _mapper = mapper;
             _sessionResolver = sessionResolver;
             _contactsService = contactsService;
+            _imageService = imageService;
         }
 
         public async Task<RegisterUserResponse> RegisterUser(RegisterUserRequest request)
@@ -102,15 +110,18 @@
 
             if (!request.GeneralData.IsNullOrEmpty())
             {
-                EditGeneralData(request.GeneralData, user);
+                EditUsernameAndPass(request.GeneralData, user);
             }
 
             var userContactId = _dbContext.UserContacts.SingleOrDefault(x => x.UserId == _sessionResolver.SessionInfo.UserId)?.Id;
             ValidationUtils.ValidateAndThrow<IncorrectUserDataException>(() => userContactId == 0);
 
-            var contacts = request.Contacts;
+            PersistUserContacts(request.Contacts, userContactId.GetValueOrDefault(), DatabaseOperation.Update);
 
-            PersistUserContacts(contacts, userContactId.GetValueOrDefault(), DatabaseOperation.Update);
+            if (!request.Images.IsNullOrEmpty())
+            {
+                UploadProfilePhotos(request.Images);
+            }
 
             await _dbContext.SaveChangesAsync();
 
@@ -118,6 +129,28 @@
             {
                 Token = _sessionResolver.SessionInfo.NewToken
             };
+        }
+
+        public void UploadProfilePhotos(List<ImageData> imagesInRequest)
+        {
+            // check for more than one main photos -> should be imported in FluentValidation
+            ValidationUtils.ValidateAndThrow<IncorrectMainPhotosCountException>(() => imagesInRequest.Count(x => x.IsMain) > 1);
+
+            // validation if photos in request belong to the logged customer
+            var userPhotos = _dbContext.Photos
+                .Where(x => x.UserId == _sessionResolver.SessionInfo.UserId)
+                .Select(x => x.Id)
+                .ToList();
+
+            var existedPhotosInRequest = imagesInRequest
+                .Where(x => x.Id != 0)
+                .Select(x => x.Id)
+                .ToList();
+
+            ValidationUtils.ValidateAndThrow<DataMismatchException>(
+                () => existedPhotosInRequest.Count > 0 && !existedPhotosInRequest.All(userPhotos.Contains));
+
+            _imageService.UploadImages(imagesInRequest);
         }
 
         private User RetrieveUser(string username, int userId)
@@ -130,10 +163,10 @@
 
         private User RetrieveUserByUsername(string username)
         {
-            return  _dbContext.Users.SingleOrDefault(x => x.Username == username);
+            return _dbContext.Users.SingleOrDefault(x => x.Username == username);
         }
 
-        private void EditGeneralData(GeneralUserData data, User user)
+        private void EditUsernameAndPass(GeneralUserData data, User user)
         {
             if (data.Username != null)
             {

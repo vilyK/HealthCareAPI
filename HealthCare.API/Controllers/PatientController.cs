@@ -5,13 +5,13 @@
 
     using Behaviour.Filters;
     using BusinessLayer.Interfaces;
-    using Contracts.Models.Requests;
-    using Contracts.Models.Responses;
-    
+    using Utilities.Enums;
+
 
     [ApiController]
     [ValidationFilter]
     [Route("patient")]
+    [CustomAuthorizationFilter(RoleType.Admin, RoleType.Patient)]
     public class PatientController : ControllerBase
     {
         private readonly IPatientService _patientService;

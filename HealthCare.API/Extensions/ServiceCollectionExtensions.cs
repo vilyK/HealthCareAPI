@@ -18,8 +18,6 @@
     using DataLayer;
     using DataLayer.Utils;
     using Interfaces;
-    using Microsoft.AspNetCore.Authentication.JwtBearer;
-    using Microsoft.IdentityModel.Tokens;
 
     internal static class ServiceCollectionExtensions
     {
@@ -50,6 +48,7 @@
         {
             service.Configure<SeedSettings>(configuration.GetSection("SeedSettings"));
             service.Configure<JwtAuthentication>(configuration.GetSection("JwtAuthentication"));
+            service.Configure<CommonSettings>(configuration.GetSection("CommonSettings"));
 
             return service;
         }
@@ -64,6 +63,8 @@
             services.AddScoped<IPatientService, PatientService>();
 
             services.AddScoped<IStorageService, DatabaseService>();
+
+            services.AddScoped<IImageService, ImageService>();
 
             services.AddTransient<IAuthService, JWTService>();
 

@@ -10,7 +10,6 @@
 
     public class CustomAuthorizationFilterAttribute : TypeFilterAttribute
     {
-
         public CustomAuthorizationFilterAttribute(params RoleType[] permissions) : base(typeof(CustomAuthorizationAttribute))
         {
             Arguments = new object[] { permissions };
@@ -30,7 +29,7 @@
 
             public void OnAuthorization(AuthorizationFilterContext context)
             {
-                if (context.IsAttrDisabled<DisableSessionFilterAttribute>())
+                if (context.IsAttrDisabled<DisableCustomAuthorizationFilterAttribute>())
                     return;
 
                 var result = SessionResolver.SetSessionInfo(context.HttpContext.Request, _permissions);
@@ -44,5 +43,5 @@
         }
     }
 
-    public class DisableSessionFilterAttribute : ActionFilterAttribute { }
+    public class DisableCustomAuthorizationFilterAttribute : ActionFilterAttribute { }
 }

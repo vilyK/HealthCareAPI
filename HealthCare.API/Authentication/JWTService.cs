@@ -33,8 +33,8 @@
             var tokenClaims = ExtractClaims(token);
 
             var userId = tokenClaims.Find(x => x.Type == "userId").Value;
-            int.TryParse(userId, out var id);
             var userName = tokenClaims.Find(x => x.Type == ClaimTypes.Name).Value;
+            int.TryParse(userId, out var id);
 
             return (userName, id);
         }

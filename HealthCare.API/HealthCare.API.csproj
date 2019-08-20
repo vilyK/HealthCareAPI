@@ -21,4 +21,8 @@
     <ProjectReference Include="..\HealthCare.Validation\HealthCare.Validation.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\ProfilePhotos\" />
+  </ItemGroup>
+
 </Project>

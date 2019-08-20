@@ -14,5 +14,6 @@
         Task<AddContactResponse> AddContact(AddContactRequest request);
 
         Task<EditUserGeneraDataResponse> EditGeneralData(EditUserGeneraDataRequest request);
+
     }
 }
