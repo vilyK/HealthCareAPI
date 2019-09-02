@@ -6,9 +6,9 @@
     using Interfaces;
     using Utilities.Enums;
 
-    public class Phone : SystemData, IIdentity
+    public class Phone : SystemData, IContactIdentity
     {
-        public int Id { get; set; }
+        
 
         public PhoneType Type { get; set; }
 

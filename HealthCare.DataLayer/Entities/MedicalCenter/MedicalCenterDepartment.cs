@@ -4,7 +4,7 @@
 
     public class MedicalCenterDepartment : SystemData
     {
-        public int Id { get; set; }
+        
 
         public int MedicalCenterId { get; set; }
         public MedicalCenterInfo MedicalCenter { get; set; }

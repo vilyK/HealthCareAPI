@@ -6,7 +6,7 @@
 
     public class PharmacyDistributor : SystemData
     {
-        public int Id { get; set; }
+        
 
         public int PharmacyId { get; set; }
 

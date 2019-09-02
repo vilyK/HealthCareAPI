@@ -13,7 +13,6 @@
   <ItemGroup>
     <ProjectReference Include="..\HealthCare.Contracts\HealthCare.Contracts.csproj" />
     <ProjectReference Include="..\HealthCare.Interfaces\HealthCare.Interfaces.csproj" />
-    <ProjectReference Include="..\HealthCare.Utilities\HealthCare.Utilities.csproj" />
   </ItemGroup>
 
 </Project>

@@ -4,7 +4,7 @@
 
     public class OutpatientCardIllness : SystemData
     {
-        public int Id { get; set; }
+        
 
         public int IllnessId { get; set; }
         public Illness Illness { get; set; }

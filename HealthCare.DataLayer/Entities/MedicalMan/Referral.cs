@@ -8,7 +8,7 @@
 
     public class Referral : SystemData
     {
-        public int Id { get; set; }
+        
     
         public RelationType Relation { get; set; }
 

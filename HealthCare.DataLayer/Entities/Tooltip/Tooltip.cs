@@ -7,7 +7,7 @@
 
     public class Tooltip : SystemData
     {
-        public int Id { get; set; }
+        
 
         public int TooltipTypeId { get; set; }
 

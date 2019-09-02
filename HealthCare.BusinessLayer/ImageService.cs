@@ -13,9 +13,9 @@
     using DataLayer.Entities.User;
     using Extensions;
     using Interfaces;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Options;
     using Utilities.Enums;
-    using Utilities.Exceptions.ImagesExceptions;
 
     public class ImageService : IImageService
     {
@@ -24,7 +24,10 @@
         private readonly ISessionResolver _sessionResolver;
         private readonly IOptionsSnapshot<CommonSettings> _settings;
 
-        public ImageService(HealthCareDbContext dbContext, IHostingEnvironment appEnvironment, ISessionResolver sessionResolver, IOptionsSnapshot<CommonSettings> settings)
+        public ImageService(HealthCareDbContext dbContext,
+            IHostingEnvironment appEnvironment,
+            ISessionResolver sessionResolver,
+            IOptionsSnapshot<CommonSettings> settings)
         {
             _dbContext = dbContext;
             _appEnvironment = appEnvironment;
@@ -32,52 +35,53 @@
             _settings = settings;
         }
 
+
         public void UploadImages(List<ImageData> images)
         {
             foreach (var img in images)
             {
-                UploadImage(img);
+                var operation = img.Id.GetDbOperation();
+
+                UploadImage(img, operation);
             }
         }
 
-        public void UploadImage(ImageData img)
+        public void UploadImage(ImageData img, DatabaseOperation operation)
         {
-            if (img.Id == 0)
+            switch (operation)
             {
-                var image = new FileInfo(img.LocalPath);
-                ValidateImage(image);
-
-                var imageName = $"{_sessionResolver.SessionInfo.UserId}_{Guid.NewGuid()}";
-
-                image.CopyTo(Path.Combine(Directory.GetCurrentDirectory(), _appEnvironment.WebRootPath, _settings.Value.ProfilePhotosPath, imageName));
-
-                var newRecord = new Photo
+                case DatabaseOperation.Insert:
                 {
-                    Url = Path.Combine(_appEnvironment.WebRootPath, _settings.Value.ProfilePhotosPath, imageName),
-                    UserId = _sessionResolver.SessionInfo.UserId,
-                    IsMain = img.IsMain
-                };
+                    var image = new FileInfo(img.LocalPath);
+                    var url = Path.Combine(_appEnvironment.WebRootPath, _settings.Value.ProfilePhotosPath);
 
-                _dbContext.Add(newRecord);
+                    var imageName = image.Upload(Path.Combine(Directory.GetCurrentDirectory(), url));
+
+                    var dbModel = new Photo
+                    {
+                        Url = Path.Combine(url, imageName),
+                        UserId = _sessionResolver.SessionInfo.UserId,
+                        IsMain = img.IsMain
+                    };
+
+                    _dbContext.Entry(dbModel).State = EntityState.Added;
+
+                    break;
+                }
+
+                case DatabaseOperation.Update:
+                {
+                    var dbModel = _dbContext.Photos.SingleOrDefault(x => x.Id == img.Id);
+
+                    dbModel.IsMain = img.IsMain;
+                    dbModel.UpdateDate = DateTime.Now;
+
+                    _dbContext.Entry(dbModel).State = EntityState.Added;
+
+                    break;
+                }
+
             }
-            else
-            {
-                var photo = _dbContext.Photos.SingleOrDefault(x => x.Id == img.Id);
-
-                photo.IsMain = img.IsMain;
-                photo.UpdateDate = DateTime.Now;
-            }
-        }
-
-        private void ValidateImage(FileInfo image)
-        {
-            // should be imported in FluentValidation
-            ValidationUtils.ValidateAndThrow<ImageNotFoundException>(() => !image.Exists);
-
-            ValidationUtils.ValidateAndThrow<InvalidImageFormatException>(
-                () => !Enum.IsDefined(typeof(ImageFormat), image.Extension.Replace(".", "")));
-
-            ValidationUtils.ValidateAndThrow<InvalidImageSizeException>(() => image.Length > 2100000);
         }
     }
 }

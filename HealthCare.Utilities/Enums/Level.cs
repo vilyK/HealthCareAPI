@@ -2,6 +2,7 @@
 {
     public enum Level
     {
+        None,
         Low,
         Medium,
         High

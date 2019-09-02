@@ -5,10 +5,8 @@
     using Base;
     using Interfaces;
 
-    public class Email : SystemData, IIdentity
+    public class Email : SystemData, IContactIdentity
     {
-        public int Id { get; set; }
-
         public int UserContactId { get; set; }
 
         [ForeignKey("UserContactId")]

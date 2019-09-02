@@ -8,7 +8,7 @@
 
     public class PatientIllness : SystemData
     {
-        public int Id { get; set; }
+        
 
         public int IllnessTypeId { get; set; }
 

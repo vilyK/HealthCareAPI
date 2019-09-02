@@ -7,7 +7,7 @@
 
     public class MedicalCenterDoctor : SystemData
     {
-        public int Id { get; set; }
+        
 
         public int DoctorId { get; set; }
         public User Doctor { get; set; }

@@ -3,16 +3,16 @@
     using System.ComponentModel.DataAnnotations.Schema;
 
     using Base;
+    using Interfaces;
     using User;
 
-    public class PharmacyInfo : SystemData
+    public class PharmacyInfo : SystemData, IInformation
     {
-        public int Id { get; set; }
         public string Name { get; set; }
 
-        public int PharmacyId { get; set; }
+        public int UserId { get; set; }
 
-        [ForeignKey("PharmacyId")]
+        [ForeignKey("UserId")]
         public User Pharmacy { get; set; }
     }
 }

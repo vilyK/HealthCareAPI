@@ -9,7 +9,7 @@
 
     public class OutpatientCard : SystemData
     {
-        public int Id { get; set; }      
+              
 
         public string Results { get; set; }
 

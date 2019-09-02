@@ -6,7 +6,7 @@
 
     public class TooltipItem : SystemData
     {
-        public int Id { get; set; }
+        
 
         public string Title { get; set; }
 

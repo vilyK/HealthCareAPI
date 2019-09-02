@@ -1,4 +1,4 @@
-﻿namespace HealthCare.API.Authentication
+﻿namespace HealthCare.Interfaces
 {
     public interface IAuthService
     {

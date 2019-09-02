@@ -4,7 +4,7 @@
 
     public class PharmacyCompanyType : SystemData
     {
-       public int Id { get; set; }
+       
 
        public int PharmacyCompanyInfoId { get; set; }
        public PharmacyCompanyInfo PharmacyCompanyInfo { get; set; }

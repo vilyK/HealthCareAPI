@@ -9,7 +9,6 @@
     using Contracts.Models.UserAccount.Responses;
     using Utilities.Enums;
 
-
     [ApiController]
     [ValidationFilter]
     [CustomAuthorizationFilter(RoleType.Admin, RoleType.Patient, RoleType.Doctor, RoleType.MedicalCenter, RoleType.Pharmacy, RoleType.PharmacyCompany)]
@@ -39,18 +38,44 @@
             return await _userService.LoginUser(request);
         }
 
-        [Route("editdata")]
+        [Route("editData")]
         [HttpPost]
         public async Task<EditUserGeneraDataResponse> EditGeneralInfo(EditUserGeneraDataRequest request)
         {
             return await _userService.EditGeneralData(request);
         }
 
-        [Route("addcontact")]
+        [Route("addContact")]
         [HttpPost]
         public async Task<AddContactResponse> AddContact(AddContactRequest request)
         {
             return await _userService.AddContact(request);
         }
+
+        [Route("uploadImages")]
+        [HttpGet]
+        [DisableCustomAuthorizationFilter]
+        public async Task<UploadImagesResponse> UploadImages(UploadImagesRequest request)
+        {
+            return await _userService.UploadImages(request);
+        }
+
+        [Route("retrieveDoctors")]
+        [HttpGet]
+        [DisableCustomAuthorizationFilter]
+        public async Task<RetrieveDoctorsResponse> RetrieveDoctors(RetrieveDoctorsRequest request)
+        {
+            return await _userService.RetrieveDoctors(request);
+        }
+
+        [Route("retrieveMedicalCenters")]
+        [HttpGet]
+        [DisableCustomAuthorizationFilter]
+        public async Task<RetrieveMedicalCentersResponse> RetrieveMedicalCenters(RetrieveMedicalCentersRequest request)
+        {
+            return await _userService.RetrieveMedicalCenters(request);
+        }
+
+        
     }
 }

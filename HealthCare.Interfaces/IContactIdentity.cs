@@ -2,7 +2,7 @@
 {
     using System;
 
-    public interface IIdentity
+    public interface IContactIdentity
     {
         int Id { get; set; }
 

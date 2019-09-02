@@ -1,10 +1,12 @@
 ﻿namespace HealthCare.API.Controllers
 {
-    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
+    using System.Threading.Tasks;
 
     using Behaviour.Filters;
     using BusinessLayer.Interfaces;
+    using Contracts.Models.PatientAccount.Requests;
+    using Contracts.Models.PatientAccount.Responses;
     using Utilities.Enums;
 
 
@@ -21,11 +23,11 @@
             _patientService = patientService;
         }
 
-        //[Route("register")]
-        //[HttpPost]
-        //public async Task<RegisterUserResponse> Register(RegisterUserRequest request)
-        //{
-        //    //return await _userService.Register(request);
-        //}
+        [Route("persistMedicalProfile")]
+        [HttpPost]
+        public async Task<PersistMedicalProfileResponse> PersistMedicalProfile(PersistMedicalProfileRequest request)
+        {
+            return await _patientService.PersistMedicalProfile(request);
+        }
     }
 }

@@ -10,6 +10,7 @@
 
     using BusinessLayer.Extensions;
     using Contracts.Configuration;
+    using Interfaces;
     using Utilities.Exceptions;
 
     public class JWTService : IAuthService
@@ -76,8 +77,6 @@
             try
             {
                 var validationParameters = GetTokenValidationParameters();
-
-                var t = GenerateToken("newName", 8);
 
                 var tokenHandler = new JwtSecurityTokenHandler();
 

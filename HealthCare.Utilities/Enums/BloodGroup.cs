@@ -2,6 +2,7 @@
 {
     public enum BloodGroup
     {
+        None,
         APositive,
         ANegative,
         BPositive,

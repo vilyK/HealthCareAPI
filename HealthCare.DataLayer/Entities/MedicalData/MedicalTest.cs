@@ -10,8 +10,6 @@
 
     public class MedicalTest : SystemData
     {
-        public int Id { get; set; }
-
         public string Results { get; set; }
 
         public DateTime MedicalTestDate { get; set; }

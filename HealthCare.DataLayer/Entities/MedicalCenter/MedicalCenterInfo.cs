@@ -4,12 +4,11 @@
     using System.ComponentModel.DataAnnotations.Schema;
 
     using Base;
+    using Interfaces;
     using User;
 
-    public class MedicalCenterInfo : SystemData
+    public class MedicalCenterInfo : SystemData, IInformation
     {
-        public int Id { get; set; }
-        
         public string Name { get; set; }
 
         public string Details { get; set; }

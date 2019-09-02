@@ -8,7 +8,7 @@
 
     public class Appraisal : SystemData
     {
-        public int Id { get; set; }
+        
 
         public int RecipientId { get; set; }
 

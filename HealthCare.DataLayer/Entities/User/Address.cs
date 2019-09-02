@@ -5,9 +5,9 @@
     using Base;
     using Interfaces;
 
-    public class Address : SystemData, IIdentity
+    public class Address : SystemData, IContactIdentity
     {
-        public int Id { get; set; }
+        
 
         public string StreetAddress { get; set; }
 

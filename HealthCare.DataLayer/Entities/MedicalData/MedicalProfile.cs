@@ -10,13 +10,9 @@
 
     public class MedicalProfile : SystemData
     {
-        public int Id { get; set; }
-
         public int Height { get; set; }
 
         public int Weight { get; set; }
-
-        public DateTime BirthDate { get; set; }
 
         public Level PhysicalActivityLevel { get; set; }
 

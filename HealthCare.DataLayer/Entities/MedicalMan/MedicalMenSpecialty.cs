@@ -4,7 +4,7 @@
 
     public class MedicalMenSpecialty : SystemData
     {
-        public int Id { get; set; }
+        
 
         public int MedMenInfoId { get; set; }
         public MedicalManInfo MedManInfo { get; set; }

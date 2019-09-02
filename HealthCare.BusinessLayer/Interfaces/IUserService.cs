@@ -15,5 +15,10 @@
 
         Task<EditUserGeneraDataResponse> EditGeneralData(EditUserGeneraDataRequest request);
 
+        Task<UploadImagesResponse> UploadImages(UploadImagesRequest request);
+
+        Task<RetrieveDoctorsResponse> RetrieveDoctors(RetrieveDoctorsRequest request);
+
+        Task<RetrieveMedicalCentersResponse> RetrieveMedicalCenters(RetrieveMedicalCentersRequest request);
     }
 }

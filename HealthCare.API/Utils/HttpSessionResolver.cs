@@ -4,10 +4,10 @@
     using System.Linq;
     using Microsoft.AspNetCore.Http;
 
-    using Authentication;
     using BusinessLayer.Interfaces;
     using Contracts.Interfaces;
     using Contracts.Models;
+    using Interfaces;
     using Utilities.Enums;
     using Utilities.Exceptions;
 

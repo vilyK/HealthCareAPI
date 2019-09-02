@@ -5,7 +5,7 @@
 
     public class MedicalManInfoPrice : SystemData
     {
-        public int Id { get; set; }
+        
 
         public int MedManInfoId { get; set; }
         public MedicalManInfo MedManInfo { get; set; }

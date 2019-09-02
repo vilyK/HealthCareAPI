@@ -8,7 +8,7 @@
 
     public class Appointment : SystemData
     {
-        public int Id { get; set; }
+        
 
         public int PatientId { get; set; }
 

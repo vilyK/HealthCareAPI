@@ -7,8 +7,6 @@
 
     public class Allergy : SystemData
     {
-        public int Id { get; set; }
-
         public string Notes { get; set; }
 
         public int AllergyTypeId { get; set; }

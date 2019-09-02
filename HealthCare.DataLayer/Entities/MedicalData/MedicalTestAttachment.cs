@@ -6,8 +6,6 @@
 
     public class MedicalTestAttachment : SystemData
     {
-        public int Id { get; set; }
-
         public string Url { get; set; }
 
         public int MedicalTestId { get; set; }

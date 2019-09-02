@@ -6,14 +6,13 @@
     using Base;
     using MedicalCenter;
     using MedicalData;
+    using MedicalMan;
     using Notification;
     using Pharmacy;
     using Utilities.Enums;
 
     public class User : SystemData
     {
-        public int Id { get; set; }
-
         public string Username { get; set; }
 
         public string Password { get; set; }
@@ -28,6 +27,14 @@
 
         [ForeignKey("ParentId")]
         public User Parent { get; set; }
+
+        public UserContact UserContact { get; set; }
+
+        public MedicalManInfo MedicalManInfo { get; set; }
+
+        public MedicalProfile MedicalProfile { get; set; }
+
+        public MedicalCenterInfo MedicalCenter { get; set; }
 
         public List<Photo> Photos { get; set; } = new List<Photo>();
 

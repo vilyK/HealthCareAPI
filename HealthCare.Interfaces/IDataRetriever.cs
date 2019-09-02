@@ -4,6 +4,6 @@
 
     public interface IDataRetriever
     {
-        List<TEntity> GetData<TEntity>() where TEntity : class;
+        List<TEntity> RetrieveData<TEntity>() where TEntity : class;
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace HealthCare.BusinessLayer
 {
     using System.Linq;
+
     using DataLayer;
     using Extensions;
     using Interfaces;

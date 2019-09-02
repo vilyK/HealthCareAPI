@@ -2,6 +2,7 @@
 {
     public enum IllnessPeriod
     {
+        None,
         Current,
         Previous,
         Chronic

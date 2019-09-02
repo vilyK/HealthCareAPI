@@ -8,8 +8,6 @@
 
     public class Illness : SystemData
     {
-        public int Id { get; set; }
-
         public int IllnessTypeId { get; set; }
 
         [ForeignKey("IllnessTypeId")]

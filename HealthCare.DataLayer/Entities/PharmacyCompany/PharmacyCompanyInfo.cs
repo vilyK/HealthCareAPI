@@ -4,19 +4,18 @@
     using System.ComponentModel.DataAnnotations.Schema;
 
     using Base;
+    using Interfaces;
     using User;
 
-    public class PharmacyCompanyInfo : SystemData
+    public class PharmacyCompanyInfo : SystemData, IInformation
     {
-        public int Id { get; set; }
-
         public string Name { get; set; }
 
         public string Details { get; set; }
 
-        public int PharmacyCompanyId { get; set; }
+        public int UserId { get; set; }
 
-        [ForeignKey("PharmacyCompanyId")]
+        [ForeignKey("UserId")]
         public User PharmacyCompany { get; set; }
        
         public List<PharmacyCompanyType> PharmacyCompanyTypes { get; set; } = new List<PharmacyCompanyType>();

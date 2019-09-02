@@ -12,9 +12,15 @@
     using Contracts.Models.UserAccount.Requests;
     using Contracts.Models.UserAccount.Responses;
     using DataLayer;
+    using DataLayer.Entities.MedicalCenter;
+    using DataLayer.Entities.MedicalMan;
+    using DataLayer.Entities.Patient;
+    using DataLayer.Entities.Pharmacy;
+    using DataLayer.Entities.PharmacyCompany;
     using DataLayer.Entities.User;
     using Extensions;
     using Interfaces;
+    using Org.BouncyCastle.Crypto;
     using Utilities.Enums;
     using Utilities.Exceptions;
     using Utilities.Exceptions.ImagesExceptions;
@@ -31,10 +37,10 @@
         private const int HashByteSize = 256;
         private const int HashingIterationsCount = 10000;
 
-        public UserService(HealthCareDbContext dbContext, 
-            IMapper mapper, 
+        public UserService(HealthCareDbContext dbContext,
+            IMapper mapper,
             ISessionResolver sessionResolver,
-            IContactsService contactsService, 
+            IContactsService contactsService,
             IImageService imageService)
         {
             _dbContext = dbContext;
@@ -67,13 +73,48 @@
             _dbContext.AddRange(user, userContact);
 
             PersistUserContacts(request.Contacts, userContact.Id, DatabaseOperation.Insert);
-
+            AddInformation(user.Id, request.Name, user.RoleType);
+            
             await _dbContext.SaveChangesAsync();
 
             return new RegisterUserResponse
             {
                 Username = request.GeneralData.Username
             };
+        }
+
+        private void AddInformation(int userId, string requestName, RoleType userRoleType)
+        {
+            switch (userRoleType)
+            {
+                case RoleType.Patient:
+                    {
+                        _dbContext.CreateInfoObject<PatientInfo>(requestName, userId);
+                        break;
+                    }
+                case RoleType.Doctor:
+                    {
+                        _dbContext.CreateInfoObject<MedicalManInfo>(requestName, userId);
+                        break;
+                    }
+                case RoleType.MedicalCenter:
+                    {
+                        _dbContext.CreateInfoObject<MedicalCenterInfo>(requestName, userId);
+                        break;
+                    }
+                case RoleType.Pharmacy:
+                    {
+                        _dbContext.CreateInfoObject<PharmacyInfo>(requestName, userId);
+                        break;
+                    }
+                case RoleType.PharmacyCompany:
+                    {
+                        _dbContext.CreateInfoObject<PharmacyCompanyInfo>(requestName, userId);
+                        break;
+                    }
+                default:
+                    throw new IncorrectUserDataException();
+            }
         }
 
         public async Task<LoginUserResponse> LoginUser(LoginUserRequest request)
@@ -118,17 +159,56 @@
 
             PersistUserContacts(request.Contacts, userContactId.GetValueOrDefault(), DatabaseOperation.Update);
 
-            if (!request.Images.IsNullOrEmpty())
-            {
-                UploadProfilePhotos(request.Images);
-            }
-
             await _dbContext.SaveChangesAsync();
 
             return new EditUserGeneraDataResponse
             {
                 Token = _sessionResolver.SessionInfo.NewToken
             };
+        }
+
+        public async Task<UploadImagesResponse> UploadImages(UploadImagesRequest request)
+        {
+            UploadProfilePhotos(request.Images);
+
+            await _dbContext.SaveChangesAsync();
+
+            return new UploadImagesResponse
+            {
+                Token = _sessionResolver.SessionInfo.NewToken
+            };
+        }
+
+        public Task<RetrieveDoctorsResponse> RetrieveDoctors(RetrieveDoctorsRequest request)
+        {
+            var users = _dbContext.Users
+                .Where(u => u.RoleType == RoleType.Doctor)
+                .Where(u => u.MedicalManInfo.IsNzok == request.WorkingWithNzok)
+                .Where(u => u.MedicalManInfo.IsAdditionalHealthInsurance == request.IsAdditionalHealthInsurance)
+                .Where(u => u.MedicalManInfo.ExperienceInYears > request.Experience.ExperienceInYearsLowLimit
+                            && u.MedicalManInfo.ExperienceInYears < request.Experience.ExperienceInYearsHighLimit)
+                .Where(s => request.DoctorCategories.CategoryIds
+                    .Any(_dbContext.MedicalMenSpecialties
+                        .SelectMany(u => u.MedManInfo.Specialties
+                            .Select(sp => sp.SpecialtyId))
+                        .ToList()
+                        .Contains))
+                .Where(c => request.Cities.CityIds
+                    .Any(_dbContext.Users
+                        .SelectMany(u => u.UserContact.Addresses
+                            .Select(city => city.CityId))
+                        .ToList()
+                        .Contains))
+                .ToList();
+
+            var map = _mapper.Map<RetrieveDoctorsResponse>(users);
+
+            throw new NotImplementedException();
+        }
+
+        public Task<RetrieveMedicalCentersResponse> RetrieveMedicalCenters(RetrieveMedicalCentersRequest request)
+        {
+            throw new NotImplementedException();
         }
 
         public void UploadProfilePhotos(List<ImageData> imagesInRequest)
