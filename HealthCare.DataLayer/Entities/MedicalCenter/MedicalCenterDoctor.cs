@@ -1,14 +1,10 @@
 ﻿namespace HealthCare.DataLayer.Entities.MedicalCenter
 {
-    using System.ComponentModel.DataAnnotations.Schema;
-
     using Base;
     using User;
 
     public class MedicalCenterDoctor : SystemData
     {
-        
-
         public int DoctorId { get; set; }
         public User Doctor { get; set; }
 

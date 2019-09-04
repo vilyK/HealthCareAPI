@@ -13,6 +13,7 @@
     using Behaviour.Filters;
     using BusinessLayer;
     using BusinessLayer.Interfaces;
+    using BusinessLayer.Services;
     using Contracts.Configuration;
     using Contracts.Interfaces;
     using DataLayer;
@@ -62,6 +63,7 @@
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPatientService, PatientService>();
             services.AddScoped<IMedicalManService, MedicalManService> ();
+            services.AddScoped<IMedicalCenterService, MedicalCenterService> ();
 
             services.AddScoped<IStorageService, DatabaseService>();
 

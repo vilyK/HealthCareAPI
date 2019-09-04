@@ -1,12 +1,11 @@
-﻿namespace HealthCare.BusinessLayer
+﻿namespace HealthCare.BusinessLayer.Services
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
     using System.Security.Cryptography;
+    using System.Threading.Tasks;
     using AutoMapper;
-
     using Contracts.Interfaces;
     using Contracts.Models.UserAccount.Data;
     using Contracts.Models.UserAccount.Requests;
@@ -20,7 +19,6 @@
     using DataLayer.Entities.User;
     using Extensions;
     using Interfaces;
-    using Org.BouncyCastle.Crypto;
     using Utilities.Enums;
     using Utilities.Exceptions;
     using Utilities.Exceptions.ImagesExceptions;

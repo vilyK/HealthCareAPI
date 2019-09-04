@@ -1,6 +1,5 @@
-﻿namespace HealthCare.BusinessLayer
+﻿namespace HealthCare.BusinessLayer.Services
 {
-    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -15,7 +14,6 @@
     using Contracts.Models.PatientAccount.Requests;
     using Contracts.Models.PatientAccount.Responses;
     using DataLayer;
-    using DataLayer.Entities.Base;
     using DataLayer.Entities.MedicalData;
     using Extensions;
     using Interfaces;
@@ -30,10 +28,10 @@
         private readonly IHostingEnvironment _appEnvironment;
         private readonly IOptionsSnapshot<CommonSettings> _settings;
 
-        public PatientService(IMapper mapper, 
-            HealthCareDbContext dbContext, 
-            ISessionResolver sessionResolver, 
-            IHostingEnvironment appEnvironment, 
+        public PatientService(IMapper mapper,
+            HealthCareDbContext dbContext,
+            ISessionResolver sessionResolver,
+            IHostingEnvironment appEnvironment,
             IOptionsSnapshot<CommonSettings> settings)
         {
             _mapper = mapper;
@@ -56,6 +54,10 @@
 
             var medicalProfileId = PersistMedicalProfileData(request.MedicalData, patientInfoId);
 
+            PersistAllergies(request.Allergies, medicalProfileId);
+            PersistIllnesses(request.Illnesses, medicalProfileId);
+            PersistMedicalTests(request.MedicalTests, medicalProfileId);
+
             await _dbContext.SaveChangesAsync();
 
             return new PersistMedicalProfileResponse
@@ -75,20 +77,6 @@
             var medicalProfileId = _dbContext.PersistModel(dbModel, operation);
 
             return medicalProfileId;
-        }
-
-        private void PersistEntity<TModel, DbObject>(IEnumerable<TModel> collection, Func<int> relatedId)
-            where DbObject : SystemData
-        {
-            foreach (var item in collection)
-            {
-                var dbModel = _mapper.Map<DbObject>(item);
-
-                relatedId.Invoke();
-                var operation = dbModel.Id.GetDbOperation();
-
-                _dbContext.PersistModel(dbModel, operation);
-            }
         }
 
         private void PersistAllergies(IEnumerable<AllergyData> allergies, int medicalProfileId)
@@ -123,31 +111,26 @@
         {
             foreach (var medicalTest in medicalTests)
             {
-                var medTestDbModel = _mapper.Map<MedicalProfileMedicalTest>(medicalTest);
+                var medTestDbModel = _mapper.Map<MedicalTest>(medicalTest);
 
-                medTestDbModel.MedicalProfileId = medicalProfileId;
-
-                var operation = medTestDbModel.Id.GetDbOperation();
-
-                var medicalTestId = _dbContext.PersistModel(medTestDbModel, operation);
+                var medicalTestId = _dbContext.PersistModel(medTestDbModel, medTestDbModel.Id.GetDbOperation());
 
                 foreach (var attachment in medicalTest.MedicalTestAttachments)
                 {
-                    var attachmentDbModel = _mapper.Map<MedicalTestAttachment>(medicalTest);
+                    var attachmentDbModel = _dbContext.MedicalTestAttachments
+                                                .SingleOrDefault(x => x.Id == attachment.Id) ?? new MedicalTestAttachment();
 
                     var image = new FileInfo(attachment.Url);
 
-                    var url = Path.Combine(_appEnvironment.WebRootPath, _settings.Value.MedicalTestAttachment);
+                    var url = Path.Combine(_appEnvironment.WebRootPath, _settings.Value.MedicalTestAttachmentPath);
                     var imageName = image.Upload(url);
+
                     attachmentDbModel.Url = Path.Combine(url, imageName);
                     attachmentDbModel.MedicalTestId = medicalTestId;
 
-                    var opr = attachmentDbModel.Id.GetDbOperation();
-
-                    _dbContext.PersistModel(attachmentDbModel, opr);
+                    _dbContext.PersistModel(attachmentDbModel, attachmentDbModel.Id.GetDbOperation());
                 }
             }
         }
-
     }
 }

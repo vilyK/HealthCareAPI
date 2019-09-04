@@ -6,6 +6,7 @@
     using Base;
     using Interfaces;
     using User;
+    using Utilities.Enums;
 
     public class MedicalCenterInfo : SystemData, IInformation
     {
@@ -16,6 +17,8 @@
         public bool IsNzok { get; set; }
 
         public bool HasEmergency { get; set; }
+
+        public MedicalCenterType Type { get; set; }
 
         public int UserId { get; set; }
 

@@ -2,7 +2,7 @@
 {
     using Microsoft.AspNetCore.Mvc;
 
-    [Route("api/[controller]")]
+    [Route("pharmacyCompany")]
     [ApiController]
     public class PharmacyCompanyController : ControllerBase
     {

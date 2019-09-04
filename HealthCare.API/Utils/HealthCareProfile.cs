@@ -1,11 +1,13 @@
 ﻿namespace HealthCare.API.Utils
 {
     using AutoMapper;
+    using Contracts.Models.MedicalCenterAccount.Data;
     using Contracts.Models.MedicalManAccount.Data;
     using Contracts.Models.PatientAccount.Data;
     using Contracts.Models.UserAccount.Data;
     using Contracts.Models.UserAccount.Requests;
     using Contracts.Models.UserAccount.Responses;
+    using DataLayer.Entities.MedicalCenter;
     using DataLayer.Entities.MedicalData;
     using DataLayer.Entities.MedicalMan;
     using DataLayer.Entities.Patient;
@@ -63,15 +65,16 @@
 
             // Medical Data Mappings
 
-            CreateMap<MedicalTestData, MedicalProfileMedicalTest>()
+            CreateMap<MedicalTestData, MedicalTest>()
+                .ForMember(dest => dest.MedicalTestAttachments, opt => opt.Ignore())
                 .ForMember(dest => dest.CreateDate, opt => opt.Ignore())
                 .ForAllMembers(opt => opt.Condition(
                     (source, destination, sourceMember, destMember) => sourceMember != null));
 
-            CreateMap<AttachmentData, MedicalTestAttachment>()
-                .ForMember(dest => dest.CreateDate, opt => opt.Ignore())
-                .ForAllMembers(opt => opt.Condition(
-                    (source, destination, sourceMember, destMember) => sourceMember != null));
+            //CreateMap<AttachmentData, MedicalTestAttachment>()
+            //    .ForMember(dest => dest.CreateDate, opt => opt.Ignore())
+            //    .ForAllMembers(opt => opt.Condition(
+            //        (source, destination, sourceMember, destMember) => sourceMember != null));
 
             CreateMap<AllergyData, MedicalProfileAllergy>()
                 .ForMember(dest => dest.CreateDate, opt => opt.Ignore())
@@ -83,6 +86,14 @@
                 .ForAllMembers(opt => opt.Condition(
                     (source, destination, sourceMember, destMember) => sourceMember != null));
 
+
+            // Medical Center Data Mappings
+
+            CreateMap<MedicalCenterData, MedicalCenterInfo>()
+                .ForMember(dest => dest.CreateDate, opt => opt.Ignore())
+                .ForMember(dest => dest.MedicalCenterDepartments, opt => opt.Ignore())
+                .ForAllMembers(opt => opt.Condition(
+                    (source, destination, sourceMember, destMember) => sourceMember != null));
 
             // Search Requests Related Data mappings
 

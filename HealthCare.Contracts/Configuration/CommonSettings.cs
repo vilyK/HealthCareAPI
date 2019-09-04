@@ -4,6 +4,6 @@
     {
         public string ProfilePhotosPath { get; set; }
 
-        public string MedicalTestAttachment { get; set; }
+        public string MedicalTestAttachmentPath { get; set; }
     }
 }

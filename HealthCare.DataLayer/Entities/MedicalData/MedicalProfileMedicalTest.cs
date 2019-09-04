@@ -4,7 +4,6 @@
 
     public class MedicalProfileMedicalTest : SystemData
     {
-        
 
         public int MedicalTestId { get; set; }
         public MedicalTest MedicalTest { get; set; }

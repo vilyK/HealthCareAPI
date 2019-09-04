@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\images\MedicalTestAttachment\" />
+    <Folder Include="wwwroot\images\MedicalTestAttachments\" />
     <Folder Include="wwwroot\images\ProfilePhotos\" />
   </ItemGroup>
 

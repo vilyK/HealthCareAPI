@@ -9,9 +9,9 @@
         public void Configure(EntityTypeBuilder<MedicalCenterDepartment> modelBuilder)
         {
             modelBuilder
-                .HasOne(e => e.MedicalCenter)
+                .HasOne(e => e.MedicalCenterInfo)
                 .WithMany(e => e.MedicalCenterDepartments)
-                .HasForeignKey(e => e.MedicalCenterId)
+                .HasForeignKey(e => e.MedicalCenterInfoId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder

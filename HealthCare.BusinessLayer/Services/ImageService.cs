@@ -1,18 +1,17 @@
-﻿namespace HealthCare.BusinessLayer
+﻿namespace HealthCare.BusinessLayer.Services
 {
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using Contracts.Configuration;
-    using Microsoft.AspNetCore.Hosting;
-
     using Contracts.Interfaces;
     using Contracts.Models.UserAccount.Data;
     using DataLayer;
     using DataLayer.Entities.User;
     using Extensions;
     using Interfaces;
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Options;
     using Utilities.Enums;

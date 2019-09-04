@@ -1,10 +1,9 @@
-﻿namespace HealthCare.BusinessLayer
+﻿namespace HealthCare.BusinessLayer.Services
 {
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using AutoMapper;
-
     using Contracts.Interfaces;
     using Contracts.Models.MedicalManAccount.Data;
     using Contracts.Models.MedicalManAccount.Requests;
@@ -32,8 +31,7 @@
         public async Task<PersistPersonalDataResponse> PersistPersonalData(PersistPersonalDataRequest request)
         {
             var userId = _sessionResolver.SessionInfo.UserId;
-            var medicalMenInfo = _dbContext.MedicalManInfos
-                .SingleOrDefault(x => x.UserId == userId);
+            var medicalMenInfo = _dbContext.MedicalManInfos.SingleOrDefault(x => x.UserId == userId);
 
            ValidationUtils.ValidateAndThrow<IncorrectUserDataException>(() => medicalMenInfo == null);
 
@@ -44,8 +42,12 @@
 
             PersistAwards(request.Awards.EmptyIfNull(), medicalMenInfoId);
 
-            AddSpecialties(request.Specialties.EmptyIfNull(), medicalMenInfoId);
+            var medicalMenCurrentSpecialtiesIds = _dbContext.MedicalMenSpecialties
+                .Where(x => x.MedMenInfoId == medicalMenInfoId && x.IsDeleted == false)
+                .ToList();
 
+            dbModel.AddSpecialties(request.Specialties.EmptyIfNull(), medicalMenCurrentSpecialtiesIds, medicalMenInfoId);
+            
             await _dbContext.SaveChangesAsync();
 
             return new PersistPersonalDataResponse
@@ -63,26 +65,6 @@
                 var operation = dbModel.Id.GetDbOperation();
 
                 _dbContext.PersistModel(dbModel, operation);
-            }
-        }
-
-        private void AddSpecialties(IEnumerable<int> specialties, int medicalMenInfoId)
-        {
-            var medicalMenCurrentSpecialtiesIds = _dbContext.MedicalMenSpecialties
-                .Where(x => x.MedMenInfoId == medicalMenInfoId)
-                .ToList();
-
-            foreach (var specialty in specialties)
-            {
-                if (medicalMenCurrentSpecialtiesIds.Any(x => x.SpecialtyId == specialty))
-                    continue;
-
-                _dbContext.Add(
-                    new MedicalMenSpecialty
-                    {
-                        MedMenInfoId = medicalMenInfoId,
-                        SpecialtyId = specialty
-                    });
             }
         }
     }
