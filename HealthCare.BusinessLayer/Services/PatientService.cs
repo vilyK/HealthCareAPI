@@ -54,9 +54,9 @@
 
             var medicalProfileId = PersistMedicalProfileData(request.MedicalData, patientInfoId);
 
-            PersistAllergies(request.Allergies, medicalProfileId);
+            //PersistAllergies(request.Allergies, medicalProfileId);
             //PersistIllnesses(request.Illnesses, medicalProfileId);
-            //PersistMedicalTests(request.MedicalTests, medicalProfileId);
+            PersistMedicalTests(request.MedicalTests, medicalProfileId);
 
             await _dbContext.SaveChangesAsync();
 
@@ -79,6 +79,7 @@
             return medicalProfileId;
         }
 
+        // should be discussed 
         private void PersistAllergies(IEnumerable<AllergyData> allergies, int medicalProfileId)
         {
             foreach (var allergy in allergies)
@@ -93,6 +94,7 @@
             }
         }
 
+        // should be discussed 
         private void PersistIllnesses(IEnumerable<IllnessData> illnesses, int medicalProfileId)
         {
             foreach (var illness in illnesses)

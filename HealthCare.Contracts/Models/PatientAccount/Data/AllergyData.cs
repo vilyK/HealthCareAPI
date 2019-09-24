@@ -4,6 +4,8 @@
     {
         public int Id { get; set; }
 
-        public int AllergyId { get; set; }
+        public int AllergyTypeId { get; set; }
+
+        public string Notes { get; set; }
     }
 }

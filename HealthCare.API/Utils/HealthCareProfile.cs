@@ -76,7 +76,7 @@
             //    .ForAllMembers(opt => opt.Condition(
             //        (source, destination, sourceMember, destMember) => sourceMember != null));
 
-            CreateMap<AllergyData, MedicalProfileAllergy>()
+            CreateMap<AllergyData, Allergy>()
                 .ForMember(dest => dest.CreateDate, opt => opt.Ignore())
                 .ForAllMembers(opt => opt.Condition(
                     (source, destination, sourceMember, destMember) => sourceMember != null));
