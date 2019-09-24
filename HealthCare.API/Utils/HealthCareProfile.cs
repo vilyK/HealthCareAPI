@@ -86,9 +86,7 @@
                 .ForAllMembers(opt => opt.Condition(
                     (source, destination, sourceMember, destMember) => sourceMember != null));
 
-
             // Medical Center Data Mappings
-
             CreateMap<MedicalCenterData, MedicalCenterInfo>()
                 .ForMember(dest => dest.CreateDate, opt => opt.Ignore())
                 .ForMember(dest => dest.MedicalCenterDepartments, opt => opt.Ignore())

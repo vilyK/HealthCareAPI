@@ -55,8 +55,8 @@
             var medicalProfileId = PersistMedicalProfileData(request.MedicalData, patientInfoId);
 
             PersistAllergies(request.Allergies, medicalProfileId);
-            PersistIllnesses(request.Illnesses, medicalProfileId);
-            PersistMedicalTests(request.MedicalTests, medicalProfileId);
+            //PersistIllnesses(request.Illnesses, medicalProfileId);
+            //PersistMedicalTests(request.MedicalTests, medicalProfileId);
 
             await _dbContext.SaveChangesAsync();
 
@@ -86,7 +86,7 @@
                 var dbModel = _mapper.Map<MedicalProfileAllergy>(allergy);
 
                 dbModel.MedicalProfileId = medicalProfileId;
-
+    
                 var operation = dbModel.Id.GetDbOperation();
 
                 _dbContext.PersistModel(dbModel, operation);
@@ -114,6 +114,17 @@
                 var medTestDbModel = _mapper.Map<MedicalTest>(medicalTest);
 
                 var medicalTestId = _dbContext.PersistModel(medTestDbModel, medTestDbModel.Id.GetDbOperation());
+
+                // check if such combination exists
+                var medicalProfileMedicalTests = _dbContext.MedicalProfileMedicalTests
+                                      .SingleOrDefault(x => x.MedicalProfileId == medicalProfileId && x.MedicalTestId == medicalTestId) ??
+                                  new MedicalProfileMedicalTest
+                                  {
+                                      MedicalProfileId = medicalProfileId,
+                                      MedicalTestId = medicalTestId
+                                  };
+
+                _dbContext.PersistModel(medicalProfileMedicalTests, medicalProfileMedicalTests.Id.GetDbOperation());
 
                 foreach (var attachment in medicalTest.MedicalTestAttachments)
                 {

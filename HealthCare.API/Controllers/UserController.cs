@@ -75,7 +75,5 @@
         {
             return await _userService.RetrieveMedicalCenters(request);
         }
-
-        
     }
 }

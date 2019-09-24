@@ -5,8 +5,6 @@
 
     public class MedicalManInfoPrice : SystemData
     {
-        
-
         public int MedManInfoId { get; set; }
         public MedicalManInfo MedManInfo { get; set; }
 

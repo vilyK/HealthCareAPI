@@ -179,9 +179,7 @@
 
         public Task<RetrieveDoctorsResponse> RetrieveDoctors(RetrieveDoctorsRequest request)
         {
-            var users = _dbContext.Users
-                .Where(u => u.RoleType == RoleType.Doctor)
-                .Where(u => u.MedicalManInfo.IsNzok == request.WorkingWithNzok)
+            var users = _dbContext.Users.Where(u => u.RoleType == RoleType.Doctor).Where(u => u.MedicalManInfo.IsNzok == request.WorkingWithNzok)
                 .Where(u => u.MedicalManInfo.IsAdditionalHealthInsurance == request.IsAdditionalHealthInsurance)
                 .Where(u => u.MedicalManInfo.ExperienceInYears > request.Experience.ExperienceInYearsLowLimit
                             && u.MedicalManInfo.ExperienceInYears < request.Experience.ExperienceInYearsHighLimit)

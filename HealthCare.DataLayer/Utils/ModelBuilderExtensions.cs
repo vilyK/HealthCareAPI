@@ -31,6 +31,8 @@
             modelBuilder.Entity<Specialty>().HasData(dataRetriever.RetrieveData<Specialty>());
 
             modelBuilder.Entity<Department>().HasData(dataRetriever.RetrieveData<Department>());
+
+            modelBuilder.Entity<MedicalTestType>().HasData(dataRetriever.RetrieveData<MedicalTestType>());
         }
     }
 }
