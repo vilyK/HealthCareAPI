@@ -93,8 +93,6 @@
 
         public DbSet<MedicalTestType> MedicalTestTypes { get; set; }
 
-        public DbSet<PatientIllness> Illnesses { get; set; }
-
         public DbSet<IllnessType> IllnessTypes { get; set; }
 
         public DbSet<IllnessCategory> IllnessCategories { get; set; }
@@ -103,23 +101,7 @@
 
         public DbSet<AllergyType>   AllergyTypes { get; set; }
 
-        public DbSet<MedicalProfileMedicalTest> MedicalProfileMedicalTests { get; set; }
-
-        public DbSet<MedicalProfileAllergy> MedicalProfileAllergies { get; set; }
-
-        public DbSet<MedicalProfileIllness> MedicalProfileIllnesses { get; set; }
-
-        public DbSet<OutpatientCardAllergy> OutpatientCardAllergies { get; set; }
-
-        public DbSet<OutpatientCardIllness> OutpatientCardIllnesses { get; set; }
-
-        public DbSet<OutpatientCardMedicalTest> OutpatientCardMedicalTests { get; set; }
-
         public DbSet<Treatment> Treatments { get; set; }
-
-        public DbSet<AllergyTreatment> AllergyTreatments { get; set; }
-
-        public DbSet<IllnessTreatment> IllnessTreatments { get; set; }
 
         public DbSet<TreatmentMedicament> TreatmentMedicaments { get; set; }
 
@@ -164,10 +146,6 @@
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.ApplyConfiguration(new AllergyTreatmentConfig());
-           
-            modelBuilder.ApplyConfiguration(new IllnessTreatmentConfig());
-
             modelBuilder.ApplyConfiguration(new MedicalCenterDepartmentConfig());
 
             modelBuilder.ApplyConfiguration(new MedicalCenterDoctorConfig());
@@ -176,19 +154,9 @@
 
             modelBuilder.ApplyConfiguration(new MedicalMenSpecialtyConfig());
 
-            modelBuilder.ApplyConfiguration(new MedicalProfileAllergyConfig());
-
-            modelBuilder.ApplyConfiguration(new MedicalProfileMedicalTestConfig());
-
             modelBuilder.ApplyConfiguration(new NotificationTypeUserConfig());
 
             modelBuilder.ApplyConfiguration(new NotificationUserConfig());
-
-            modelBuilder.ApplyConfiguration(new OutpatientCardAllergyConfig());
-
-            modelBuilder.ApplyConfiguration(new OutpatientCardIllnessConfig());
-
-            modelBuilder.ApplyConfiguration(new OutpatientCardMedicalTestConfig());
 
             modelBuilder.ApplyConfiguration(new PharmacyCompanyTypeConfig());
 

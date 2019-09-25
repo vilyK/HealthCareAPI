@@ -54,9 +54,9 @@
 
             var medicalProfileId = PersistMedicalProfileData(request.MedicalData, patientInfoId);
 
-            //PersistAllergies(request.Allergies, medicalProfileId);
+           // PersistAllergies(request.Allergies, medicalProfileId);
             //PersistIllnesses(request.Illnesses, medicalProfileId);
-            PersistMedicalTests(request.MedicalTests, medicalProfileId);
+            //PersistMedicalTests(request.MedicalTests, medicalProfileId);
 
             await _dbContext.SaveChangesAsync();
 
@@ -79,35 +79,34 @@
             return medicalProfileId;
         }
 
-        // should be discussed 
         private void PersistAllergies(IEnumerable<AllergyData> allergies, int medicalProfileId)
         {
             foreach (var allergy in allergies)
             {
-                var dbModel = _mapper.Map<MedicalProfileAllergy>(allergy);
-
-                dbModel.MedicalProfileId = medicalProfileId;
-    
-                var operation = dbModel.Id.GetDbOperation();
-
-                _dbContext.PersistModel(dbModel, operation);
-            }
-        }
-
-        // should be discussed 
-        private void PersistIllnesses(IEnumerable<IllnessData> illnesses, int medicalProfileId)
-        {
-            foreach (var illness in illnesses)
-            {
-                var dbModel = _mapper.Map<MedicalProfileIllness>(illness);
-
-                dbModel.MedicalProfileId = medicalProfileId;
+                var dbModel = _mapper.Map<Allergy>(allergy);
 
                 var operation = dbModel.Id.GetDbOperation();
 
                 _dbContext.PersistModel(dbModel, operation);
+
+                // If such mapping exists
+                
             }
         }
+
+        //private void PersistIllnesses(IEnumerable<IllnessData> illnesses, int medicalProfileId)
+        //{
+        //    foreach (var illness in illnesses)
+        //    {
+        //        var dbModel = _mapper.Map<MedicalProfileIllness>(illness);
+
+        //        dbModel.MedicalProfileId = medicalProfileId;
+
+        //        var operation = dbModel.Id.GetDbOperation();
+
+        //        _dbContext.PersistModel(dbModel, operation);
+        //    }
+        //}
 
         private void PersistMedicalTests(IEnumerable<MedicalTestData> medicalTests, int medicalProfileId)
         {
@@ -118,15 +117,15 @@
                 var medicalTestId = _dbContext.PersistModel(medTestDbModel, medTestDbModel.Id.GetDbOperation());
 
                 // check if such combination exists
-                var medicalProfileMedicalTests = _dbContext.MedicalProfileMedicalTests
-                                      .SingleOrDefault(x => x.MedicalProfileId == medicalProfileId && x.MedicalTestId == medicalTestId) ??
-                                  new MedicalProfileMedicalTest
-                                  {
-                                      MedicalProfileId = medicalProfileId,
-                                      MedicalTestId = medicalTestId
-                                  };
+                //var medicalProfileMedicalTests = _dbContext.MedicalProfileMedicalTests
+                //                      .SingleOrDefault(x => x.MedicalProfileId == medicalProfileId && x.MedicalTestId == medicalTestId) ??
+                //                  new MedicalProfileMedicalTest
+                //                  {
+                //                      MedicalProfileId = medicalProfileId,
+                //                      MedicalTestId = medicalTestId
+                //                  };
 
-                _dbContext.PersistModel(medicalProfileMedicalTests, medicalProfileMedicalTests.Id.GetDbOperation());
+                //_dbContext.PersistModel(medicalProfileMedicalTests, medicalProfileMedicalTests.Id.GetDbOperation());
 
                 foreach (var attachment in medicalTest.MedicalTestAttachments)
                 {

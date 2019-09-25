@@ -17,10 +17,16 @@
 
         public DocumentStatus Status { get; set; }
 
-        public List<OutpatientCardIllness> OutpatientCardIllnesses { get; set; } = new List<OutpatientCardIllness>();
+        public int? MedicalProfileId { get; set; }
 
-        public List<MedicalProfileIllness> MedicalProfileIllnesses { get; set; }  = new List<MedicalProfileIllness>();
+        [ForeignKey("MedicalProfileId")]
+        public MedicalProfile MedicalProfile { get; set; }
 
-        public List<IllnessTreatment> IllnessTreatments { get; set; }  = new List<IllnessTreatment>();
+        public int? OutpatientCardId { get; set; }
+
+        [ForeignKey("OutpatientCardId")]
+        public OutpatientCard OutpatientCard { get; set; }
+
+        public List<Treatment> IllnessTreatments { get; set; }  = new List<Treatment>();
     }
 }

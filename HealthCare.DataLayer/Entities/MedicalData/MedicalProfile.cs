@@ -24,10 +24,10 @@
         [ForeignKey("PatientInfoId")]
         public PatientInfo PatientInfo { get; set; }
 
-        public List<MedicalProfileIllness> MedicalProfileIllnesses { get; set; }  = new List<MedicalProfileIllness>();
+        public List<Illness> MedicalProfileIllnesses { get; set; }  = new List<Illness>();
 
-        public List<MedicalProfileAllergy> MedicalProfileAllergies { get; set; }  = new List<MedicalProfileAllergy>();
+        public List<Allergy> MedicalProfileAllergies { get; set; }  = new List<Allergy>();
 
-        public List<MedicalProfileMedicalTest> MedicalProfileMedicalTests { get; set; } = new List<MedicalProfileMedicalTest>();
+        public List<MedicalTest> MedicalProfileMedicalTests { get; set; } = new List<MedicalTest>();
     }
 }
