@@ -4,9 +4,10 @@
     using System.ComponentModel.DataAnnotations.Schema;
 
     using Base;
+    using Interfaces;
     using Utilities.Enums;
 
-    public class Illness : SystemData
+    public class Illness : SystemData, IMedicalData
     {
         public int IllnessTypeId { get; set; }
 
@@ -16,6 +17,8 @@
         public IllnessPeriod IllnessPeriod { get; set; }
 
         public DocumentStatus Status { get; set; }
+
+        public string Notes { get; set; }
 
         public int? MedicalProfileId { get; set; }
 

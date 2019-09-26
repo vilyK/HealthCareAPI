@@ -5,12 +5,15 @@
     using System.ComponentModel.DataAnnotations.Schema;
 
     using Base;
+    using Interfaces;
     using MedicalCenter;
     using Utilities.Enums;
 
-    public class MedicalTest : SystemData
+    public class MedicalTest : SystemData, IMedicalData
     {
         public string Results { get; set; }
+
+        public string Notes { get; set; }
 
         public DateTime MedicalTestDate { get; set; }
 

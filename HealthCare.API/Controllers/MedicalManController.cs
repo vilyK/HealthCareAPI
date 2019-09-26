@@ -29,5 +29,11 @@
             return await _medicalManService.PersistPersonalData(request);
         }
 
+        [Route("persistOutpatientCard")]
+        [HttpPost]
+        public async Task<PersistOutpatientCardResponse> PersistOutpatientCard(PersistOutpatientCardRequest request)
+        {
+            return await _medicalManService.PersistOutpatientCard(request);
+        }
     }
 }

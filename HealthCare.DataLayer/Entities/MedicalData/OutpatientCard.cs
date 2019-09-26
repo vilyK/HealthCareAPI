@@ -9,9 +9,9 @@
 
     public class OutpatientCard : SystemData
     {
-        public string Results { get; set; }
-
         public DocumentStatus Status { get; set; }
+
+        public string Notes { get; set; }
 
         public int DoctorId { get; set; }
 

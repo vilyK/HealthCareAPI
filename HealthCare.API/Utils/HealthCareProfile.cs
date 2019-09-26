@@ -1,6 +1,7 @@
 ﻿namespace HealthCare.API.Utils
 {
     using AutoMapper;
+
     using Contracts.Models.MedicalCenterAccount.Data;
     using Contracts.Models.MedicalManAccount.Data;
     using Contracts.Models.PatientAccount.Data;
@@ -20,7 +21,6 @@
             CreateMap<RegisterUserRequest, User>();
 
             // Contact Related Mappings
-
             CreateMap<EmailData, Email>()
                 .ForMember(dest => dest.CreateDate, opt => opt.Ignore())
                 .ForAllMembers(opt => opt.Condition(
@@ -38,7 +38,6 @@
 
 
             // MedicalMen Related Data Mappings
-
             CreateMap<MedicalManGeneralData, MedicalManInfo>()
                 .ForMember(dest => dest.CreateDate, opt => opt.Ignore())
                 .ForAllMembers(opt => opt.Condition(
@@ -51,7 +50,6 @@
 
 
             // Patient Related Data Mappings
-
             CreateMap<PatientGeneralData, PatientInfo>()
                 .ForMember(dest => dest.CreateDate, opt => opt.Ignore())
                 .ForAllMembers(opt => opt.Condition(
@@ -59,9 +57,7 @@
 
             CreateMap<MedicalProfileGeneralData, MedicalProfile>()
                 .ForMember(dest => dest.CreateDate, opt => opt.Ignore())
-                .ForAllMembers(opt => opt.Condition(
-                    (source, destination, sourceMember, destMember) => sourceMember != null));
-
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
 
             // Medical Data Mappings
 
@@ -81,6 +77,10 @@
                 .ForAllMembers(opt => opt.Condition(
                     (source, destination, sourceMember, destMember) => sourceMember != null));
 
+            CreateMap<IllnessData, Illness>()
+                .ForMember(dest => dest.CreateDate, opt => opt.Ignore())
+                .ForAllMembers(opt => opt.Condition(
+                    (source, destination, sourceMember, destMember) => sourceMember != null));
 
             // Medical Center Data Mappings
             CreateMap<MedicalCenterData, MedicalCenterInfo>()
@@ -96,6 +96,5 @@
                     .ForMember(dest => dest.Contacts, opt => opt.MapFrom(src => src.UserContact))
                     .ForMember(dest => dest.Biography, opt => opt.MapFrom(src => src.MedicalManInfo.Biography));
         }
-
     }
 }

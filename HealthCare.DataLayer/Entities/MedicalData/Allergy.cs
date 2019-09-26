@@ -4,8 +4,9 @@
     using System.ComponentModel.DataAnnotations.Schema;
 
     using Base;
+    using Interfaces;
 
-    public class Allergy : SystemData
+    public class Allergy : SystemData, IMedicalData
     {
         public string Notes { get; set; }
 

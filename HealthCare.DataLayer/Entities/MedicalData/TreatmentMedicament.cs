@@ -4,8 +4,6 @@
 
     public class TreatmentMedicament : SystemData
     {
-        
-
         public int TreatmentId{ get; set; }
         public Treatment Treatment { get; set; }
 

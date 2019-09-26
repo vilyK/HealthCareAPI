@@ -9,7 +9,6 @@
     using Contracts.Models.PatientAccount.Responses;
     using Utilities.Enums;
 
-
     [ApiController]
     [ValidationFilter]
     [Route("patient")]

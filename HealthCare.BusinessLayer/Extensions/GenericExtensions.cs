@@ -1,9 +1,10 @@
 ﻿namespace HealthCare.BusinessLayer.Extensions
 {
     using System;
+    using Microsoft.EntityFrameworkCore;
+
     using DataLayer.Entities.Base;
     using HealthCare.Interfaces;
-    using Microsoft.EntityFrameworkCore;
     using Utilities.Enums;
 
     public static class GenericExtensions

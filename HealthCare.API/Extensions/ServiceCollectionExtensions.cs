@@ -62,8 +62,10 @@
             services.AddScoped<IContactsService, ContactsService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPatientService, PatientService>();
-            services.AddScoped<IMedicalManService, MedicalManService> ();
-            services.AddScoped<IMedicalCenterService, MedicalCenterService> ();
+            services.AddScoped<IMedicalManService, MedicalManService>();
+            services.AddScoped<IMedicalCenterService, MedicalCenterService>();
+            services.AddScoped<IMedicalDataService, MedicalDataService>();
+
 
             services.AddScoped<IStorageService, DatabaseService>();
 
