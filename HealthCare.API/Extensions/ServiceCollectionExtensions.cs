@@ -76,7 +76,7 @@
             return services;
         }
 
-        public static IServiceCollection AddMapper(this IServiceCollection services)
+        public static IServiceCollection AddMappers(this IServiceCollection services)
         {
             services.AddAutoMapper(typeof(Startup));
 

@@ -1,8 +1,7 @@
 ﻿namespace HealthCare.Contracts.Models.MedicalManAccount.Requests
 {
     using System.Collections.Generic;
-
-    using PatientAccount.Data;
+    using CommonMedicalData;
     using Utilities.Enums;
 
     public class PersistOutpatientCardRequest
@@ -18,6 +17,5 @@
         public List<IllnessData> Illnesses { get; set; }
 
         public List<MedicalTestData> MedicalTests { get; set; }
-
     }
 }

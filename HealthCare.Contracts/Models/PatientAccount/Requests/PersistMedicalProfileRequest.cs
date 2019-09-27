@@ -1,6 +1,7 @@
 ﻿namespace HealthCare.Contracts.Models.PatientAccount.Requests
 {
     using System.Collections.Generic;
+    using CommonMedicalData;
     using Data;
 
     public class PersistMedicalProfileRequest

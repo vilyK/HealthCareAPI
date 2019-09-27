@@ -8,7 +8,7 @@
     using Microsoft.Extensions.Options;
 
     using Contracts.Configuration;
-    using Contracts.Models.PatientAccount.Data;
+    using Contracts.Models.CommonMedicalData;
     using DataLayer;
     using DataLayer.Entities.Base;
     using DataLayer.Entities.MedicalData;
@@ -103,5 +103,12 @@
                 }
             }
         }
+
+        public void PersistTreatment(IEnumerable<TreatmentData> treatments, int diseaseId, DiseaseType documentType)
+        {
+
+        }
     }
+
+    
 }

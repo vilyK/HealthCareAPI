@@ -1,6 +1,6 @@
-﻿namespace HealthCare.Contracts.Models.PatientAccount.Data
+﻿namespace HealthCare.Contracts.Models.CommonMedicalData
 {
-    public class TreatmentData
+    public class MedicamentData
     {
         public int Id { get; set; }
 

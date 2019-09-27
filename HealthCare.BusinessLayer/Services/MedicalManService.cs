@@ -6,10 +6,10 @@
     using AutoMapper;
 
     using Contracts.Interfaces;
+    using Contracts.Models.CommonMedicalData;
     using Contracts.Models.MedicalManAccount.Data;
     using Contracts.Models.MedicalManAccount.Requests;
     using Contracts.Models.MedicalManAccount.Responses;
-    using Contracts.Models.PatientAccount.Data;
     using DataLayer;
     using DataLayer.Entities.MedicalData;
     using DataLayer.Entities.MedicalMan;

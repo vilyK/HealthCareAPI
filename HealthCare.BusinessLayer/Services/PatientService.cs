@@ -5,6 +5,7 @@
     using AutoMapper;
 
     using Contracts.Interfaces;
+    using Contracts.Models.CommonMedicalData;
     using Contracts.Models.PatientAccount.Data;
     using Contracts.Models.PatientAccount.Requests;
     using Contracts.Models.PatientAccount.Responses;

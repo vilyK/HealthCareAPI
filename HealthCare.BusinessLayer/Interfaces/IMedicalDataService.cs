@@ -1,7 +1,7 @@
 ﻿namespace HealthCare.BusinessLayer.Interfaces
 {
     using System.Collections.Generic;
-    using Contracts.Models.PatientAccount.Data;
+    using Contracts.Models.CommonMedicalData;
     using DataLayer.Entities.Base;
     using HealthCare.Interfaces;
     using Utilities.Enums;

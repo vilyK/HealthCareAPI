@@ -1,4 +1,4 @@
-﻿namespace HealthCare.Contracts.Models.PatientAccount.Data
+﻿namespace HealthCare.Contracts.Models.CommonMedicalData
 {
     using System;
     using System.Collections.Generic;
