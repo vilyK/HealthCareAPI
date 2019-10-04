@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using Utilities.Enums;
 
-    public class TreatmentData
+    public class TreatmentData 
     {
         public int Id { get; set; }
 

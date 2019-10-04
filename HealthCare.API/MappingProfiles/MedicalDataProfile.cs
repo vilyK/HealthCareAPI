@@ -1,28 +1,32 @@
-﻿namespace HealthCare.API.Profiles
+﻿namespace HealthCare.API.MappingProfiles
 {
     using AutoMapper;
+    using Contracts.Models.CommonMedicalData;
+    using DataLayer.Entities.MedicalData;
 
-    using Contracts.Models.UserAccount.Data;
-    using DataLayer.Entities.User;
-
-    public class ContactsProfile : Profile
+    public class MedicalDataProfile : Profile
     {
-        public ContactsProfile()
+        public MedicalDataProfile()
         {
-            CreateMap<EmailData, Email>()
+            CreateMap<MedicalTestData, MedicalTest>()
+                .ForMember(dest => dest.MedicalTestAttachments, opt => opt.Ignore())
                 .ForMember(dest => dest.CreateDate, opt => opt.Ignore())
                 .ForAllMembers(opt => opt.Condition(
                     (source, destination, sourceMember, destMember) => sourceMember != null));
 
-            CreateMap<AddressData, Address>()
+            CreateMap<AllergyData, Allergy>()
                 .ForMember(dest => dest.CreateDate, opt => opt.Ignore())
                 .ForAllMembers(opt => opt.Condition(
                     (source, destination, sourceMember, destMember) => sourceMember != null));
 
-            CreateMap<PhoneData, Phone>()
+            CreateMap<IllnessData, Illness>()
                 .ForMember(dest => dest.CreateDate, opt => opt.Ignore())
                 .ForAllMembers(opt => opt.Condition(
                     (source, destination, sourceMember, destMember) => sourceMember != null));
+
+            CreateMap<TreatmentData, Treatment>()
+                .ForMember(dest => dest.CreateDate, opt => opt.Ignore())
+                .ForMember(dest => dest.TreatmentMedicaments, opt => opt.Ignore());
         }
     }
 }

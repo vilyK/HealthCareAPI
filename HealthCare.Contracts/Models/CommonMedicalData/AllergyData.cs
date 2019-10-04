@@ -1,8 +1,9 @@
 ﻿namespace HealthCare.Contracts.Models.CommonMedicalData
 {
     using System.Collections.Generic;
+    using Interfaces;
 
-    public class AllergyData
+    public class AllergyData : ITreatments
     {
         public int Id { get; set; }
 

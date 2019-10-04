@@ -80,7 +80,7 @@
 
                 var tokenHandler = new JwtSecurityTokenHandler();
 
-                var tokenValid = tokenHandler.ValidateToken(token, validationParameters, out var validatedToken);
+                var tokenValid = tokenHandler.ValidateToken(token, validationParameters, out _);
 
                 return tokenValid.Claims.ToList();
             }

@@ -1,7 +1,6 @@
-﻿namespace HealthCare.API.Profiles
+﻿namespace HealthCare.API.MappingProfiles
 {
     using AutoMapper;
-
     using Contracts.Models.MedicalCenterAccount.Data;
     using DataLayer.Entities.MedicalCenter;
 

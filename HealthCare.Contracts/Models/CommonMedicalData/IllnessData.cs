@@ -1,9 +1,10 @@
 ﻿namespace HealthCare.Contracts.Models.CommonMedicalData
 {
     using System.Collections.Generic;
+    using Interfaces;
     using Utilities.Enums;
 
-    public class IllnessData
+    public class IllnessData : ITreatments
     {
         public int Id { get; set; }
 

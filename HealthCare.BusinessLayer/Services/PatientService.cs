@@ -39,8 +39,8 @@
             var patientInfoId = PersistPatientPersonalData(request.PatientData);
             var medicalProfileId = PersistMedicalProfileData(request.MedicalData, patientInfoId);
 
-            _medicalDataService.PersistMedicalDataRelatedEntities<AllergyData, Allergy>(request.Allergies.EmptyIfNull(), medicalProfileId, DocumentType.MedicalProfile);
-            _medicalDataService.PersistMedicalDataRelatedEntities<IllnessData, Illness>(request.Illnesses.EmptyIfNull(), medicalProfileId, DocumentType.MedicalProfile);
+            _medicalDataService.PersistMedicalDataRelatedEntities<AllergyData, Allergy>(request.Allergies.EmptyIfNull(), medicalProfileId, DocumentType.MedicalProfile, DiseaseType.Allergy);
+            _medicalDataService.PersistMedicalDataRelatedEntities<IllnessData, Illness>(request.Illnesses.EmptyIfNull(), medicalProfileId, DocumentType.MedicalProfile, DiseaseType.Illness);
             _medicalDataService.PersistMedicalTests(request.MedicalTests.EmptyIfNull(), medicalProfileId, DocumentType.MedicalProfile);
 
             await _dbContext.SaveChangesAsync();
@@ -71,8 +71,8 @@
             dbModel = _mapper.Map(data, dbModel);
             dbModel.PatientInfoId = patientInfoId;
 
-            var operation = dbModel.Id.GetDbOperation();
-            var medicalProfileId = _dbContext.PersistModel(dbModel, operation);
+            var dbOperation = dbModel.Id.GetDbOperation();
+            var medicalProfileId = _dbContext.PersistModel(dbModel, dbOperation);
 
             return medicalProfileId;
         }

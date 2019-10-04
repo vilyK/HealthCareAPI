@@ -39,9 +39,9 @@
         {
             foreach (var img in images)
             {
-                var operation = img.Id.GetDbOperation();
+                var dbOperation = img.Id.GetDbOperation();
 
-                UploadImage(img, operation);
+                UploadImage(img, dbOperation);
             }
         }
 

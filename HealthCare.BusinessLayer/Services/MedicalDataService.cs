@@ -8,6 +8,7 @@
     using Microsoft.Extensions.Options;
 
     using Contracts.Configuration;
+    using Contracts.Interfaces;
     using Contracts.Models.CommonMedicalData;
     using DataLayer;
     using DataLayer.Entities.Base;
@@ -35,35 +36,37 @@
             _settings = settings;
         }
 
-        public void PersistMedicalDataRelatedEntities<TMedicalEntity, TModel>(IEnumerable<TMedicalEntity> medicalEntities, int documentId, DocumentType documentType)
-                where TMedicalEntity : class
+        public void PersistMedicalDataRelatedEntities<TMedicalEntity, TModel>(IEnumerable<TMedicalEntity> medicalEntities, int documentId, DocumentType documentType, DiseaseType diseaseType)
+                where TMedicalEntity : class, ITreatments
                 where TModel : SystemData, IMedicalData
         {
             foreach (var entity in medicalEntities)
             {
-                PersistMedicalDataRelatedEntity<TMedicalEntity, TModel>(entity, documentId, documentType);
+                PersistMedicalDataRelatedEntity<TMedicalEntity, TModel>(entity, documentId, documentType, diseaseType);
             }
         }
 
-        public void PersistMedicalDataRelatedEntity<TMedicalEntity, TModel>(TMedicalEntity medicalEntity, int documentId, DocumentType documentType)
-            where TMedicalEntity : class
+        public void PersistMedicalDataRelatedEntity<TMedicalEntity, TModel>(TMedicalEntity medicalEntity, int documentId, DocumentType documentType, DiseaseType diseaseType)
+            where TMedicalEntity : class, ITreatments
             where TModel : SystemData, IMedicalData
         {
-                var dbModel = _mapper.Map<TModel>(medicalEntity);
+            var dbModel = _mapper.Map<TModel>(medicalEntity);
 
-                switch (documentType)
-                {
-                    case DocumentType.MedicalProfile:
-                        dbModel.MedicalProfileId = documentId;
-                        break;
-                    case DocumentType.OutpatientCard:
-                        dbModel.OutpatientCardId = documentId;
-                        break;
-                }
+            switch (documentType)
+            {
+                case DocumentType.MedicalProfile:
+                    dbModel.MedicalProfileId = documentId;
+                    break;
+                case DocumentType.OutpatientCard:
+                    dbModel.OutpatientCardId = documentId;
+                    break;
+            }
 
-                var operation = dbModel.Id.GetDbOperation();
+            var dbOperation = dbModel.Id.GetDbOperation();
 
-                _dbContext.PersistModel(dbModel, operation);
+            var diseaseId = _dbContext.PersistModel(dbModel, dbOperation);
+
+            PersistTreatments(medicalEntity.Treatments, diseaseId, diseaseType);
         }
 
         public void PersistMedicalTests(IEnumerable<MedicalTestData> medicalTests, int documentId, DocumentType documentType)
@@ -104,11 +107,46 @@
             }
         }
 
-        public void PersistTreatment(IEnumerable<TreatmentData> treatments, int diseaseId, DiseaseType documentType)
+        private void PersistTreatments(IEnumerable<TreatmentData> treatments, int diseaseId, DiseaseType diseaseType)
         {
+            foreach (var treatment in treatments)
+            {
+                PersistTreatment(treatment, diseaseId, diseaseType);
+            }
+        }
 
+        private void PersistTreatment(TreatmentData treatment, int diseaseId, DiseaseType diseaseType)
+        {
+            var dbModel = _mapper.Map<Treatment>(treatment);
+
+            switch (diseaseType)
+            {
+                case DiseaseType.Illness:
+                    dbModel.IllnessId = diseaseId;
+                    break;
+                case DiseaseType.Allergy:
+                    dbModel.AllergyId = diseaseId;
+                    break;
+            }
+
+            var dbOperation = dbModel.Id.GetDbOperation();
+            var treatmentId = _dbContext.PersistModel(dbModel, dbOperation);
+
+            foreach (var medicament in treatment.Medicaments)
+            {
+                var treatmentMedicamentModel = 
+                    _dbContext.TreatmentMedicaments.SingleOrDefault(x => x.TreatmentId == treatmentId && x.MedicamentId == medicament.Id)
+                    ?? new TreatmentMedicament
+                    {
+                        TreatmentId = treatmentId,
+                        MedicamentId = medicament.Id
+                    };
+
+                treatmentMedicamentModel.Description = medicament.Description;
+
+                var dbOperation_medTreats = treatmentMedicamentModel.Id.GetDbOperation();
+                _dbContext.PersistModel(treatmentMedicamentModel, dbOperation_medTreats);
+            }
         }
     }
-
-    
 }

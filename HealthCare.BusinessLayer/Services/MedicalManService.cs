@@ -82,11 +82,11 @@
                 };
             }
 
-            var operation = dbModel.Id.GetDbOperation();
-            var outpatientCardId = _dbContext.PersistModel(dbModel, operation);
+            var dbOperation = dbModel.Id.GetDbOperation();
+            var outpatientCardId = _dbContext.PersistModel(dbModel, dbOperation);
 
-            _medicalDataService.PersistMedicalDataRelatedEntities<AllergyData, Allergy>(request.Allergies.EmptyIfNull(), outpatientCardId, DocumentType.OutpatientCard);
-            _medicalDataService.PersistMedicalDataRelatedEntities<IllnessData, Illness>(request.Illnesses.EmptyIfNull(), outpatientCardId, DocumentType.OutpatientCard);
+            _medicalDataService.PersistMedicalDataRelatedEntities<AllergyData, Allergy>(request.Allergies.EmptyIfNull(), outpatientCardId, DocumentType.OutpatientCard, DiseaseType.Allergy);
+            _medicalDataService.PersistMedicalDataRelatedEntities<IllnessData, Illness>(request.Illnesses.EmptyIfNull(), outpatientCardId, DocumentType.OutpatientCard, DiseaseType.Illness);
             _medicalDataService.PersistMedicalTests(request.MedicalTests.EmptyIfNull(), outpatientCardId, DocumentType.OutpatientCard);
 
             await _dbContext.SaveChangesAsync();
@@ -103,9 +103,9 @@
             {
                 dbModel.MedManInfoId = medicalManInfoId;
 
-                var operation = dbModel.Id.GetDbOperation();
+                var dbOperation = dbModel.Id.GetDbOperation();
 
-                _dbContext.PersistModel(dbModel, operation);
+                _dbContext.PersistModel(dbModel, dbOperation);
             }
         }
     }
