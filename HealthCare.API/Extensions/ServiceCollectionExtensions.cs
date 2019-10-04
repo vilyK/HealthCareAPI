@@ -11,7 +11,6 @@
     using Utils;
     using Validation.ModelValidators.UserValidators;
     using Behaviour.Filters;
-    using BusinessLayer;
     using BusinessLayer.Interfaces;
     using BusinessLayer.Services;
     using Contracts.Configuration;
@@ -50,6 +49,7 @@
             service.Configure<SeedSettings>(configuration.GetSection("SeedSettings"));
             service.Configure<JwtAuthentication>(configuration.GetSection("JwtAuthentication"));
             service.Configure<CommonSettings>(configuration.GetSection("CommonSettings"));
+            service.Configure<EmailConfiguration>(configuration.GetSection("EmailConfiguration"));
 
             return service;
         }
@@ -58,20 +58,22 @@
         {
             services.AddScoped<IDataRetriever, DataRetriever>();
             services.AddScoped<ISessionResolver, HttpSessionResolver>();
+            services.AddTransient<IAuthService, JWTService>();
 
             services.AddScoped<IContactsService, ContactsService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ICorrespondenceService, CorrespondenceService>();
+
             services.AddScoped<IPatientService, PatientService>();
             services.AddScoped<IMedicalManService, MedicalManService>();
             services.AddScoped<IMedicalCenterService, MedicalCenterService>();
             services.AddScoped<IMedicalDataService, MedicalDataService>();
 
+            services.AddScoped<IAppraisalService, AppraisalService>();
 
             services.AddScoped<IStorageService, DatabaseService>();
 
             services.AddScoped<IImageService, ImageService>();
-
-            services.AddTransient<IAuthService, JWTService>();
 
             return services;
         }

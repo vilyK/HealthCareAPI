@@ -8,5 +8,7 @@
     public interface IPatientService
     {
         Task<PersistMedicalProfileResponse> PersistMedicalProfile(PersistMedicalProfileRequest request);
+
+        //Task<bool> ShareContact(int doctorId, string receiverEmail);
     }
 }

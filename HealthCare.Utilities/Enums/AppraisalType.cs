@@ -2,11 +2,11 @@
 {
     public enum AppraisalType
     {
-        Attitude,
+        Attitude = 1,
         Conditions,
         Hygiene,
         TreatmentEffectiveness,
         WaitingTime,
-        CommonValuation,
+        CommonValuation
     }
 }

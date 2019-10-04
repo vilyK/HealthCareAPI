@@ -8,8 +8,6 @@
 
     public class Appraisal : SystemData
     {
-        
-
         public int RecipientId { get; set; }
 
         [ForeignKey("RecipientId")]
@@ -23,9 +21,5 @@
         public AppraisalType AppraisalType { get; set; }
 
         public int Value { get; set; }
-
-        public string Comment { get; set; }
-
-        public DateTime AppraisalDate { get; set; }
     }
 }

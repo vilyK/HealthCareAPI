@@ -76,5 +76,18 @@
 
             return medicalProfileId;
         }
+
+        //public Task<bool> ShareContact(int doctorId, string receiverEmail)
+        //{
+        //    var doctorContacts = _dbContext.UserContacts.SingleOrDefault(x => x.UserId == doctorId);
+        //    ValidationUtils.ValidateAndThrow<IncorrectUserDataException>(() => doctorContacts== null);
+
+        //    var emails = doctorContacts.Emails;
+        //    var addresses = doctorContacts.Addresses;
+        //    var phones = doctorContacts.Phones;
+
+
+        //    return true;
+        //}
     }
 }

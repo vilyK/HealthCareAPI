@@ -131,6 +131,7 @@
 
         public DbSet<Event> Events { get; set; }
 
+        public DbSet<AppraisalComment> Comments { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {

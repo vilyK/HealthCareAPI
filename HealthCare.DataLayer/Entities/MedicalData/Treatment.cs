@@ -22,9 +22,6 @@
         [ForeignKey("AllergyId")]
         public Allergy Allergy { get; set; }
 
-        // to remove
-        public string TreatmentResults { get; set; }
-
         public List<TreatmentMedicament> TreatmentMedicaments { get; set; }  = new List<TreatmentMedicament>();
     }
 }

@@ -1,9 +1,7 @@
 ﻿namespace HealthCare.Contracts.Configuration
 {
-    using HealthCare.Interfaces.Configuration;
-
-    public class SeedSettings : ISeedSettings
-    {
+    public class SeedSettings
+    { 
         public string SeedDirectory { get; set; }
     }
 }

@@ -1,8 +1,11 @@
 ﻿namespace HealthCare.API.MappingProfiles
 {
     using AutoMapper;
+
+    using Contracts.Models.Appraisal;
     using Contracts.Models.UserAccount.Requests;
     using Contracts.Models.UserAccount.Responses;
+    using DataLayer.Entities;
     using DataLayer.Entities.User;
 
     public class BaseProfile : Profile

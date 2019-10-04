@@ -7,8 +7,6 @@
 
     public class UserContact : SystemData
     {
-              
-
         public int UserId { get; set; }
 
         [ForeignKey("UserId")]

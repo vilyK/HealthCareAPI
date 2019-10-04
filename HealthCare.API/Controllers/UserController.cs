@@ -5,6 +5,9 @@
 
     using Behaviour.Filters;
     using BusinessLayer.Interfaces;
+    using Contracts.Models.Appraisal;
+    using Contracts.Models.Correspondence.Requests;
+    using Contracts.Models.Correspondence.Responses;
     using Contracts.Models.UserAccount.Requests;
     using Contracts.Models.UserAccount.Responses;
     using Utilities.Enums;
@@ -16,10 +19,14 @@
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly ICorrespondenceService _correspondenceService;
+        private readonly IAppraisalService _appraisalService;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, ICorrespondenceService correspondenceService, IAppraisalService appraisalService)
         {
             _userService = userService;
+            _correspondenceService = correspondenceService;
+            _appraisalService = appraisalService;
         }
 
         [Route("register")]
@@ -74,6 +81,20 @@
         public async Task<RetrieveMedicalCentersResponse> RetrieveMedicalCenters(RetrieveMedicalCentersRequest request)
         {
             return await _userService.RetrieveMedicalCenters(request);
+        }
+
+        [Route("sendEmail")]
+        [HttpGet]
+        public async Task<SendEmailResponse> SendEmail(SendEmailRequest request)
+        {
+            return await _correspondenceService.SendEmail(request);
+        }
+
+        [Route("setAppraisal")]
+        [HttpGet]
+        public async Task<SetAppraisalResponse> SetAppraisal(SetAppraisalRequest request)
+        {
+            return await _appraisalService.SetDoctorAppraisals(request);
         }
     }
 }
