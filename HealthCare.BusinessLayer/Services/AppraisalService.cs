@@ -2,9 +2,10 @@
 {
     using System.Linq;
     using System.Threading.Tasks;
-    using AutoMapper;
+
     using Contracts.Interfaces;
-    using Contracts.Models.Appraisal;
+    using Contracts.Models.Appraisal.Requests;
+    using Contracts.Models.Appraisal.Responses;
     using DataLayer;
     using DataLayer.Entities;
     using Extensions;
@@ -16,37 +17,21 @@
     {
         private readonly HealthCareDbContext _dbContext;
         private readonly ISessionResolver _sessionResolver;
-        private IMapper _mapper;
 
-        public AppraisalService(HealthCareDbContext dbContext, ISessionResolver sessionResolver, IMapper mapper)
+        public AppraisalService(HealthCareDbContext dbContext, ISessionResolver sessionResolver)
         {
             _dbContext = dbContext;
             _sessionResolver = sessionResolver;
-            _mapper = mapper;
         }
 
-        public async Task<SetAppraisalResponse> SetDoctorAppraisals(SetAppraisalRequest request)
+        public async Task<SetAppraisalResponse> GiveAppraisals(SetAppraisalRequest request)
         {
-            var doctorExists = _dbContext.Users.Any(x => x.Id == request.RecipientId && x.RoleType == RoleType.Doctor);
-            ValidationUtils.ValidateAndThrow<IncorrectUserDataException>(() => !doctorExists);
+            var recipientExists = _dbContext.Users
+                .Any(x => (request.RecipientType == AppraisalRecipientType.Doctor && x.Id == request.RecipientId && x.RoleType == RoleType.Doctor)
+                          || (request.RecipientType == AppraisalRecipientType.MedicalCenter && x.Id == request.RecipientId && x.RoleType == RoleType.MedicalCenter));
+            ValidationUtils.ValidateAndThrow<IncorrectUserDataException>(() => !recipientExists);
 
-            // check if user has already voted for this doctor 
-            // available appraisals 1, 2, 4, 5, 6
-            // should be moved to fluent validation
-            //var availableAppraisalTypes = new List<AppraisalType>
-            //    {
-            //        AppraisalType.Attitude,
-            //        AppraisalType.Conditions,
-            //        AppraisalType.CommonValuation,
-            //        AppraisalType.WaitingTime,
-            //        AppraisalType.TreatmentEffectiveness
-            //    };
-
-            //var appraisalTypeIsValid = availableAppraisalTypes.Contains(appraisal.AppraisalType);
-
-            SetAppraisal(request);
-
-            await _dbContext.SaveChangesAsync();
+            await InsertAppraisals(request);
 
             return new SetAppraisalResponse
             {
@@ -54,23 +39,11 @@
             };
         }
 
-        public async Task<SetAppraisalResponse> SetMedicalCenterAppraisals(SetAppraisalRequest request)
-        {
-            // check if recipient is a medical center
-            var medicalCenterExists = _dbContext.Users.Any(x => x.Id == request.RecipientId && x.RoleType == RoleType.MedicalCenter);
-            ValidationUtils.ValidateAndThrow<IncorrectUserDataException>(() => !medicalCenterExists);
-
-            SetAppraisal(request);
-
-            return new SetAppraisalResponse
-            {
-                Token = _sessionResolver.SessionInfo.NewToken,
-            };
-        }
-
-        private void SetAppraisal(SetAppraisalRequest request)
+        private async Task InsertAppraisals(SetAppraisalRequest request)
         {
             var senderId = _sessionResolver.SessionInfo.UserId;
+
+            AddAppraisalComment(request.AppraisalComment, request.RecipientId, senderId);
 
             foreach (var appraisal in request.Appraisals)
             {
@@ -78,15 +51,36 @@
                                                                 && x.RecipientId == request.RecipientId
                                                                 && x.AppraisalType == appraisal.AppraisalType);
 
-               
-
                 ValidationUtils.ValidateAndThrow<OperationNotAllowedException>(() => voteExists);
 
-                var dbModel = _mapper.Map<Appraisal>(appraisal);
-                dbModel.SenderId = senderId;
+                // ?? should be in AutoMapper -> if not, remove mapping profile!
+                var dbModel = new Appraisal
+                {
+                    AppraisalType = appraisal.AppraisalType,
+                    Value = appraisal.AppraisalValue,
+                    SenderId = senderId,
+                    RecipientId = request.RecipientId,
+                };
 
                 _dbContext.PersistModel(dbModel, DatabaseOperation.Insert);
+
+                await _dbContext.SaveChangesAsync();
             }
+        }
+
+        private void AddAppraisalComment(string comment, int recipientId, int senderId)
+        {
+            var commentExists = _dbContext.AppraisalComments.Any(x => x.SenderId == senderId  && x.RecipientId == recipientId);
+            ValidationUtils.ValidateAndThrow<OperationNotAllowedException>(() => commentExists);
+
+            var appraisalComment = new AppraisalComment
+            {
+                SenderId = senderId,
+                RecipientId = recipientId,
+                Comment = comment
+            };
+
+            _dbContext.Add(appraisalComment);
         }
     }
 }

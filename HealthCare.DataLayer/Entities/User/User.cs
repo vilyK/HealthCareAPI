@@ -52,7 +52,13 @@
         public List<Appointment> PatientAppointments { get; set; } = new List<Appointment>();
 
         [InverseProperty("Sender")]
+        public List<AppraisalComment> SentAppraisalComments { get; set; } = new List<AppraisalComment>();
+
+        [InverseProperty("Sender")]
         public List<Appraisal> SentAppraisals { get; set; } = new List<Appraisal>();
+
+        [InverseProperty("Recipient")]
+        public List<AppraisalComment> ReceivedAppraisalComments { get; set; } = new List<AppraisalComment>();
 
         [InverseProperty("Recipient")]
         public List<Appraisal> ReceivedAppraisals { get; set; } = new List<Appraisal>();

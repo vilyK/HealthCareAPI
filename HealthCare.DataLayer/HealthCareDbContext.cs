@@ -131,7 +131,7 @@
 
         public DbSet<Event> Events { get; set; }
 
-        public DbSet<AppraisalComment> Comments { get; set; }
+        public DbSet<AppraisalComment> AppraisalComments { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
@@ -168,6 +168,8 @@
             modelBuilder.ApplyConfiguration(new AppointmentConfiguration());
 
             modelBuilder.ApplyConfiguration(new AppraisalConfiguration());
+
+            modelBuilder.ApplyConfiguration(new AppraisalCommentConfiguration());
 
             modelBuilder.ApplyConfiguration(new OutpatientCardConfiguration());
 

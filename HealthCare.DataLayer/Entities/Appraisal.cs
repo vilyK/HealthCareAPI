@@ -1,6 +1,5 @@
 ﻿namespace HealthCare.DataLayer.Entities
 {
-    using System;
     using System.ComponentModel.DataAnnotations.Schema;
 
     using Base;

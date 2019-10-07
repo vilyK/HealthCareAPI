@@ -2,7 +2,7 @@
 {
     public enum AppraisalRecipientType
     {
-        MedicalMen = 1,
+        Doctor = 1,
         MedicalCenter,
     }
 }

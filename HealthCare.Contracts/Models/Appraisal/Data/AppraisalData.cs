@@ -7,6 +7,5 @@
         public AppraisalType AppraisalType { get; set; }
 
         public int AppraisalValue { get; set; }
-
     }
 }

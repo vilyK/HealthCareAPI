@@ -5,7 +5,8 @@
 
     using Behaviour.Filters;
     using BusinessLayer.Interfaces;
-    using Contracts.Models.Appraisal;
+    using Contracts.Models.Appraisal.Requests;
+    using Contracts.Models.Appraisal.Responses;
     using Contracts.Models.Correspondence.Requests;
     using Contracts.Models.Correspondence.Responses;
     using Contracts.Models.UserAccount.Requests;
@@ -90,11 +91,11 @@
             return await _correspondenceService.SendEmail(request);
         }
 
-        [Route("setAppraisal")]
-        [HttpGet]
-        public async Task<SetAppraisalResponse> SetAppraisal(SetAppraisalRequest request)
+        [Route("giveAppraisals")]
+        [HttpPost]
+        public async Task<SetAppraisalResponse> GiveAppraisals(SetAppraisalRequest request)
         {
-            return await _appraisalService.SetDoctorAppraisals(request);
+            return await _appraisalService.GiveAppraisals(request);
         }
     }
 }

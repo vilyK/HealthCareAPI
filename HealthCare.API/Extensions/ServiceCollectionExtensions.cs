@@ -18,6 +18,7 @@
     using DataLayer;
     using DataLayer.Utils;
     using Interfaces;
+    using Validation.ModelValidators.AppraisalValidators;
 
     internal static class ServiceCollectionExtensions
     {
@@ -32,6 +33,7 @@
                 .AddFluentValidation(f =>
                 {
                     f.RegisterValidatorsFromAssemblyContaining<RegisterUserValidator>();
+                    f.RegisterValidatorsFromAssemblyContaining<AppraisalValidator>();
                 });
 
             return services;

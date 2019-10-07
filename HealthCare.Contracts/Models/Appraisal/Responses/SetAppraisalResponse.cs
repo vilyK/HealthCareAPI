@@ -1,4 +1,4 @@
-﻿namespace HealthCare.Contracts.Models.Appraisal
+﻿namespace HealthCare.Contracts.Models.Appraisal.Responses
 {
     public class SetAppraisalResponse
     {
