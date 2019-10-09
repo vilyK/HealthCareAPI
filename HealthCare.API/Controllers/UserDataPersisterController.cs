@@ -5,10 +5,6 @@
 
     using Behaviour.Filters;
     using BusinessLayer.Interfaces;
-    using Contracts.Models.Appraisal.Requests;
-    using Contracts.Models.Appraisal.Responses;
-    using Contracts.Models.Correspondence.Requests;
-    using Contracts.Models.Correspondence.Responses;
     using Contracts.Models.UserAccount.Requests;
     using Contracts.Models.UserAccount.Responses;
     using Utilities.Enums;
@@ -17,17 +13,14 @@
     [ValidationFilter]
     [CustomAuthorizationFilter(RoleType.Admin, RoleType.Patient, RoleType.Doctor, RoleType.MedicalCenter, RoleType.Pharmacy, RoleType.PharmacyCompany)]
     [Route("user")]
-    public class UserController : ControllerBase
+    public class UserDataPersisterController : ControllerBase
     {
         private readonly IUserService _userService;
-        private readonly ICorrespondenceService _correspondenceService;
-        private readonly IAppraisalService _appraisalService;
+        
 
-        public UserController(IUserService userService, ICorrespondenceService correspondenceService, IAppraisalService appraisalService)
+        public UserDataPersisterController(IUserService userService)
         {
             _userService = userService;
-            _correspondenceService = correspondenceService;
-            _appraisalService = appraisalService;
         }
 
         [Route("register")]
@@ -66,36 +59,6 @@
         public async Task<UploadImagesResponse> UploadImages(UploadImagesRequest request)
         {
             return await _userService.UploadImages(request);
-        }
-
-        [Route("retrieveDoctors")]
-        [HttpGet]
-        [DisableCustomAuthorizationFilter]
-        public async Task<RetrieveDoctorsResponse> RetrieveDoctors(RetrieveDoctorsRequest request)
-        {
-            return await _userService.RetrieveDoctors(request);
-        }
-
-        [Route("retrieveMedicalCenters")]
-        [HttpGet]
-        [DisableCustomAuthorizationFilter]
-        public async Task<RetrieveMedicalCentersResponse> RetrieveMedicalCenters(RetrieveMedicalCentersRequest request)
-        {
-            return await _userService.RetrieveMedicalCenters(request);
-        }
-
-        [Route("sendEmail")]
-        [HttpGet]
-        public async Task<SendEmailResponse> SendEmail(SendEmailRequest request)
-        {
-            return await _correspondenceService.SendEmail(request);
-        }
-
-        [Route("giveAppraisals")]
-        [HttpPost]
-        public async Task<SetAppraisalResponse> GiveAppraisals(SetAppraisalRequest request)
-        {
-            return await _appraisalService.GiveAppraisals(request);
         }
     }
 }

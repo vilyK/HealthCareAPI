@@ -24,8 +24,7 @@
                 .AddDbContext(Configuration)
                 .AddConfigurations(Configuration)
                 .AddMappers()
-                .AddServices()
-                .AddFluentEmail(Configuration);
+                .AddServices();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

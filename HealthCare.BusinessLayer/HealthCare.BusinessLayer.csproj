@@ -6,9 +6,6 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.1.1" />
-    <PackageReference Include="FluentEmail.Core" Version="2.7.0" />
-    <PackageReference Include="FluentEmail.Razor" Version="2.7.0" />
-    <PackageReference Include="FluentEmail.Smtp" Version="2.7.0" />
   </ItemGroup>
 
   <ItemGroup>

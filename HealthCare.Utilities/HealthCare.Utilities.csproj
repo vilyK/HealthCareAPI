@@ -5,12 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Extensions\" />
-    <Folder Include="Helpers\" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.4" />
+    <ProjectReference Include="..\HealthCare.Interfaces\HealthCare.Interfaces.csproj" />
+    <ProjectReference Include="..\HealthCare.Templates\HealthCare.Templates.csproj" />
   </ItemGroup>
 
 </Project>

@@ -11,7 +11,6 @@
     using Microsoft.Extensions.DependencyInjection;
 
     using Utils;
-    using Validation.ModelValidators.UserValidators;
     using Behaviour.Filters;
     using BusinessLayer.Interfaces;
     using BusinessLayer.Services;
@@ -20,7 +19,11 @@
     using DataLayer;
     using DataLayer.Utils;
     using Interfaces;
+    using RazorProject;
+    using Templates;
+    using Utilities.Helpers.EmailSender;
     using Validation.ModelValidators.AppraisalValidators;
+    using Validation.ModelValidators.UserValidators;
 
     internal static class ServiceCollectionExtensions
     {
@@ -66,7 +69,10 @@
 
             services.AddScoped<IContactsService, ContactsService>();
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<ICorrespondenceService, CorrespondenceService>();
+
+            services.AddTransient<IEmailService, EmailService>();
+            services.AddScoped<ICommunicationService, CommunicationService>();
+            services.AddScoped<IRazorViewToStringRenderer, RazorViewToStringRenderer>();
 
             services.AddScoped<IPatientService, PatientService>();
             services.AddScoped<IMedicalManService, MedicalManService>();
@@ -78,16 +84,6 @@
             services.AddScoped<IStorageService, DatabaseService>();
 
             services.AddScoped<IImageService, ImageService>();
-
-            return services;
-        }
-
-        public static IServiceCollection AddFluentEmail(this IServiceCollection services, IConfiguration configuration)
-        {
-            services
-                .AddFluentEmail("")
-                .AddSmtpSender(PrepareSmtpClientSsl(configuration))
-                .AddRazorRenderer();
 
             return services;
         }

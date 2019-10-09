@@ -1,4 +1,4 @@
-﻿namespace HealthCare.Contracts.Configuration
+﻿namespace HealthCare.Utilities.Helpers.EmailSender
 {
     public class EmailConfiguration
     {
