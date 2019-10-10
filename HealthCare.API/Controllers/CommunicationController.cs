@@ -21,11 +21,25 @@
             _correspondenceService = correspondenceService;
         }
 
-        [Route("welcomeEmail")]
+        [Route("sendWelcomeEmail")]
         [HttpGet]
         public async Task<SendEmailResponse> SendEmail(WelcomeEmailRequest request)
         {
-            return await _correspondenceService.SendEmail(request.Message, request.WelcomeViewModel);
+            return await _correspondenceService.SendEmail(request.Message, request.Content);
+        }
+
+        [Route("shareUser")]
+        [HttpGet]
+        public async Task<SendEmailResponse> ShareUserByEmail(ShareUserRequest request)
+        {
+            return await _correspondenceService.SendEmail(request.Message, request.Content);
+        }
+
+        [Route("sendEmail")]
+        [HttpGet]
+        public async Task<SendEmailResponse> SendEmail(SendEmailRequest request)
+        {
+            return await _correspondenceService.SendEmail(request.Message, request.Content);
         }
     }
 }

@@ -3,10 +3,11 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Interfaces;
-    using Interfaces.EmailModels;
     using MimeKit;
     using MimeKit.Text;
+
+    using Interfaces;
+    using Interfaces.EmailModels;
 
     public static class EmailSenderExtensions
     {

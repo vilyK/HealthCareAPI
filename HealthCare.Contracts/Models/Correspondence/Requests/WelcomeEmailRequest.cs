@@ -1,12 +1,10 @@
 ﻿namespace HealthCare.Contracts.Models.Correspondence.Requests
 {
-    using RazorProject.ViewModels;
-    using Utilities.Helpers.EmailSender.Models;
+    using Data;
+    using Templates.ViewModels;
 
-    public class WelcomeEmailRequest
+    public class WelcomeEmailRequest : BaseEmailMessage
     {
-        public EmailMessage Message { get; set; }
-
-        public WelcomeViewModel WelcomeViewModel { get; set; }
+        public WelcomeEmail Content { get; set; }
     }
 }

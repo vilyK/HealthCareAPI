@@ -2,9 +2,7 @@
 {
     using System;
     using System.IO;
-    using System.Linq;
     using System.Threading.Tasks;
-    using Interfaces;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Abstractions;
@@ -14,6 +12,8 @@
     using Microsoft.AspNetCore.Mvc.ViewEngines;
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
     using Microsoft.AspNetCore.Routing;
+
+    using Interfaces;
 
     public class RazorViewToStringRenderer : IRazorViewToStringRenderer
     {
@@ -66,13 +66,8 @@
                 return findViewResult.View;
             }
 
-            var searchedLocations = getViewResult.SearchedLocations.Concat(findViewResult.SearchedLocations);
-
-            var errorMessage = string.Join(
-                Environment.NewLine,
-                new[] { $"Unable to find view '{viewName}'. The following locations were searched:" }.Concat(searchedLocations));
-
-            throw new InvalidOperationException(errorMessage);
+            throw new InvalidOperationException(
+                $"Unable to find view '{viewName}'. The following locations were searched: {findViewResult.SearchedLocations}");
         }
 
         private ActionContext GetActionContext()

@@ -1,7 +1,5 @@
 ﻿namespace HealthCare.API.Extensions
 {
-    using System.Net;
-    using System.Net.Mail;
     using Authentication;
     using AutoMapper;
     using FluentValidation.AspNetCore;
@@ -19,7 +17,6 @@
     using DataLayer;
     using DataLayer.Utils;
     using Interfaces;
-    using RazorProject;
     using Templates;
     using Utilities.Helpers.EmailSender;
     using Validation.ModelValidators.AppraisalValidators;
@@ -93,15 +90,6 @@
             services.AddAutoMapper(typeof(Startup));
 
             return services;
-        }
-
-        private static SmtpClient PrepareSmtpClientSsl(IConfiguration configuration)
-        {
-            return new SmtpClient(configuration["EmailConfiguration:SmtpHost"], int.Parse(configuration["EmailConfiguration:SmtpPort"]))
-            {
-                EnableSsl = true,
-                Credentials = new NetworkCredential("vily.karamanova@gmail.com", "obichamsebesi")
-            };
         }
     }
 }

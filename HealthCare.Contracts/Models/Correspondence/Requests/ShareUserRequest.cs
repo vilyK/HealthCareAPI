@@ -3,8 +3,8 @@
     using Data;
     using Templates.ViewModels;
 
-    public class SendEmailRequest : BaseEmailMessage
+    public class ShareUserRequest : BaseEmailMessage
     {
-        public SendEmail Content { get; set; }
+        public ShareUser Content { get; set; }
     }
 }
