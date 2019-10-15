@@ -75,6 +75,7 @@
             services.AddScoped<IMedicalManService, MedicalManService>();
             services.AddScoped<IMedicalCenterService, MedicalCenterService>();
             services.AddScoped<IMedicalDataService, MedicalDataService>();
+            services.AddScoped<IAppointmentService, AppointmentService>();
 
             services.AddScoped<IAppraisalService, AppraisalService>();
 

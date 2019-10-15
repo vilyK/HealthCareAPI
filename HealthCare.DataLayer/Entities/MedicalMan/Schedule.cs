@@ -7,8 +7,6 @@
 
     public class Schedule : SystemData
     {
-        
-        
         public DateTime Date { get; set; }
 
         public DateTime From { get; set; }

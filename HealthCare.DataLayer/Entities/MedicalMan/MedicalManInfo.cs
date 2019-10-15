@@ -31,6 +31,6 @@
 
         public List<MedicalMenSpecialty> Specialties { get; set; } = new List<MedicalMenSpecialty>();
 
-        public List<MedicalManInfoPrice> Prices { get; set; } = new List<MedicalManInfoPrice>();
+        public List<MedicalManPrice> Prices { get; set; } = new List<MedicalManPrice>();
     }
 }

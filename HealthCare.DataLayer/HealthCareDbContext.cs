@@ -71,9 +71,9 @@
 
         public DbSet<Award> Awards { get; set; }
 
-        public DbSet<PriceType> PricesType { get; set; }
+        public DbSet<MedicalManPrice> MedicalManPrices { get; set; }
 
-        public DbSet<MedicalManInfoPrice> MedicalManInfoPrices { get; set; }
+        public DbSet<AppointmentHours> AppointmentHours { get; set; }
 
         public DbSet<MedicalCenterInfo> MedicalCenterInfos { get; set; }
 
@@ -150,8 +150,6 @@
             modelBuilder.ApplyConfiguration(new MedicalCenterDepartmentConfig());
 
             modelBuilder.ApplyConfiguration(new MedicalCenterDoctorConfig());
-
-            modelBuilder.ApplyConfiguration(new MedicalManInfoPriceConfig());
 
             modelBuilder.ApplyConfiguration(new MedicalMenSpecialtyConfig());
 

@@ -8,8 +8,6 @@
 
     public class Referral : SystemData
     {
-        
-    
         public RelationType Relation { get; set; }
 
         public string Comment { get; set; }

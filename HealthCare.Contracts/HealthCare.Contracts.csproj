@@ -9,4 +9,8 @@
     <ProjectReference Include="..\HealthCare.Utilities\HealthCare.Utilities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\Appointment\Data\" />
+  </ItemGroup>
+
 </Project>
