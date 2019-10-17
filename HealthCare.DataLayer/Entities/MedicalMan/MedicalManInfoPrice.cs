@@ -1,6 +1,7 @@
 ﻿namespace HealthCare.DataLayer.Entities.MedicalMan
 {
     using System.ComponentModel.DataAnnotations.Schema;
+   
     using Base;
 
     public class MedicalManPrice : SystemData
@@ -15,5 +16,4 @@
         [Column(TypeName = "decimal(5, 2)")]
         public decimal Value { get; set; }
     }
-
 }

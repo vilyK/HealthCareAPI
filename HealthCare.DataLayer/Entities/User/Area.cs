@@ -4,8 +4,6 @@
 
     public class Area : SystemData
     {
-        
-
         public string Name { get; set; }
     }
 }

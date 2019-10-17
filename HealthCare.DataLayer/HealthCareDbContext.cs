@@ -67,7 +67,7 @@
 
         public DbSet<Specialty> Specialties { get; set; }
 
-        public DbSet<MedicalMenSpecialty> MedicalMenSpecialties { get; set; }
+        public DbSet<MedicalManSpecialty> MedicalManSpecialties { get; set; }
 
         public DbSet<Award> Awards { get; set; }
 
@@ -151,7 +151,7 @@
 
             modelBuilder.ApplyConfiguration(new MedicalCenterDoctorConfig());
 
-            modelBuilder.ApplyConfiguration(new MedicalMenSpecialtyConfig());
+            modelBuilder.ApplyConfiguration(new MedicalManSpecialtyConfig());
 
             modelBuilder.ApplyConfiguration(new NotificationTypeUserConfig());
 

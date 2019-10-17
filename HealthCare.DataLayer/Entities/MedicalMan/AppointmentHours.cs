@@ -8,10 +8,10 @@
 
     public class AppointmentHours : SystemData
     {
-        public int MedicalMenInfoId { get; set; }
+        public int MedicalManInfoId { get; set; }
 
-        [ForeignKey("MedicalMenInfoId")]
-        public MedicalManInfo MedicalMenInfo { get; set; }
+        [ForeignKey("MedicalManInfoId")]
+        public MedicalManInfo MedicalManInfo { get; set; }
 
         public DateTime AppointmentHour { get; set; }
 

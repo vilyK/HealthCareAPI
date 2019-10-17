@@ -4,8 +4,6 @@
 
     public class PharmacyCompanyType : SystemData
     {
-       
-
        public int PharmacyCompanyInfoId { get; set; }
        public PharmacyCompanyInfo PharmacyCompanyInfo { get; set; }
 

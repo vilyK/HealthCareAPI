@@ -2,11 +2,9 @@
 {
     using Base;
 
-    public class MedicalMenSpecialty : SystemData
+    public class MedicalManSpecialty : SystemData
     {
-        
-
-        public int MedMenInfoId { get; set; }
+        public int MedManInfoId { get; set; }
         public MedicalManInfo MedManInfo { get; set; }
 
         public int SpecialtyId { get; set; }

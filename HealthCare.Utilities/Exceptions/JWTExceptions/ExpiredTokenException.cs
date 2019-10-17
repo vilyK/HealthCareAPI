@@ -1,4 +1,4 @@
-﻿namespace HealthCare.Utilities.Exceptions
+﻿namespace HealthCare.Utilities.Exceptions.JWTExceptions
 {
     using System;
 

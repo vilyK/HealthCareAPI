@@ -1,5 +1,6 @@
 ﻿namespace HealthCare.BusinessLayer.Services
 {
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -8,6 +9,7 @@
     using Contracts.Models.Appointment.Responses;
     using DataLayer;
     using DataLayer.Entities;
+    using DataLayer.Entities.MedicalMan;
     using Extensions;
     using Interfaces;
     using Utilities.Enums;
@@ -28,20 +30,26 @@
         {
             var patientId = _sessionResolver.SessionInfo.UserId;
 
-            //check if DoctorId belongs to doctor
-            var doctorExists = _dbContext.Users.Any(x => x.Id == request.DoctorId && x.RoleType == RoleType.Doctor);
-            ValidationUtils.ValidateAndThrow<IncorrectUserDataException>(() => !doctorExists);
+            var doctorInfo = _dbContext.MedicalManInfos.SingleOrDefault(x => x.Id == request.MedicalManInfoId);
+            ValidationUtils.ValidateAndThrow<DataMismatchException>(() => doctorInfo == null);
+
+            var appointmentHour = _dbContext.AppointmentHours
+                .SingleOrDefault(x => x.Id == request.AppointmentHourId && x.AppointmentHourStatus == AppointmentHourStatus.Free);
+            ValidationUtils.ValidateAndThrow<DataMismatchException>(() => appointmentHour == null || request.AppointmentDate < DateTime.Now.AddMinutes(-30));
 
             var newAppointment = new Appointment
             {
                 PatientId = patientId,
-                DoctorId = request.DoctorId, 
+                DoctorId = doctorInfo.UserId, 
                 AppointmentDate = request.AppointmentDate,
                 Status = AppointmentStatus.Pending
             };
 
-            _dbContext.PersistModel(newAppointment, DatabaseOperation.Insert);
+            appointmentHour.AppointmentHourStatus = AppointmentHourStatus.Taken;
 
+            _dbContext.PersistModel(newAppointment, DatabaseOperation.Insert);
+            _dbContext.PersistModel(appointmentHour, DatabaseOperation.Update);
+            
             await _dbContext.SaveChangesAsync();
 
             return new RequestAppointmentResponse
@@ -53,7 +61,7 @@
         public async Task<RequestAppointmentResponse> ChangeAppointmentStatus(ChangeAppointmentStatusRequest request)
         {
             var appointment = _dbContext.Appointments.SingleOrDefault(x => x.Id == request.Id);
-            ValidationUtils.ValidateAndThrow<IncorrectUserDataException>(() => appointment == null);
+            ValidationUtils.ValidateAndThrow<DataMismatchException>(() => appointment == null);
 
             appointment.Status = request.Status;
 
@@ -62,6 +70,30 @@
             await _dbContext.SaveChangesAsync();
 
             return new RequestAppointmentResponse
+            {
+                Token = _sessionResolver.SessionInfo.NewToken
+            };
+        }
+
+        public async Task<AddAppointmentHoursResponse> AddAppointmentHours(AddAppointmentHoursRequest request)
+        {
+            var medicalMannInfoId = _dbContext.MedicalManInfos.SingleOrDefault(x => x.UserId == _sessionResolver.SessionInfo.UserId).Id;
+
+            // проверка за повтарящи се часове в списъка -> FluentValidation
+            foreach (var hour in request.Hours)
+            {
+                var appointmentHour = new AppointmentHours
+                {
+                    MedicalManInfoId = medicalMannInfoId,
+                    AppointmentHour = hour
+                };
+
+                _dbContext.PersistModel(appointmentHour, DatabaseOperation.Insert);
+            }
+
+            await _dbContext.SaveChangesAsync();
+
+            return new AddAppointmentHoursResponse
             {
                 Token = _sessionResolver.SessionInfo.NewToken
             };

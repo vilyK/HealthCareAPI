@@ -2,7 +2,7 @@
 {
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
-    
+
     using Behaviour.Filters;
     using BusinessLayer.Interfaces;
     using Contracts.Models.Appointment.Requests;

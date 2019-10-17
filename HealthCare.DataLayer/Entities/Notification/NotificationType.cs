@@ -6,8 +6,6 @@
 
     public class NotificationType : SystemData
     {
-        
-
         public string Name { get; set; }
 
         public List<NotificationTypeUser> NotificationTypeUsers { get; set; } = new List<NotificationTypeUser>();

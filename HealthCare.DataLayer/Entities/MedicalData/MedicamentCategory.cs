@@ -4,8 +4,6 @@
 
     public class MedicamentCategory : SystemData
     {
-        
-
         public string Name { get; set; }
     }
 }

@@ -29,7 +29,7 @@
             var recipientExists = _dbContext.Users
                 .Any(x => (request.RecipientType == AppraisalRecipientType.Doctor && x.Id == request.RecipientId && x.RoleType == RoleType.Doctor)
                           || (request.RecipientType == AppraisalRecipientType.MedicalCenter && x.Id == request.RecipientId && x.RoleType == RoleType.MedicalCenter));
-            ValidationUtils.ValidateAndThrow<IncorrectUserDataException>(() => !recipientExists);
+            ValidationUtils.ValidateAndThrow<DataMismatchException>(() => !recipientExists);
 
             await InsertAppraisals(request);
 
@@ -73,6 +73,7 @@
             var commentExists = _dbContext.AppraisalComments.Any(x => x.SenderId == senderId  && x.RecipientId == recipientId);
             ValidationUtils.ValidateAndThrow<OperationNotAllowedException>(() => commentExists);
 
+            // ?? should be in AutoMapper -> if not, remove mapping profile!
             var appraisalComment = new AppraisalComment
             {
                 SenderId = senderId,

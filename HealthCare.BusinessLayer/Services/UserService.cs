@@ -6,6 +6,7 @@
     using System.Security.Cryptography;
     using System.Threading.Tasks;
     using AutoMapper;
+  
     using Contracts.Interfaces;
     using Contracts.Models.UserAccount.Data;
     using Contracts.Models.UserAccount.Requests;
@@ -153,7 +154,7 @@
             }
 
             var userContactId = _dbContext.UserContacts.SingleOrDefault(x => x.UserId == _sessionResolver.SessionInfo.UserId)?.Id;
-            ValidationUtils.ValidateAndThrow<IncorrectUserDataException>(() => userContactId == 0);
+            ValidationUtils.ValidateAndThrow<DataMismatchException>(() => userContactId == 0);
 
             PersistUserContacts(request.Contacts, userContactId.GetValueOrDefault(), DatabaseOperation.Update);
 
@@ -184,7 +185,7 @@
                 .Where(u => u.MedicalManInfo.ExperienceInYears > request.Experience.ExperienceInYearsLowLimit
                             && u.MedicalManInfo.ExperienceInYears < request.Experience.ExperienceInYearsHighLimit)
                 .Where(s => request.DoctorCategories.CategoryIds
-                    .Any(_dbContext.MedicalMenSpecialties
+                    .Any(_dbContext.MedicalManSpecialties
                         .SelectMany(u => u.MedManInfo.Specialties
                             .Select(sp => sp.SpecialtyId))
                         .ToList()

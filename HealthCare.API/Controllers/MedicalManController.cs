@@ -5,6 +5,8 @@
 
     using Behaviour.Filters;
     using BusinessLayer.Interfaces;
+    using Contracts.Models.Appointment.Requests;
+    using Contracts.Models.Appointment.Responses;
     using Contracts.Models.MedicalManAccount.Requests;
     using Contracts.Models.MedicalManAccount.Responses;
     using Utilities.Enums;
@@ -16,10 +18,12 @@
     public class MedicalManController : ControllerBase
     {
         private readonly IMedicalManService _medicalManService;
+        private readonly IAppointmentService _appointmentService;
 
-        public MedicalManController(IMedicalManService medicalManService)
+        public MedicalManController(IMedicalManService medicalManService, IAppointmentService appointmentService)
         {
             _medicalManService = medicalManService;
+            _appointmentService = appointmentService;
         }
 
         [Route("persistData")]
@@ -34,6 +38,20 @@
         public async Task<PersistOutpatientCardResponse> PersistOutpatientCard(PersistOutpatientCardRequest request)
         {
             return await _medicalManService.PersistOutpatientCard(request);
+        }
+
+        [Route("addAppointmentHours")]
+        [HttpPost]
+        public async Task<AddAppointmentHoursResponse> AddAppointmentHours(AddAppointmentHoursRequest request)
+        {
+            return await _appointmentService.AddAppointmentHours(request);
+        }
+
+        [Route("setPrices")]
+        [HttpPost]
+        public async Task<SetPricesResponse> SetPrices(SetPricesRequest request)
+        {
+            return await _medicalManService.SetPrices(request);
         }
     }
 }

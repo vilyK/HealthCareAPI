@@ -7,8 +7,6 @@
 
     public class Tooltip : SystemData
     {
-        
-
         public int TooltipTypeId { get; set; }
 
         [ForeignKey("TooltipTypeId")]

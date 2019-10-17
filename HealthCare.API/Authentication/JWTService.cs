@@ -11,7 +11,7 @@
     using BusinessLayer.Extensions;
     using Contracts.Configuration;
     using Interfaces;
-    using Utilities.Exceptions;
+    using Utilities.Exceptions.JWTExceptions;
 
     public class JWTService : IAuthService
     {

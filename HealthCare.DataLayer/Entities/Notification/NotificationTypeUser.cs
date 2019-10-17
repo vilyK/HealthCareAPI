@@ -5,8 +5,6 @@
 
     public class NotificationTypeUser : SystemData
     {
-        
-
         public int NotificationTypeId { get; set; }
         public NotificationType NotificationType { get; set; }
 

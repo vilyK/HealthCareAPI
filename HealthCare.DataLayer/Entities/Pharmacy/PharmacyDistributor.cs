@@ -6,8 +6,6 @@
 
     public class PharmacyDistributor : SystemData
     {
-        
-
         public int PharmacyId { get; set; }
 
         [ForeignKey("PharmacyId")]

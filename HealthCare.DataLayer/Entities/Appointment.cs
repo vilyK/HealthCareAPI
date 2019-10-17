@@ -8,8 +8,6 @@
 
     public class Appointment : SystemData
     {
-        
-
         public int PatientId { get; set; }
 
         [ForeignKey("PatientId")]

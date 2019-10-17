@@ -36,22 +36,22 @@
         public async Task<PersistPersonalDataResponse> PersistPersonalData(PersistPersonalDataRequest request)
         {
             var userId = _sessionResolver.SessionInfo.UserId;
-            var medicalMenInfo = _dbContext.MedicalManInfos.SingleOrDefault(x => x.UserId == userId);
+            var medicalManInfo = _dbContext.MedicalManInfos.SingleOrDefault(x => x.UserId == userId);
 
-            ValidationUtils.ValidateAndThrow<IncorrectUserDataException>(() => medicalMenInfo == null);
+            ValidationUtils.ValidateAndThrow<DataMismatchException>(() => medicalManInfo == null);
 
-            var dbModel = _mapper.Map(request.GeneralDataData, medicalMenInfo);
+            var dbModel = _mapper.Map(request.GeneralDataData, medicalManInfo);
             dbModel.UserId = userId;
 
-            var medicalMenInfoId = _dbContext.PersistModel(dbModel, DatabaseOperation.Update);
+            var medicalManInfoId = _dbContext.PersistModel(dbModel, DatabaseOperation.Update);
 
-            PersistAwards(request.Awards.EmptyIfNull(), medicalMenInfoId);
+            PersistAwards(request.Awards.EmptyIfNull(), medicalManInfoId);
 
-            var medicalMenCurrentSpecialtiesIds = _dbContext.MedicalMenSpecialties
-                .Where(x => x.MedMenInfoId == medicalMenInfoId && x.IsDeleted == false)
+            var medicalManCurrentSpecialtiesIds = _dbContext.MedicalManSpecialties
+                .Where(x => x.MedManInfoId == medicalManInfoId && x.IsDeleted == false)
                 .ToList();
 
-            dbModel.AddSpecialties(request.Specialties.EmptyIfNull(), medicalMenCurrentSpecialtiesIds, medicalMenInfoId);
+            dbModel.AddSpecialties(request.Specialties.EmptyIfNull(), medicalManCurrentSpecialtiesIds, medicalManInfoId);
 
             await _dbContext.SaveChangesAsync();
 
@@ -69,11 +69,11 @@
             {
                 dbModel = _dbContext.OutpatientCards.SingleOrDefault(x => x.Id == request.OutpatientCardId);
 
-                ValidationUtils.ValidateAndThrow<IncorrectUserDataException>(() => dbModel == null);
+                ValidationUtils.ValidateAndThrow<DataMismatchException>(() => dbModel == null);
             }
             else
             {
-                ValidationUtils.ValidateAndThrow<IncorrectUserDataException>(() => !_dbContext.Users.Any(x => x.Id == request.PatientId));
+                ValidationUtils.ValidateAndThrow<DataMismatchException>(() => !_dbContext.Users.Any(x => x.Id == request.PatientId));
 
                 dbModel = new OutpatientCard
                 {
@@ -92,6 +92,28 @@
             await _dbContext.SaveChangesAsync();
 
             return new PersistOutpatientCardResponse
+            {
+                Token = _sessionResolver.SessionInfo.NewToken
+            };
+        }
+
+        public async Task<SetPricesResponse> SetPrices(SetPricesRequest request)
+        {
+            var medicalManInfo =
+                _dbContext.MedicalManInfos.SingleOrDefault(x => x.UserId == _sessionResolver.SessionInfo.UserId);
+            ValidationUtils.ValidateAndThrow<DataMismatchException>(() => medicalManInfo == null);
+
+            foreach (var price in request.Prices)
+            {
+                var dbModel = _mapper.Map<MedicalManPrice>(price);
+                dbModel.MedManInfoId = medicalManInfo.Id;
+               
+                _dbContext.PersistModel(dbModel, price.Id.GetDbOperation());
+            }
+
+            await _dbContext.SaveChangesAsync();
+
+            return new SetPricesResponse
             {
                 Token = _sessionResolver.SessionInfo.NewToken
             };

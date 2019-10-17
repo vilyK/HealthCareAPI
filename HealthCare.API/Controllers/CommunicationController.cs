@@ -23,7 +23,7 @@
 
         [Route("sendWelcomeEmail")]
         [HttpGet]
-        public async Task<SendEmailResponse> SendEmail(WelcomeEmailRequest request)
+        public async Task<SendEmailResponse> SendWelcomeEmail(WelcomeEmailRequest request)
         {
             return await _correspondenceService.SendEmail(request.Message, request.Content);
         }

@@ -6,8 +6,6 @@
 
     public class CompanyType : SystemData
     {
-        
-
         public string Name { get; set; }
 
         public List<PharmacyCompanyType> PharmacyCompanyTypes { get; set; } = new List<PharmacyCompanyType>();

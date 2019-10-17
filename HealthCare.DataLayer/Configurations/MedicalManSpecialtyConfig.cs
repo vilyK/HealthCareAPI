@@ -1,17 +1,18 @@
 ﻿namespace HealthCare.DataLayer.Configurations
 {
-    using Entities.MedicalMan;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
+    
+    using Entities.MedicalMan;
 
-    public class MedicalMenSpecialtyConfig : IEntityTypeConfiguration<MedicalMenSpecialty>
+    public class MedicalManSpecialtyConfig : IEntityTypeConfiguration<MedicalManSpecialty>
     {
-        public void Configure(EntityTypeBuilder<MedicalMenSpecialty> modelBuilder)
+        public void Configure(EntityTypeBuilder<MedicalManSpecialty> modelBuilder)
         {
             modelBuilder
                 .HasOne(e => e.MedManInfo)
                 .WithMany(e => e.Specialties)
-                .HasForeignKey(e => e.MedMenInfoId)
+                .HasForeignKey(e => e.MedManInfoId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder

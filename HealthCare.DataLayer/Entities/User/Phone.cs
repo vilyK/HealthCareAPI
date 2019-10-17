@@ -8,8 +8,6 @@
 
     public class Phone : SystemData, IContactIdentity
     {
-        
-
         public PhoneType Type { get; set; }
 
         public string Number { get; set; }

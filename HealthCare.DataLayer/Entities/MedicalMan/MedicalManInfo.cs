@@ -29,7 +29,7 @@
 
         public List<Award> Awards = new List<Award>();
 
-        public List<MedicalMenSpecialty> Specialties { get; set; } = new List<MedicalMenSpecialty>();
+        public List<MedicalManSpecialty> Specialties { get; set; } = new List<MedicalManSpecialty>();
 
         public List<MedicalManPrice> Prices { get; set; } = new List<MedicalManPrice>();
     }

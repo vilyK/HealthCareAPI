@@ -10,5 +10,7 @@
         Task<PersistPersonalDataResponse> PersistPersonalData(PersistPersonalDataRequest request);
 
         Task<PersistOutpatientCardResponse> PersistOutpatientCard(PersistOutpatientCardRequest request);
+
+        Task<SetPricesResponse> SetPrices(SetPricesRequest request);
     }
 }

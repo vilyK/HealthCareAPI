@@ -4,8 +4,6 @@
 
     public class TooltipType : SystemData
     {
-        
-
         public string Name { get; set; }
     }
 }

@@ -9,7 +9,6 @@
     using Contracts.Models.MedicalCenterAccount.Responses;
     using Utilities.Enums;
 
-   
     [ApiController]
     [ValidationFilter]
     [CustomAuthorizationFilter(RoleType.Admin, RoleType.Doctor, RoleType.MedicalCenter)]

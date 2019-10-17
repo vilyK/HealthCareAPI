@@ -6,8 +6,6 @@
 
     public class Department : SystemData
     {
-        
-
         public string Name { get; set; }
 
         public List<MedicalCenterDepartment> MedicalCenterDepartments { get; set; } = new List<MedicalCenterDepartment>();

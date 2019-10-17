@@ -4,8 +4,6 @@
 
     public class Country : SystemData
     {
-        
-
         public string Name { get; set; }
     }
 

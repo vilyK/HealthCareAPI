@@ -7,8 +7,6 @@
 
     public class Address : SystemData, IContactIdentity
     {
-        
-
         public string StreetAddress { get; set; }
 
         public bool IsCurrent { get; set; }

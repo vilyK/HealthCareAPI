@@ -5,8 +5,6 @@
 
     public class TooltipPhoto : SystemData
     {
-        
-
         public string Url { get; set; }
 
         public int ToolTipItemId { get; set; }

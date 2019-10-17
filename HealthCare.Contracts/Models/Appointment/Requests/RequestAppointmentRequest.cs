@@ -1,11 +1,14 @@
 ﻿namespace HealthCare.Contracts.Models.Appointment.Requests
 {
     using System;
+    
     using Utilities.Enums;
 
     public class RequestAppointmentRequest
     {
-        public int DoctorId { get; set; }
+        public int MedicalManInfoId { get; set; }
+      
+        public int AppointmentHourId { get; set; }
 
         public DateTime AppointmentDate { get; set; }
 

@@ -6,7 +6,7 @@
     using DataLayer.Entities.MedicalCenter;
     using DataLayer.Entities.MedicalMan;
 
-    public static class CommonExtensions
+    public static class CommonInfoExtensions
     {
         public static void AddDepartments(this MedicalCenterInfo dbModel,
             IEnumerable<int> departmentsInRequest,
@@ -28,8 +28,8 @@
 
         public static void AddSpecialties(this MedicalManInfo dbModel,
             IEnumerable<int> specialtiesInRequest,
-            IEnumerable<MedicalMenSpecialty> currentSpecialties,
-            int medicalMenInfoId)
+            IEnumerable<MedicalManSpecialty> currentSpecialties,
+            int medicalManInfoId)
         {
             foreach (var specialty in specialtiesInRequest)
             {
@@ -37,9 +37,9 @@
                     continue;
 
                 dbModel.Specialties.Add(
-                    new MedicalMenSpecialty
+                    new MedicalManSpecialty
                     {
-                        MedMenInfoId = medicalMenInfoId,
+                        MedManInfoId = medicalManInfoId,
                         SpecialtyId = specialty
                     });
             }

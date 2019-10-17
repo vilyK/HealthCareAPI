@@ -6,8 +6,6 @@
 
     public class City : SystemData
     {
-        
-
         public string Name { get; set; }
 
         public int AreaId { get; set; }
