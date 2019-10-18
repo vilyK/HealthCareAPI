@@ -11,12 +11,19 @@
             ValidatorOptions.CascadeMode = CascadeMode.StopOnFirstFailure;
 
             RuleFor(request => request)
-                .HasValidData();
+                .VerifyName()
+                .VerifyUserRole()
+                .VerifyUserName()
+                .VerifyPassword();
 
-            RuleFor(request => request.GeneralData.Username)
-                .Length(1, 30)
-                .WithMessage("Username length should be between 1 and 30 characters1")
-                .WithErrorCode("Invalid details");
+            RuleFor(request => request.Contacts.Emails)
+                .VerifyEmails();
+
+            RuleFor(request => request.Contacts.Phones)
+                .VerifyPhoneNumbers();
+
+            RuleFor(request => request.Contacts.Addresses)
+                .VerifyAddresses();
         }
     }
 }

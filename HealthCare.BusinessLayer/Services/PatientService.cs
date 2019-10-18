@@ -56,7 +56,7 @@
             var patientInfo = _dbContext.PatientInfos
                 .SingleOrDefault(x => x.UserId == _sessionResolver.SessionInfo.UserId);
 
-            ValidationUtils.ValidateAndThrow<IncorrectUserDataException>(() => patientInfo == null);
+            ValidationUtils.ValidateAndThrow<DataMismatchException>(() => patientInfo == null);
 
             var dbModel = _mapper.Map(requestPatientData, patientInfo);
             dbModel.UserId = _sessionResolver.SessionInfo.UserId;
@@ -76,18 +76,5 @@
 
             return medicalProfileId;
         }
-
-        //public Task<bool> ShareContact(int doctorId, string receiverEmail)
-        //{
-        //    var doctorContacts = _dbContext.UserContacts.SingleOrDefault(x => x.UserId == doctorId);
-        //    ValidationUtils.ValidateAndThrow<IncorrectUserDataException>(() => doctorContacts== null);
-
-        //    var emails = doctorContacts.Emails;
-        //    var addresses = doctorContacts.Addresses;
-        //    var phones = doctorContacts.Phones;
-
-
-        //    return true;
-        //}
     }
 }

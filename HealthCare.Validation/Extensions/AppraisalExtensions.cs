@@ -3,6 +3,7 @@
     using FluentValidation;
 
     using Contracts.Models.Appraisal.Requests;
+    using Helpers;
 
     public static class AppraisalExtensions
     {

@@ -1,13 +1,12 @@
-﻿namespace HealthCare.API.Utils
+﻿namespace HealthCare.API.Behaviour.Utils
 {
     using System;
     using System.Linq;
-    using Microsoft.AspNetCore.Http;
-
     using BusinessLayer.Interfaces;
     using Contracts.Interfaces;
     using Contracts.Models;
     using Interfaces;
+    using Microsoft.AspNetCore.Http;
     using Utilities.Enums;
     using Utilities.Exceptions;
 

@@ -28,12 +28,5 @@
         {
             return await _patientService.PersistMedicalProfile(request);
         }
-
-        //[Route("shareDoctorContacts")]
-        //[HttpGet]
-        //public async Task<bool> ShareContact(int doctorId, string receiverEmail)
-        //{
-        //    return await _patientService.ShareContact(doctorId, receiverEmail);
-        //}
     }
 }

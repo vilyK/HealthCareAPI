@@ -1,11 +1,12 @@
 ﻿namespace HealthCare.API.Controllers
 {
+    using Microsoft.AspNetCore.Mvc;
+
     using System.Threading.Tasks;
     using BusinessLayer.Interfaces;
     using Contracts.Models.UserAccount.Requests;
     using Contracts.Models.UserAccount.Responses;
-    using Microsoft.AspNetCore.Mvc;
-
+    
     [Route("user")]
     [ApiController]
     public class UserDataRetrieverController : ControllerBase

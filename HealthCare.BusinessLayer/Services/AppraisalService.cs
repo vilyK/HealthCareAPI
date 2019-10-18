@@ -53,7 +53,6 @@
 
                 ValidationUtils.ValidateAndThrow<OperationNotAllowedException>(() => voteExists);
 
-                // ?? should be in AutoMapper -> if not, remove mapping profile!
                 var dbModel = new Appraisal
                 {
                     AppraisalType = appraisal.AppraisalType,
@@ -73,15 +72,14 @@
             var commentExists = _dbContext.AppraisalComments.Any(x => x.SenderId == senderId  && x.RecipientId == recipientId);
             ValidationUtils.ValidateAndThrow<OperationNotAllowedException>(() => commentExists);
 
-            // ?? should be in AutoMapper -> if not, remove mapping profile!
-            var appraisalComment = new AppraisalComment
+            var dbModel = new AppraisalComment
             {
                 SenderId = senderId,
                 RecipientId = recipientId,
                 Comment = comment
             };
 
-            _dbContext.Add(appraisalComment);
+            _dbContext.PersistModel(dbModel, DatabaseOperation.Insert);
         }
     }
 }

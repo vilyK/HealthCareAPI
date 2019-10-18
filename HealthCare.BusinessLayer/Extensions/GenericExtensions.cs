@@ -32,6 +32,13 @@
             return model.Id;
         }
 
+        public static void DeleteEntity<TModel>(this DbContext dbContext, TModel model)
+            where TModel : SystemData
+        {
+            model.IsDeleted = true;
+            dbContext.Entry(model).State = EntityState.Modified;
+        }
+
         public static void CreateInfoObject<TModel>(this DbContext dbContext, string name, int userId)
             where TModel : IInformation, new()
         {

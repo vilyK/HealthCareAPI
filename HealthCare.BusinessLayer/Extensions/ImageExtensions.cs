@@ -21,7 +21,6 @@
 
         private static void ValidateImage(this FileInfo image)
         {
-            // should be in FluentValidation
             ValidationUtils.ValidateAndThrow<ImageNotFoundException>(() => !image.Exists);
 
             ValidationUtils.ValidateAndThrow<InvalidImageFormatException>(

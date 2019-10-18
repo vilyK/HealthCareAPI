@@ -1,6 +1,5 @@
-﻿namespace HealthCare.API.Extensions
+﻿namespace HealthCare.API.Behaviour.Extensions
 {
-    using Authentication;
     using AutoMapper;
     using FluentValidation.AspNetCore;
     using Microsoft.AspNetCore.Mvc;
@@ -8,18 +7,19 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
-    using Utils;
-    using Behaviour.Filters;
+    using Authentication;
     using BusinessLayer.Interfaces;
     using BusinessLayer.Services;
     using Contracts.Configuration;
     using Contracts.Interfaces;
     using DataLayer;
     using DataLayer.Utils;
+    using Filters;
     using Interfaces;
     using Templates;
     using Utilities.Helpers.EmailSender;
-    using Validation.ModelValidators.AppraisalValidators;
+    using Utils;
+    using Validation.ModelValidators;
     using Validation.ModelValidators.UserValidators;
 
     internal static class ServiceCollectionExtensions
@@ -54,6 +54,7 @@
             service.Configure<JwtAuthentication>(configuration.GetSection("JwtAuthentication"));
             service.Configure<CommonSettings>(configuration.GetSection("CommonSettings"));
             service.Configure<EmailConfiguration>(configuration.GetSection("EmailConfiguration"));
+            service.Configure<EmailConfiguration>(configuration.GetSection("TwilioConfiguration"));
 
             return service;
         }

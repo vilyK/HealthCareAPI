@@ -9,10 +9,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Shared\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\HealthCare.Interfaces\HealthCare.Interfaces.csproj" />
   </ItemGroup>
 </Project>

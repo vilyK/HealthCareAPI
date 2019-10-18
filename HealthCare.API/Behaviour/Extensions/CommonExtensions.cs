@@ -1,4 +1,4 @@
-﻿namespace HealthCare.API.Extensions
+﻿namespace HealthCare.API.Behaviour.Extensions
 {
     using System.Linq;
     using Microsoft.AspNetCore.Mvc.Filters;

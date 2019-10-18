@@ -8,5 +8,7 @@
     {
         Task<SendEmailResponse> SendEmail<TViewModel>(EmailMessage message, TViewModel model)
             where TViewModel : class;
+
+        Task<bool> SendSms(string receiverPhoneNumber);
     }
 }

@@ -31,7 +31,7 @@
             var userId = _sessionResolver.SessionInfo.UserId;
 
             var medicalCenterInfo = _dbContext.MedicalCenterInfos.SingleOrDefault(x => x.UserId == userId);
-            ValidationUtils.ValidateAndThrow<IncorrectUserDataException>(()=> medicalCenterInfo == null);
+            ValidationUtils.ValidateAndThrow<DataMismatchException>(()=> medicalCenterInfo == null);
 
             var medicalCenterCurrentDepartments = _dbContext.MedicalCenterDepartments
                 .Where(x => x.MedicalCenterInfoId == medicalCenterInfo.Id && x.IsDeleted == false)
