@@ -5,12 +5,12 @@
     using System.Linq;
     using AutoMapper;
     using DataLayer;
-    using Extensions;
+    using Exceptions;
     using HealthCare.Interfaces;
     using Interfaces;
     using Microsoft.EntityFrameworkCore;
     using Utilities.Enums;
-    using Utilities.Exceptions;
+    using Utilities.Helpers;
 
     public class ContactsService : IContactsService
     {

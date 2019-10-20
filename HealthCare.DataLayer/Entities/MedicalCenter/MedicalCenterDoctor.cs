@@ -1,7 +1,7 @@
 ﻿namespace HealthCare.DataLayer.Entities.MedicalCenter
 {
     using Base;
-    using User;
+    using UserAccount;
 
     public class MedicalCenterDoctor : SystemData
     {

@@ -1,7 +1,6 @@
 ﻿namespace HealthCare.Utilities.Helpers.EmailSender.Models
 {
     using System.Collections.Generic;
-    using Interfaces.EmailModels;
 
     public class EmailMessage
     {

@@ -2,7 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations.Schema;
     using Base;
-    using User;
+    using UserAccount;
 
     public class PharmacyDistributor : SystemData
     {

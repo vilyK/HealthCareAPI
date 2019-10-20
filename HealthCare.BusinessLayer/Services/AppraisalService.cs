@@ -8,10 +8,11 @@
     using Contracts.Models.Appraisal.Responses;
     using DataLayer;
     using DataLayer.Entities;
+    using Exceptions;
     using Extensions;
     using Interfaces;
     using Utilities.Enums;
-    using Utilities.Exceptions;
+    using Utilities.Helpers;
 
     public class AppraisalService : IAppraisalService
     {
@@ -62,9 +63,9 @@
                 };
 
                 _dbContext.PersistModel(dbModel, DatabaseOperation.Insert);
-
-                await _dbContext.SaveChangesAsync();
             }
+            
+            await _dbContext.SaveChangesAsync();
         }
 
         private void AddAppraisalComment(string comment, int recipientId, int senderId)

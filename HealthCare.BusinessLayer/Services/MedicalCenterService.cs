@@ -8,10 +8,11 @@
     using Contracts.Models.MedicalCenterAccount.Requests;
     using Contracts.Models.MedicalCenterAccount.Responses;
     using DataLayer;
+    using Exceptions;
     using Extensions;
     using Interfaces;
     using Utilities.Enums;
-    using Utilities.Exceptions;
+    using Utilities.Helpers;
 
     public class MedicalCenterService : IMedicalCenterService
     {
@@ -28,9 +29,7 @@
 
         public async Task<PersistMedicalCenterDataResponse> PersistMedicalCenterData(PersistMedicalCenterDataRequest request)
         {
-            var userId = _sessionResolver.SessionInfo.UserId;
-
-            var medicalCenterInfo = _dbContext.MedicalCenterInfos.SingleOrDefault(x => x.UserId == userId);
+            var medicalCenterInfo = _dbContext.MedicalCenterInfos.SingleOrDefault(x => x.UserId == _sessionResolver.SessionInfo.UserId);
             ValidationUtils.ValidateAndThrow<DataMismatchException>(()=> medicalCenterInfo == null);
 
             var medicalCenterCurrentDepartments = _dbContext.MedicalCenterDepartments
@@ -38,11 +37,11 @@
                 .ToList();
 
             var dbModel = _mapper.Map(request.Data, medicalCenterInfo);
+            var departments = request.Data.MedicalCenterDepartments.EmptyIfNull().Distinct();
 
-            dbModel.AddDepartments(request.Data.MedicalCenterDepartments.EmptyIfNull(), medicalCenterCurrentDepartments, medicalCenterInfo.Id);
+            dbModel.AddDepartments(departments, medicalCenterCurrentDepartments, medicalCenterInfo.Id);
 
             _dbContext.PersistModel(dbModel, DatabaseOperation.Update);
-
             await _dbContext.SaveChangesAsync();
 
             return new PersistMedicalCenterDataResponse

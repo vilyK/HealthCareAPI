@@ -11,10 +11,11 @@
     using Contracts.Models.PatientAccount.Responses;
     using DataLayer;
     using DataLayer.Entities.MedicalData;
+    using Exceptions;
     using Extensions;
     using Interfaces;
     using Utilities.Enums;
-    using Utilities.Exceptions;
+    using Utilities.Helpers;
 
     public class PatientService : IPatientService
     {
@@ -53,8 +54,7 @@
 
         private int PersistPatientPersonalData(PatientGeneralData requestPatientData)
         {
-            var patientInfo = _dbContext.PatientInfos
-                .SingleOrDefault(x => x.UserId == _sessionResolver.SessionInfo.UserId);
+            var patientInfo = _dbContext.PatientInfos.SingleOrDefault(x => x.UserId == _sessionResolver.SessionInfo.UserId);
 
             ValidationUtils.ValidateAndThrow<DataMismatchException>(() => patientInfo == null);
 
@@ -66,7 +66,7 @@
 
         private int PersistMedicalProfileData(MedicalProfileGeneralData data, int patientInfoId)
         {
-            var dbModel = _dbContext.MedicalProfiles.SingleOrDefault(x => x.PatientInfoId == patientInfoId) ?? new MedicalProfile();
+            var dbModel = _dbContext.MedicalProfiles.SingleOrNew(x => x.PatientInfoId == patientInfoId);
 
             dbModel = _mapper.Map(data, dbModel);
             dbModel.PatientInfoId = patientInfoId;

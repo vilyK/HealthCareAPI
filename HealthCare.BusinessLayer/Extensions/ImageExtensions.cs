@@ -2,9 +2,9 @@
 {
     using System;
     using System.IO;
-
+    using Exceptions.ImagesExceptions;
     using Utilities.Enums;
-    using Utilities.Exceptions.ImagesExceptions;
+    using Utilities.Helpers;
 
     public static class ImageExtensions
     {

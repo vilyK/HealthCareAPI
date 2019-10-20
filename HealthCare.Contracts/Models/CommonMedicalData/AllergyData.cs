@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using Interfaces;
 
-    public class AllergyData : ITreatments
+    public class AllergyData : ITreatment
     {
         public int Id { get; set; }
 

@@ -4,7 +4,7 @@
     using System.ComponentModel.DataAnnotations.Schema;
 
     using Base;
-    using User;
+    using UserAccount;
     using Utilities.Enums;
 
     public class OutpatientCard : SystemData

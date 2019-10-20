@@ -5,10 +5,10 @@
     using BusinessLayer.Interfaces;
     using Contracts.Interfaces;
     using Contracts.Models;
+    using Exceptions;
     using Interfaces;
     using Microsoft.AspNetCore.Http;
     using Utilities.Enums;
-    using Utilities.Exceptions;
 
     public class HttpSessionResolver : ISessionResolver
     {

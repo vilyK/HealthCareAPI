@@ -3,6 +3,7 @@
     using System;
     using System.IO;
     using System.Threading.Tasks;
+    using Exceptions;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Abstractions;
@@ -66,14 +67,15 @@
                 return findViewResult.View;
             }
 
-            throw new InvalidOperationException(
-                $"Unable to find view '{viewName}'. The following locations were searched: {findViewResult.SearchedLocations}");
+            throw new InvalidViewLocationException(viewName, string.Join(",", findViewResult.SearchedLocations));
         }
 
         private ActionContext GetActionContext()
         {
-            var httpContext = new DefaultHttpContext { RequestServices = _serviceProvider };
-            return new ActionContext(httpContext, new RouteData(), new ActionDescriptor());
+            return new ActionContext(
+                new DefaultHttpContext { RequestServices = _serviceProvider },
+                new RouteData(),
+                new ActionDescriptor());
         }
     }
 }

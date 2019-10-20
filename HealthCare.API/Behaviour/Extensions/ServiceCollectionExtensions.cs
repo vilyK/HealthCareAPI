@@ -6,8 +6,6 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-
-    using Authentication;
     using BusinessLayer.Interfaces;
     using BusinessLayer.Services;
     using Contracts.Configuration;
@@ -19,14 +17,15 @@
     using Templates;
     using Utilities.Helpers.EmailSender;
     using Utils;
+    using Utils.Authentication;
     using Validation.ModelValidators;
-    using Validation.ModelValidators.UserValidators;
 
     internal static class ServiceCollectionExtensions
     {
         public static IServiceCollection AddCustomMvc(this IServiceCollection services)
         {
-            services.AddMvc(options =>
+            services
+                .AddMvc(options =>
                 {
                     options.Filters.Add(typeof(GlobalExceptionFilter));
                 })
@@ -59,30 +58,36 @@
             return service;
         }
 
-        public static IServiceCollection AddServices(this IServiceCollection services)
+        public static IServiceCollection AddBusinessServices(this IServiceCollection services)
         {
-            services.AddScoped<IDataRetriever, DataRetriever>();
-            services.AddScoped<ISessionResolver, HttpSessionResolver>();
-            services.AddTransient<IAuthService, JWTService>();
-
             services.AddScoped<IContactsService, ContactsService>();
             services.AddScoped<IUserService, UserService>();
-
-            services.AddTransient<IEmailService, EmailService>();
-            services.AddScoped<ICommunicationService, CommunicationService>();
-            services.AddScoped<IRazorViewToStringRenderer, RazorViewToStringRenderer>();
-
             services.AddScoped<IPatientService, PatientService>();
             services.AddScoped<IMedicalManService, MedicalManService>();
             services.AddScoped<IMedicalCenterService, MedicalCenterService>();
             services.AddScoped<IMedicalDataService, MedicalDataService>();
             services.AddScoped<IAppointmentService, AppointmentService>();
-
             services.AddScoped<IAppraisalService, AppraisalService>();
-
-            services.AddScoped<IStorageService, DatabaseService>();
-
             services.AddScoped<IImageService, ImageService>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddSystemServices(this IServiceCollection services)
+        {
+            services.AddScoped<IStorageService, DatabaseService>();
+            services.AddScoped<IDataRetriever, DataRetriever>();
+            services.AddScoped<ISessionResolver, HttpSessionResolver>();
+            services.AddTransient<IAuthService, JWTService>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddCommunicationServices(this IServiceCollection services)
+        {
+            services.AddTransient<IEmailService, EmailService>();
+            services.AddScoped<ICommunicationService, CommunicationService>();
+            services.AddScoped<IRazorViewToStringRenderer, RazorViewToStringRenderer>();
 
             return services;
         }

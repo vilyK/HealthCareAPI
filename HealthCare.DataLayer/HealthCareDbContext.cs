@@ -13,7 +13,7 @@
     using Entities.Pharmacy;
     using Entities.PharmacyCompany;
     using Entities.Tooltip;
-    using Entities.User;
+    using Entities.UserAccount;
     using Interfaces;
     using Utils;
 

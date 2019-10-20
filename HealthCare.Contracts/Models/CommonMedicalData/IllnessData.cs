@@ -4,7 +4,7 @@
     using Interfaces;
     using Utilities.Enums;
 
-    public class IllnessData : ITreatments
+    public class IllnessData : ITreatment
     {
         public int Id { get; set; }
 

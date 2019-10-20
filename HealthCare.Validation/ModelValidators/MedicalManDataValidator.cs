@@ -9,7 +9,7 @@
     {
         public MedicalManDataValidator()
         {
-            ValidatorOptions.CascadeMode = CascadeMode.StopOnFirstFailure;
+            CascadeMode = CascadeMode.StopOnFirstFailure;
 
             RuleFor(request => request.GeneralDataData)
                 .VerifyName();

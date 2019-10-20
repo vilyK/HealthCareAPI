@@ -10,10 +10,11 @@
     using DataLayer;
     using DataLayer.Entities;
     using DataLayer.Entities.MedicalMan;
+    using Exceptions;
     using Extensions;
     using Interfaces;
     using Utilities.Enums;
-    using Utilities.Exceptions;
+    using Utilities.Helpers;
 
     public class AppointmentService : IAppointmentService
     {
@@ -28,18 +29,18 @@
 
         public async Task<RequestAppointmentResponse> RequestAppointment(RequestAppointmentRequest request)
         {
-            var patientId = _sessionResolver.SessionInfo.UserId;
-
             var doctorInfo = _dbContext.MedicalManInfos.SingleOrDefault(x => x.Id == request.MedicalManInfoId);
             ValidationUtils.ValidateAndThrow<DataMismatchException>(() => doctorInfo == null);
 
             var appointmentHour = _dbContext.AppointmentHours
                 .SingleOrDefault(x => x.Id == request.AppointmentHourId && x.AppointmentHourStatus == AppointmentHourStatus.Free);
-            ValidationUtils.ValidateAndThrow<DataMismatchException>(() => appointmentHour == null || request.AppointmentDate < DateTime.Now.AddMinutes(-30));
+
+            ValidationUtils.ValidateAndThrow<DataMismatchException>(
+                () => appointmentHour == null || request.AppointmentDate < DateTime.Now); 
 
             var newAppointment = new Appointment
             {
-                PatientId = patientId,
+                PatientId = _sessionResolver.SessionInfo.UserId,
                 DoctorId = doctorInfo.UserId, 
                 AppointmentDate = request.AppointmentDate,
                 Status = AppointmentStatus.Pending

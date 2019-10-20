@@ -9,7 +9,7 @@
     using Contracts.Interfaces;
     using Contracts.Models.UserAccount.Data;
     using DataLayer;
-    using DataLayer.Entities.User;
+    using DataLayer.Entities.UserAccount;
     using Extensions;
     using Interfaces;
     using Microsoft.AspNetCore.Hosting;
@@ -34,7 +34,6 @@
             _sessionResolver = sessionResolver;
             _settings = settings;
         }
-
 
         public void UploadImages(List<ImageData> images)
         {
@@ -80,7 +79,6 @@
 
                     break;
                 }
-
             }
         }
     }

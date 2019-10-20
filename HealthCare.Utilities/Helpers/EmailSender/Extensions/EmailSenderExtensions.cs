@@ -7,7 +7,7 @@
     using MimeKit.Text;
 
     using Interfaces;
-    using Interfaces.EmailModels;
+    using Models;
 
     public static class EmailSenderExtensions
     {
@@ -34,10 +34,7 @@
         {
             var textBody = await emailService.RazorRenderer.RenderViewToStringAsync($"{viewPath}.cshtml", model);
 
-            emailService.Message.Body = new TextPart(TextFormat.Html)
-            {
-                Text = textBody
-            };
+            emailService.Message.Body = new TextPart(TextFormat.Html) { Text = textBody };
 
             return emailService;
         }

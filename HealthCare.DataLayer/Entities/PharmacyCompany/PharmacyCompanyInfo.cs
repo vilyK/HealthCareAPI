@@ -5,7 +5,7 @@
 
     using Base;
     using Interfaces;
-    using User;
+    using UserAccount;
 
     public class PharmacyCompanyInfo : SystemData, IInformation
     {

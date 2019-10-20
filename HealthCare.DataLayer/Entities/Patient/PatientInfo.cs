@@ -5,7 +5,7 @@
 
     using Base;
     using Interfaces;
-    using User;
+    using UserAccount;
     using Utilities.Enums;
 
     public class PatientInfo : SystemData, IInformation

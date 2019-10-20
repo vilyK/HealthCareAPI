@@ -5,7 +5,7 @@
 
     using Entities.MedicalData;
     using Entities.MedicalMan;
-    using Entities.User;
+    using Entities.UserAccount;
     using Interfaces;
 
     public static class ModelBuilderExtensions

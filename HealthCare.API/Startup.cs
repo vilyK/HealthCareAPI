@@ -21,21 +21,14 @@
                 .AddCustomMvc()
                 .AddDbContext(Configuration)
                 .AddConfigurations(Configuration)
-                .AddMappers()
-                .AddServices();
+                .AddSystemServices()
+                .AddBusinessServices()
+                .AddCommunicationServices()
+                .AddMappers();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseHsts();
-            }
-
             app.UseStaticFiles();
             app.UseHttpsRedirection();
             app.UseMvc();

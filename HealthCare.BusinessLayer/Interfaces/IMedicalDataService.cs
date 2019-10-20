@@ -12,7 +12,7 @@
     {
         void PersistMedicalDataRelatedEntities<TMedicalEntity, TModel>(IEnumerable<TMedicalEntity> medicalEntities,
             int documentId, DocumentType documentType, DiseaseType diseaseType)
-            where TMedicalEntity : class, ITreatments
+            where TMedicalEntity : class, ITreatment
             where TModel : SystemData, IMedicalData;
 
         void PersistMedicalTests(IEnumerable<MedicalTestData> medicalTests, int documentId, DocumentType documentType);

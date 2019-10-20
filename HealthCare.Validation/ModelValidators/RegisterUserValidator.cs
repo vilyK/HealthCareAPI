@@ -1,4 +1,4 @@
-﻿namespace HealthCare.Validation.ModelValidators.UserValidators
+﻿namespace HealthCare.Validation.ModelValidators
 {
     using Contracts.Models.UserAccount.Requests;
     using Extensions;
@@ -8,7 +8,7 @@
     {
         public RegisterUserValidator()
         {
-            ValidatorOptions.CascadeMode = CascadeMode.StopOnFirstFailure;
+            CascadeMode = CascadeMode.StopOnFirstFailure;
 
             RuleFor(request => request)
                 .VerifyName()

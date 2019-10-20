@@ -37,7 +37,7 @@
         }
 
         public void PersistMedicalDataRelatedEntities<TMedicalEntity, TModel>(IEnumerable<TMedicalEntity> medicalEntities, int documentId, DocumentType documentType, DiseaseType diseaseType)
-                where TMedicalEntity : class, ITreatments
+                where TMedicalEntity : class, ITreatment
                 where TModel : SystemData, IMedicalData
         {
             foreach (var entity in medicalEntities)
@@ -47,23 +47,14 @@
         }
 
         public void PersistMedicalDataRelatedEntity<TMedicalEntity, TModel>(TMedicalEntity medicalEntity, int documentId, DocumentType documentType, DiseaseType diseaseType)
-            where TMedicalEntity : class, ITreatments
+            where TMedicalEntity : class, ITreatment
             where TModel : SystemData, IMedicalData
         {
             var dbModel = _mapper.Map<TModel>(medicalEntity);
 
-            switch (documentType)
-            {
-                case DocumentType.MedicalProfile:
-                    dbModel.MedicalProfileId = documentId;
-                    break;
-                case DocumentType.OutpatientCard:
-                    dbModel.OutpatientCardId = documentId;
-                    break;
-            }
+           dbModel.SetDocumentId(documentType, documentId);
 
             var dbOperation = dbModel.Id.GetDbOperation();
-
             var diseaseId = _dbContext.PersistModel(dbModel, dbOperation);
 
             PersistTreatments(medicalEntity.Treatments, diseaseId, diseaseType);
@@ -75,24 +66,14 @@
             {
                 var medTestDbModel = _mapper.Map<MedicalTest>(medicalTest);
 
-                switch (documentType)
-                {
-                    case DocumentType.MedicalProfile:
-                        medTestDbModel.MedicalProfileId = documentId;
-                        break;
-                    case DocumentType.OutpatientCard:
-                        medTestDbModel.OutpatientCardId = documentId;
-                        break;
-                }
+                medTestDbModel.SetDocumentId(documentType, documentId);
 
                 var operation = medTestDbModel.Id.GetDbOperation();
-
                 var medicalTestId = _dbContext.PersistModel(medTestDbModel, operation);
 
                 foreach (var attachment in medicalTest.MedicalTestAttachments)
                 {
-                    var attachmentDbModel = _dbContext.MedicalTestAttachments
-                                                .SingleOrDefault(x => x.Id == attachment.Id) ?? new MedicalTestAttachment();
+                    var attachmentDbModel = _dbContext.MedicalTestAttachments.SingleOrNew(x => x.Id == attachment.Id);
 
                     var image = new FileInfo(attachment.Url);
 

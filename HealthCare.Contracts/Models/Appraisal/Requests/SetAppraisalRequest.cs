@@ -1,6 +1,7 @@
 ﻿namespace HealthCare.Contracts.Models.Appraisal.Requests
 {
     using System.Collections.Generic;
+    using Data;
     using Utilities.Enums;
 
     public class SetAppraisalRequest

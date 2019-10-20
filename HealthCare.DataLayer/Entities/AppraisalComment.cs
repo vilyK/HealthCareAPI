@@ -8,12 +8,12 @@
         public int RecipientId { get; set; }
 
         [ForeignKey("RecipientId")]
-        public User.User Recipient { get; set; }
+        public UserAccount.User Recipient { get; set; }
 
         public int SenderId { get; set; }
 
         [ForeignKey("SenderId")]
-        public User.User Sender { get; set; }
+        public UserAccount.User Sender { get; set; }
 
         public string Comment { get; set; }
     }

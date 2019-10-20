@@ -7,13 +7,14 @@
     using FluentValidation;
     using Helpers;
     using Utilities.Enums;
+    using Utilities.Extensions;
 
     public static class UserExtensions
     {
         public static IRuleBuilderOptions<T, RegisterUserRequest> VerifyUserName<T>(this IRuleBuilder<T, RegisterUserRequest> ruleBuilder)
         {
             return ruleBuilder.Must(request =>
-                    request.GeneralData.Username != null && request.GeneralData.Username.Length > 6 && request.GeneralData.Username.Length < 50)
+                    request.GeneralData.Username != null && request.GeneralData.Username.Length.Between(6, 50))
                 .WithMessage("Invalid Username")
                 .WithErrorCode("InvalidUsername.");
         }
@@ -21,17 +22,9 @@
         public static IRuleBuilderOptions<T, RegisterUserRequest> VerifyPassword<T>(this IRuleBuilder<T, RegisterUserRequest> ruleBuilder)
         {
             return ruleBuilder.Must(request =>
-                    request.GeneralData.Password != null && request.GeneralData.Password.Length > 6 && request.GeneralData.Password.Length < 50)
+                    request.GeneralData.Password != null && request.GeneralData.Password.Length.Between(6, 50))
                 .WithMessage("Invalid Password")
                 .WithErrorCode("InvalidPassword.");
-        }
-        
-        public static IRuleBuilderOptions<T, RegisterUserRequest> VerifyName<T>(this IRuleBuilder<T, RegisterUserRequest> ruleBuilder)
-        {
-            return ruleBuilder.Must(request =>
-                    request.Name != null && request.Name.Length > 4 && request.Name.Length < 50)
-                .WithMessage("Invalid name")
-                .WithErrorCode("InvalidName");
         }
 
         public static IRuleBuilderOptions<T, RegisterUserRequest> VerifyUserRole<T>(this IRuleBuilder<T, RegisterUserRequest> ruleBuilder)
@@ -40,7 +33,7 @@
                 .WithMessage("Invalid user role")
                 .WithErrorCode("InvalidUserRole");
         }
-        
+
         public static IRuleBuilderOptions<T, List<EmailData>> VerifyEmails<T>(this IRuleBuilder<T, List<EmailData>> ruleBuilder)
         {
             return ruleBuilder.Must(emails => emails.Count == 0 || emails.IsValidEmail())

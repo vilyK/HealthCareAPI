@@ -14,32 +14,32 @@
     [CustomAuthorizationFilter(RoleType.Admin, RoleType.Patient, RoleType.Doctor, RoleType.MedicalCenter, RoleType.Pharmacy, RoleType.PharmacyCompany)]
     public class CommunicationController : ControllerBase
     {
-        private readonly ICommunicationService _correspondenceService;
+        private readonly ICommunicationService _communicationService;
 
         public CommunicationController(ICommunicationService correspondenceService)
         {
-            _correspondenceService = correspondenceService;
+            _communicationService = correspondenceService;
         }
 
         [Route("sendWelcomeEmail")]
         [HttpGet]
         public async Task<SendEmailResponse> SendWelcomeEmail(WelcomeEmailRequest request)
         {
-            return await _correspondenceService.SendEmail(request.Message, request.Content);
+            return await _communicationService.SendEmail(request.Message, request.Content);
         }
 
         [Route("shareUser")]
         [HttpGet]
         public async Task<SendEmailResponse> ShareUserByEmail(ShareUserRequest request)
         {
-            return await _correspondenceService.SendEmail(request.Message, request.Content);
+            return await _communicationService.SendEmail(request.Message, request.Content);
         }
 
         [Route("sendEmail")]
         [HttpGet]
         public async Task<SendEmailResponse> SendEmail(SendEmailRequest request)
         {
-            return await _correspondenceService.SendEmail(request.Message, request.Content);
+            return await _communicationService.SendEmail(request.Message, request.Content);
         }
     }
 }

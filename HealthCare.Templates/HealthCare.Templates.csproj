@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\HealthCare.Exceptions\HealthCare.Exceptions.csproj" />
     <ProjectReference Include="..\HealthCare.Interfaces\HealthCare.Interfaces.csproj" />
   </ItemGroup>
 </Project>

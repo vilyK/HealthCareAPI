@@ -8,9 +8,10 @@
     {
         public AppointmentStatusValidator()
         {
-            ValidatorOptions.CascadeMode = CascadeMode.StopOnFirstFailure;
+            CascadeMode = CascadeMode.StopOnFirstFailure;
 
-            RuleFor(request => request.Status).IsInEnum();
+            RuleFor(request => request.Status)
+                .IsInEnum();
         }
     }
 }

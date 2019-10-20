@@ -12,17 +12,15 @@
     using Contracts.Models.UserAccount.Requests;
     using Contracts.Models.UserAccount.Responses;
     using DataLayer;
-    using DataLayer.Entities.MedicalCenter;
-    using DataLayer.Entities.MedicalMan;
-    using DataLayer.Entities.Patient;
-    using DataLayer.Entities.Pharmacy;
-    using DataLayer.Entities.PharmacyCompany;
-    using DataLayer.Entities.User;
+    using DataLayer.Entities.UserAccount;
+    using Exceptions;
+    using Exceptions.ImagesExceptions;
     using Extensions;
     using Interfaces;
+    using Microsoft.EntityFrameworkCore;
     using Utilities.Enums;
-    using Utilities.Exceptions;
-    using Utilities.Exceptions.ImagesExceptions;
+    using Utilities.Extensions;
+    using Utilities.Helpers;
 
     public class UserService : IUserService
     {
@@ -51,8 +49,8 @@
 
         public async Task<RegisterUserResponse> RegisterUser(RegisterUserRequest request)
         {
-            var userExists = RetrieveUserByUsername(request.GeneralData.Username);
-            ValidationUtils.ValidateAndThrow<ExistedUserException>(() => userExists != null);
+            var userExists = await _dbContext.Users.SingleOrDefaultAsync(x => x.Username == request.GeneralData.Username);
+            ValidationUtils.ValidateAndThrow<ExistedUserNameException>(() => userExists != null);
 
             var (hashedPassword, secret) = GenerateSaltedHash(request.GeneralData.Password);
 
@@ -61,7 +59,7 @@
                 Username = request.GeneralData.Username,
                 PasswordHash = hashedPassword,
                 Secret = secret,
-                RoleType = (RoleType)Enum.ToObject(typeof(RoleType), request.UserRole)
+                RoleType = request.UserRole
             };
 
             var userContact = new UserContact
@@ -72,7 +70,7 @@
             _dbContext.AddRange(user, userContact);
 
             PersistUserContacts(request.Contacts, userContact.Id, DatabaseOperation.Insert);
-            AddInformation(user.Id, request.Name, user.RoleType);
+            _dbContext.AddInfoModel(user.Id, request.Name, user.RoleType);
             
             await _dbContext.SaveChangesAsync();
 
@@ -82,43 +80,9 @@
             };
         }
 
-        private void AddInformation(int userId, string requestName, RoleType userRoleType)
-        {
-            switch (userRoleType)
-            {
-                case RoleType.Patient:
-                    {
-                        _dbContext.CreateInfoObject<PatientInfo>(requestName, userId);
-                        break;
-                    }
-                case RoleType.Doctor:
-                    {
-                        _dbContext.CreateInfoObject<MedicalManInfo>(requestName, userId);
-                        break;
-                    }
-                case RoleType.MedicalCenter:
-                    {
-                        _dbContext.CreateInfoObject<MedicalCenterInfo>(requestName, userId);
-                        break;
-                    }
-                case RoleType.Pharmacy:
-                    {
-                        _dbContext.CreateInfoObject<PharmacyInfo>(requestName, userId);
-                        break;
-                    }
-                case RoleType.PharmacyCompany:
-                    {
-                        _dbContext.CreateInfoObject<PharmacyCompanyInfo>(requestName, userId);
-                        break;
-                    }
-                default:
-                    throw new IncorrectUserDataException();
-            }
-        }
-
         public async Task<LoginUserResponse> LoginUser(LoginUserRequest request)
         {
-            var user = RetrieveUserByUsername(request.Username);
+            var user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Username == request.Username);
             ValidationUtils.ValidateAndThrow<IncorrectUserDataException>(() => user == null);
 
             var isPasswordMatch = VerifyPassword(request.Password, user.PasswordHash, user.Secret);
@@ -236,11 +200,6 @@
             ValidationUtils.ValidateAndThrow<IncorrectUserDataException>(() => user == null);
 
             return user;
-        }
-
-        private User RetrieveUserByUsername(string username)
-        {
-            return _dbContext.Users.SingleOrDefault(x => x.Username == username);
         }
 
         private void EditUsernameAndPass(GeneralUserData data, User user)

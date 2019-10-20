@@ -1,7 +1,8 @@
 ﻿namespace HealthCare.Contracts.Models.MedicalManAccount.Data
 {
+    using HealthCare.Interfaces;
 
-    public class MedicalManGeneralData
+    public class MedicalManGeneralData : IName
     {
         public string Name { get; set; }
 

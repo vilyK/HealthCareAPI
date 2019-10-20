@@ -1,4 +1,4 @@
-﻿namespace HealthCare.Interfaces.EmailModels
+﻿namespace HealthCare.Utilities.Helpers.EmailSender.Models
 {
     public class EmailAddress
     {

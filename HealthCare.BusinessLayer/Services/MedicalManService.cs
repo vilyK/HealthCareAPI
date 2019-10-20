@@ -13,10 +13,11 @@
     using DataLayer;
     using DataLayer.Entities.MedicalData;
     using DataLayer.Entities.MedicalMan;
+    using Exceptions;
     using Extensions;
     using Interfaces;
     using Utilities.Enums;
-    using Utilities.Exceptions;
+    using Utilities.Helpers;
 
     public class MedicalManService : IMedicalManService
     {
@@ -99,16 +100,17 @@
 
         public async Task<SetPricesResponse> SetPrices(SetPricesRequest request)
         {
-            var medicalManInfo =
-                _dbContext.MedicalManInfos.SingleOrDefault(x => x.UserId == _sessionResolver.SessionInfo.UserId);
+            var medicalManInfo = _dbContext.MedicalManInfos.SingleOrDefault(x => x.UserId == _sessionResolver.SessionInfo.UserId);
             ValidationUtils.ValidateAndThrow<DataMismatchException>(() => medicalManInfo == null);
 
             foreach (var price in request.Prices)
             {
                 var dbModel = _mapper.Map<MedicalManPrice>(price);
                 dbModel.MedManInfoId = medicalManInfo.Id;
-               
-                _dbContext.PersistModel(dbModel, price.Id.GetDbOperation());
+
+                var dbOperation = price.Id.GetDbOperation();
+
+                _dbContext.PersistModel(dbModel, dbOperation);
             }
 
             await _dbContext.SaveChangesAsync();
@@ -121,8 +123,9 @@
 
         private void PersistAwards(IEnumerable<AwardData> awards, int medicalManInfoId)
         {
-            foreach (var dbModel in awards.Select(award => _mapper.Map<Award>(award)))
+            foreach (var award in awards)
             {
+                var dbModel = _mapper.Map<Award>(award);
                 dbModel.MedManInfoId = medicalManInfoId;
 
                 var dbOperation = dbModel.Id.GetDbOperation();

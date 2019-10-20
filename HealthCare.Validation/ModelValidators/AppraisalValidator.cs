@@ -9,7 +9,7 @@
     {
         public AppraisalValidator()
         {
-            ValidatorOptions.CascadeMode = CascadeMode.StopOnFirstFailure;
+            CascadeMode = CascadeMode.StopOnFirstFailure;
 
             RuleFor(request => request)
                 .HasValidAppraisals();

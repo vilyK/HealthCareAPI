@@ -1,9 +1,10 @@
 ﻿namespace HealthCare.Contracts.Models.UserAccount.Requests
 {
     using Data;
+    using HealthCare.Interfaces;
     using Utilities.Enums;
 
-    public class RegisterUserRequest 
+    public class RegisterUserRequest : IName
     {
         public string Name { get; set; }
 

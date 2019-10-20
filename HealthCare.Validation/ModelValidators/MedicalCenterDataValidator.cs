@@ -8,7 +8,7 @@
     {
         public MedicalCenterDataValidator()
         {
-            ValidatorOptions.CascadeMode = CascadeMode.StopOnFirstFailure;
+            CascadeMode = CascadeMode.StopOnFirstFailure;
 
             RuleFor(request => request.Data)
                 .VerifyName()

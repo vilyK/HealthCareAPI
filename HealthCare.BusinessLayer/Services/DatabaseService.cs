@@ -2,10 +2,10 @@
 {
     using System.Linq;
     using DataLayer;
-    using Extensions;
+    using Exceptions;
     using Interfaces;
     using Utilities.Enums;
-    using Utilities.Exceptions;
+    using Utilities.Helpers;
 
     public class DatabaseService : IStorageService
     {

@@ -1,7 +1,7 @@
 ﻿namespace HealthCare.DataLayer.Entities.Notification
 {
     using Base;
-    using User;
+    using UserAccount;
 
     public class NotificationTypeUser : SystemData
     {

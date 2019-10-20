@@ -37,7 +37,7 @@
 
             return new SendEmailResponse
             {
-                Result = true,
+                Result = true
             };
         }
 
@@ -45,13 +45,13 @@
         {
             TwilioClient.Init(_twilioConfiguration.Value.AccountSId, _twilioConfiguration.Value.AuthToken);
 
-            MessageResource.Create(
+            var result = await MessageResource.CreateAsync(
                 body: "This is the ship that made the Kessel Run in fourteen parsecs?",
                 from: new Twilio.Types.PhoneNumber(_twilioConfiguration.Value.SenderNumber),
                 to: new Twilio.Types.PhoneNumber(receiverPhoneNumber)
             );
 
-            return true;
+            return result.Status == MessageResource.StatusEnum.Sent;
         }
     }
 }
