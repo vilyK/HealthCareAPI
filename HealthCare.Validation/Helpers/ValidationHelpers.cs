@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Net.Mail;
     using System.Text.RegularExpressions;
+   
     using Contracts.Models.Appraisal.Data;
     using Contracts.Models.UserAccount.Data;
     using Utilities.Enums;

@@ -4,11 +4,12 @@
     using System.Collections.Generic;
     using System.Linq;
     using AutoMapper;
+    using Microsoft.EntityFrameworkCore;
+
     using DataLayer;
     using Exceptions;
     using HealthCare.Interfaces;
     using Interfaces;
-    using Microsoft.EntityFrameworkCore;
     using Utilities.Enums;
     using Utilities.Helpers;
 

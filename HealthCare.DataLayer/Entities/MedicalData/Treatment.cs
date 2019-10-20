@@ -1,11 +1,11 @@
 ﻿namespace HealthCare.DataLayer.Entities.MedicalData
 {
-    using Base;
-
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations.Schema;
-    using Utilities.Enums;
 
+    using Base;
+    using Utilities.Enums;
+    
     public class Treatment : SystemData
     {
         public string CommonTreatmentNotes { get; set; }

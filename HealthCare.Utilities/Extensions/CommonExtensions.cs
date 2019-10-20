@@ -1,6 +1,7 @@
 ﻿namespace HealthCare.Utilities.Extensions
 {
     using System.Collections.Generic;
+    
     using Enums;
 
     public static class CommonExtensions

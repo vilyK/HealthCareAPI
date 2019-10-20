@@ -5,6 +5,7 @@
     using System.IdentityModel.Tokens.Jwt;
     using System.Linq;
     using System.Security.Claims;
+    
     using Contracts.Configuration;
     using Exceptions.JWTExceptions;
     using Interfaces;
