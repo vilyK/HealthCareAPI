@@ -8,8 +8,6 @@
 
     public class Notification : SystemData
     {
-        public int Id { get; set; }
-
         public NotificationReason ReasonType { get; set; }
 
         public DateTime NotificationDate { get; set; }

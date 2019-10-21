@@ -2,6 +2,7 @@
 {
     public enum AppointmentReason
     {
+        None,
         Primary,
         Secondary,
         Prophylactic

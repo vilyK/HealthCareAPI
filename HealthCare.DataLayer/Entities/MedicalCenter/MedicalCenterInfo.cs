@@ -4,12 +4,12 @@
     using System.ComponentModel.DataAnnotations.Schema;
 
     using Base;
-    using User;
+    using Interfaces;
+    using UserAccount;
+    using Utilities.Enums;
 
-    public class MedicalCenterInfo : SystemData
+    public class MedicalCenterInfo : SystemData, IInformation
     {
-        public int Id { get; set; }
-        
         public string Name { get; set; }
 
         public string Details { get; set; }
@@ -17,6 +17,8 @@
         public bool IsNzok { get; set; }
 
         public bool HasEmergency { get; set; }
+
+        public MedicalCenterType Type { get; set; }
 
         public int UserId { get; set; }
 

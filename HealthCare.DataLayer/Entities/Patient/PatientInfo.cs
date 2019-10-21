@@ -1,17 +1,20 @@
 ﻿namespace HealthCare.DataLayer.Entities.Patient
 {
+    using System;
     using System.ComponentModel.DataAnnotations.Schema;
 
     using Base;
-    using User;
+    using Interfaces;
+    using UserAccount;
+    using Utilities.Enums;
 
-    public class PatientInfo : SystemData
+    public class PatientInfo : SystemData, IInformation
     {
-        public int Id { get; set; }
-       
-        public string FirstName { get; set; }
+        public string Name { get; set; }
 
-        public string LastName { get; set; }
+        public DateTime BirthDate { get; set; }
+
+        public Gender Gender { get; set; }
 
         public int UserId { get; set; }
 

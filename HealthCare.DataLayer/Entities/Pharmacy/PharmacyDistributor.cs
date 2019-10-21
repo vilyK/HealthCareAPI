@@ -2,12 +2,10 @@
 {
     using System.ComponentModel.DataAnnotations.Schema;
     using Base;
-    using User;
+    using UserAccount;
 
     public class PharmacyDistributor : SystemData
     {
-        public int Id { get; set; }
-
         public int PharmacyId { get; set; }
 
         [ForeignKey("PharmacyId")]

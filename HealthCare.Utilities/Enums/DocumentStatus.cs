@@ -2,7 +2,7 @@
 {
     public enum DocumentStatus
     {
-        Open,
+        Open = 1,
         Closed,
     }
 }

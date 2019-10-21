@@ -1,8 +1,8 @@
-﻿namespace HealthCare.Models.DatabaseModels.Enums
+﻿namespace HealthCare.Utilities.Enums
 {
     public enum RoleType
     {
-        Admin,
+        Admin = 1,
         Patient,
         Doctor,
         MedicalCenter,

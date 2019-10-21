@@ -3,7 +3,6 @@
     using Microsoft.EntityFrameworkCore;
 
     using Configurations;
-    using Entities;
     using Entities.Event;
     using Entities.MedicalCenter;
     using Entities.MedicalData;
@@ -13,7 +12,8 @@
     using Entities.Pharmacy;
     using Entities.PharmacyCompany;
     using Entities.Tooltip;
-    using Entities.User;
+    using Entities.UserAccount;
+    using Entities.UserAccount.Contacts;
     using Interfaces;
     using Utils;
 
@@ -67,13 +67,13 @@
 
         public DbSet<Specialty> Specialties { get; set; }
 
-        public DbSet<MedicalMenSpecialty> MedicalMenSpecialties { get; set; }
+        public DbSet<MedicalManSpecialty> MedicalManSpecialties { get; set; }
 
         public DbSet<Award> Awards { get; set; }
 
-        public DbSet<PriceType> PricesType { get; set; }
+        public DbSet<MedicalManPrice> MedicalManPrices { get; set; }
 
-        public DbSet<MedicalManInfoPrice> MedicalManInfoPrices { get; set; }
+        public DbSet<AppointmentHours> AppointmentHours { get; set; }
 
         public DbSet<MedicalCenterInfo> MedicalCenterInfos { get; set; }
 
@@ -93,8 +93,6 @@
 
         public DbSet<MedicalTestType> MedicalTestTypes { get; set; }
 
-        public DbSet<PatientIllness> Illnesses { get; set; }
-
         public DbSet<IllnessType> IllnessTypes { get; set; }
 
         public DbSet<IllnessCategory> IllnessCategories { get; set; }
@@ -103,23 +101,7 @@
 
         public DbSet<AllergyType>   AllergyTypes { get; set; }
 
-        public DbSet<MedicalProfileMedicalTest> MedicalProfileMedicalTests { get; set; }
-
-        public DbSet<MedicalProfileAllergy> MedicalProfileAllergies { get; set; }
-
-        public DbSet<MedicalProfileIllness> MedicalProfileIllnesses { get; set; }
-
-        public DbSet<OutpatientCardAllergy> OutpatientCardAllergies { get; set; }
-
-        public DbSet<OutpatientCardIllness> OutpatientCardIllnesses { get; set; }
-
-        public DbSet<OutpatientCardMedicalTest> OutpatientCardMedicalTests { get; set; }
-
         public DbSet<Treatment> Treatments { get; set; }
-
-        public DbSet<AllergyTreatment> AllergyTreatments { get; set; }
-
-        public DbSet<IllnessTreatment> IllnessTreatments { get; set; }
 
         public DbSet<TreatmentMedicament> TreatmentMedicaments { get; set; }
 
@@ -149,6 +131,9 @@
 
         public DbSet<Event> Events { get; set; }
 
+        public DbSet<AppraisalComment> AppraisalComments { get; set; }
+
+        public DbSet<Referral> Referrals { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
@@ -164,43 +149,31 @@
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.ApplyConfiguration(new AllergyTreatmentConfig());
-           
-            modelBuilder.ApplyConfiguration(new IllnessTreatmentConfig());
+            modelBuilder.ApplyConfiguration(new AppointmentConfig());
+
+            modelBuilder.ApplyConfiguration(new AppraisalCommentConfig());
+
+            modelBuilder.ApplyConfiguration(new AppraisalConfig());
 
             modelBuilder.ApplyConfiguration(new MedicalCenterDepartmentConfig());
 
             modelBuilder.ApplyConfiguration(new MedicalCenterDoctorConfig());
 
-            modelBuilder.ApplyConfiguration(new MedicalManInfoPriceConfig());
-
-            modelBuilder.ApplyConfiguration(new MedicalMenSpecialtyConfig());
-
-            modelBuilder.ApplyConfiguration(new MedicalProfileAllergyConfig());
-
-            modelBuilder.ApplyConfiguration(new MedicalProfileMedicalTestConfig());
+            modelBuilder.ApplyConfiguration(new MedicalManSpecialtyConfig());
 
             modelBuilder.ApplyConfiguration(new NotificationTypeUserConfig());
 
             modelBuilder.ApplyConfiguration(new NotificationUserConfig());
 
-            modelBuilder.ApplyConfiguration(new OutpatientCardAllergyConfig());
-
-            modelBuilder.ApplyConfiguration(new OutpatientCardIllnessConfig());
-
-            modelBuilder.ApplyConfiguration(new OutpatientCardMedicalTestConfig());
+            modelBuilder.ApplyConfiguration(new OutpatientCardConfig());
 
             modelBuilder.ApplyConfiguration(new PharmacyCompanyTypeConfig());
 
             modelBuilder.ApplyConfiguration(new PharmacyDistributorConfig());
 
+            modelBuilder.ApplyConfiguration(new ReferralConfig());
+
             modelBuilder.ApplyConfiguration(new TreatmentMedicamentConfig());
-
-            modelBuilder.ApplyConfiguration(new AppointmentConfiguration());
-
-            modelBuilder.ApplyConfiguration(new AppraisalConfiguration());
-
-            modelBuilder.ApplyConfiguration(new OutpatientCardConfiguration());
 
             modelBuilder.Seed(_dataRetriever);
         }

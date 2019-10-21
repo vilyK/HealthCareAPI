@@ -4,16 +4,14 @@
     using System.ComponentModel.DataAnnotations.Schema;
 
     using Base;
-    using User;
+    using UserAccount;
     using Utilities.Enums;
 
     public class OutpatientCard : SystemData
     {
-        public int Id { get; set; }      
-
-        public string Results { get; set; }
-
         public DocumentStatus Status { get; set; }
+
+        public string Notes { get; set; }
 
         public int DoctorId { get; set; }
 
@@ -25,10 +23,10 @@
         [ForeignKey("PatientId")]
         public User Patient { get; set; }
 
-        public List<OutpatientCardMedicalTest> OutpatientCardMedicalTests { get; set; }  = new List<OutpatientCardMedicalTest>();
+        public List<MedicalTest> OutpatientCardMedicalTests { get; set; }  = new List<MedicalTest>();
 
-        public List<OutpatientCardIllness> OutpatientCardIllnesses { get; set; }  = new List<OutpatientCardIllness>();
+        public List<Illness> OutpatientCardIllnesses { get; set; }  = new List<Illness>();
 
-        public List<OutpatientCardAllergy> OutpatientCardAllergies { get; set; }  = new List<OutpatientCardAllergy>();
+        public List<Allergy> OutpatientCardAllergies { get; set; }  = new List<Allergy>();
     }
 }

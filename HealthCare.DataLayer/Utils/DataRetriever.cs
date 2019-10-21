@@ -18,7 +18,7 @@
             _seedSettings = seedSettings;
         }
 
-        public List<TEntity> GetData<TEntity>() where TEntity : class
+        public List<TEntity> RetrieveData<TEntity>() where TEntity : class
         {
             var localPath = Directory.GetParent(Environment.CurrentDirectory).FullName;
             var fullPath = Path.Combine(localPath, _seedSettings.Value.SeedDirectory, $"{typeof(TEntity).Name}.json");

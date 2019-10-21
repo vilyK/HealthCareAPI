@@ -8,6 +8,5 @@
         ChangeAddress,
         Event,
         UpdatePatientCard
-
     }
 }

@@ -17,6 +17,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealthCare.Utilities", "Hea
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealthCare.DataLayer", "HealthCare.DataLayer\HealthCare.DataLayer.csproj", "{A8285194-551A-4B09-BEA6-185D30843EA4}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealthCare.Templates", "HealthCare.Templates\HealthCare.Templates.csproj", "{9247637B-B552-400C-A329-F80C50ADB23E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthCare.Exceptions", "HealthCare.Exceptions\HealthCare.Exceptions.csproj", "{BA532A68-EBC7-4146-83C9-4A7F50A7CB60}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +55,14 @@ Global
 		{A8285194-551A-4B09-BEA6-185D30843EA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8285194-551A-4B09-BEA6-185D30843EA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8285194-551A-4B09-BEA6-185D30843EA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9247637B-B552-400C-A329-F80C50ADB23E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9247637B-B552-400C-A329-F80C50ADB23E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9247637B-B552-400C-A329-F80C50ADB23E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9247637B-B552-400C-A329-F80C50ADB23E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA532A68-EBC7-4146-83C9-4A7F50A7CB60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA532A68-EBC7-4146-83C9-4A7F50A7CB60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA532A68-EBC7-4146-83C9-4A7F50A7CB60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA532A68-EBC7-4146-83C9-4A7F50A7CB60}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

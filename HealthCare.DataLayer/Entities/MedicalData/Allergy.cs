@@ -4,11 +4,10 @@
     using System.ComponentModel.DataAnnotations.Schema;
 
     using Base;
+    using Interfaces;
 
-    public class Allergy : SystemData
+    public class Allergy : SystemData, IMedicalData
     {
-        public int Id { get; set; }
-
         public string Notes { get; set; }
 
         public int AllergyTypeId { get; set; }
@@ -16,10 +15,16 @@
         [ForeignKey("AllergyTypeId")]
         public AllergyType AllergyType { get; set; }        
 
-        public List<OutpatientCardAllergy> OutpatientCardAllergies { get; set; } = new List<OutpatientCardAllergy>();
+        public int? MedicalProfileId { get; set; }
 
-        public List<MedicalProfileAllergy> MedicalProfileAllergies { get; set; } = new List<MedicalProfileAllergy>();
+        [ForeignKey("MedicalProfileId")]
+        public MedicalProfile MedicalProfile { get; set; }
 
-        public List<AllergyTreatment> AllergyTreatments { get; set; }  = new List<AllergyTreatment>();
+        public int? OutpatientCardId { get; set; }
+
+        [ForeignKey("OutpatientCardId")]
+        public OutpatientCard OutpatientCard { get; set; }
+
+        public List<Treatment> AllergyTreatments { get; set; }  = new List<Treatment>();
     }
 }

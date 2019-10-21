@@ -1,18 +1,26 @@
 ﻿namespace HealthCare.DataLayer.Entities.MedicalData
 {
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     using Base;
-
+    using Utilities.Enums;
+    
     public class Treatment : SystemData
     {
-        public int Id { get; set; }
+        public string CommonTreatmentNotes { get; set; }
 
-        public string Description { get; set; }
+        public TreatmentResult TreatmentResult { get; set; }
 
-        public List<IllnessTreatment> IllnessTreatments { get; set; }  = new List<IllnessTreatment>();
+        public int? IllnessId { get; set; }
 
-        public List<AllergyTreatment> AllergyTreatments { get; set; }  = new List<AllergyTreatment>();
+        [ForeignKey("IllnessId")]
+        public Illness Illness { get; set; }
+
+        public int? AllergyId { get; set; }
+
+        [ForeignKey("AllergyId")]
+        public Allergy Allergy { get; set; }
 
         public List<TreatmentMedicament> TreatmentMedicaments { get; set; }  = new List<TreatmentMedicament>();
     }

@@ -5,12 +5,11 @@
 
     public class ErrorResponse
     {
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string  StatusCode { get; set; }
 
-        public string Description { get; set; }
-
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public object Response { get; set; }
+        public string Description { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Exception Exception { get; set; }
