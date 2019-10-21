@@ -3,7 +3,6 @@
     using Microsoft.EntityFrameworkCore;
 
     using Configurations;
-    using Entities;
     using Entities.Event;
     using Entities.MedicalCenter;
     using Entities.MedicalData;
@@ -14,6 +13,7 @@
     using Entities.PharmacyCompany;
     using Entities.Tooltip;
     using Entities.UserAccount;
+    using Entities.UserAccount.Contacts;
     using Interfaces;
     using Utils;
 
@@ -133,6 +133,8 @@
 
         public DbSet<AppraisalComment> AppraisalComments { get; set; }
 
+        public DbSet<Referral> Referrals { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
             base.OnConfiguring(builder);
@@ -147,6 +149,12 @@
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.ApplyConfiguration(new AppointmentConfig());
+
+            modelBuilder.ApplyConfiguration(new AppraisalCommentConfig());
+
+            modelBuilder.ApplyConfiguration(new AppraisalConfig());
+
             modelBuilder.ApplyConfiguration(new MedicalCenterDepartmentConfig());
 
             modelBuilder.ApplyConfiguration(new MedicalCenterDoctorConfig());
@@ -157,19 +165,15 @@
 
             modelBuilder.ApplyConfiguration(new NotificationUserConfig());
 
+            modelBuilder.ApplyConfiguration(new OutpatientCardConfig());
+
             modelBuilder.ApplyConfiguration(new PharmacyCompanyTypeConfig());
 
             modelBuilder.ApplyConfiguration(new PharmacyDistributorConfig());
 
+            modelBuilder.ApplyConfiguration(new ReferralConfig());
+
             modelBuilder.ApplyConfiguration(new TreatmentMedicamentConfig());
-
-            modelBuilder.ApplyConfiguration(new AppointmentConfiguration());
-
-            modelBuilder.ApplyConfiguration(new AppraisalConfiguration());
-
-            modelBuilder.ApplyConfiguration(new AppraisalCommentConfiguration());
-
-            modelBuilder.ApplyConfiguration(new OutpatientCardConfiguration());
 
             modelBuilder.Seed(_dataRetriever);
         }

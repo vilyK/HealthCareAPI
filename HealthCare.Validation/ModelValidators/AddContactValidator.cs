@@ -5,17 +5,11 @@
     using Contracts.Models.UserAccount.Requests;
     using Extensions;
 
-    public class RegisterUserValidator : BaseValidator<RegisterUserRequest>
+    public class AddContactValidator : BaseValidator<AddContactRequest>
     {
-        public RegisterUserValidator()
+        public AddContactValidator()
         {
             CascadeMode = CascadeMode.StopOnFirstFailure;
-
-            RuleFor(request => request)
-                .VerifyName()
-                .VerifyUserRole()
-                .VerifyUserName()
-                .VerifyPassword();
 
             RuleFor(request => request.Contacts.Emails)
                 .VerifyEmails();
@@ -28,4 +22,3 @@
         }
     }
 }
-

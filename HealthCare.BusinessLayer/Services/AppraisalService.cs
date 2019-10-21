@@ -7,7 +7,7 @@
     using Contracts.Models.Appraisal.Requests;
     using Contracts.Models.Appraisal.Responses;
     using DataLayer;
-    using DataLayer.Entities;
+    using DataLayer.Entities.UserAccount;
     using Exceptions;
     using Extensions;
     using Interfaces;

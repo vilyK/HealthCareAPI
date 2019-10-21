@@ -15,11 +15,13 @@
         public int RecipientId { get; set; }
 
         [ForeignKey("RecipientId")]
+        [InverseProperty("ReceivedReferrals")]
         public User Recipient { get; set; }
 
         public int SenderId { get; set; }
 
         [ForeignKey("SenderId")]
+        [InverseProperty("SentReferrals")]
         public User Sender { get; set; }
     }
 }

@@ -6,8 +6,10 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    
     using BusinessLayer.Interfaces;
     using BusinessLayer.Services;
+    using BusinessLayer.Services.Authentication;
     using Contracts.Configuration;
     using Contracts.Interfaces;
     using DataLayer;
@@ -17,7 +19,6 @@
     using Templates;
     using Utilities.Helpers.EmailSender;
     using Utils;
-    using Utils.Authentication;
     using Validation.ModelValidators;
 
     internal static class ServiceCollectionExtensions
@@ -33,8 +34,12 @@
                 .AddControllersAsServices()
                 .AddFluentValidation(f =>
                 {
-                    f.RegisterValidatorsFromAssemblyContaining<RegisterUserValidator>();
+                    f.RegisterValidatorsFromAssemblyContaining<AddContactValidator>();
+                    f.RegisterValidatorsFromAssemblyContaining<AppointmentStatusValidator>();
                     f.RegisterValidatorsFromAssemblyContaining<AppraisalValidator>();
+                    f.RegisterValidatorsFromAssemblyContaining<MedicalCenterDataValidator>();
+                    f.RegisterValidatorsFromAssemblyContaining<MedicalManDataValidator>();
+                    f.RegisterValidatorsFromAssemblyContaining<RegisterUserValidator>();
                 });
 
             return services;

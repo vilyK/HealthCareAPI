@@ -1,7 +1,6 @@
 ﻿namespace HealthCare.Validation.Helpers
 {
     using System.Collections.Generic;
-    using System.Net.Mail;
     using System.Text.RegularExpressions;
    
     using Contracts.Models.Appraisal.Data;
@@ -11,27 +10,27 @@
 
     public static class ValidationHelpers
     {
-        public static bool IsValidEmail(this List<EmailData> emails)
+        public static bool HasValidEmails(this List<EmailData> emails)
         {
+            var regexValidator = new Regex(@"^[-!#$%&'*+/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+/0-9=?A-Z^_a-z{|}~])*@[a-zA-Z](-?[a-zA-Z0-9])*(\.[a-zA-Z](-?[a-zA-Z0-9])*)+$");
+
             foreach (var email in emails)
             {
-                var emailsAddress = new MailAddress(email.EmailAddress);
-
-                if (emailsAddress.Address != email.EmailAddress)
+                if (!regexValidator.IsMatch(email.EmailAddress)) 
                     return false;
             }
 
             return true;
         }
 
-        public static bool IsValidPhoneNumber(this List<PhoneData> phonesNumbers)
+        public static bool HasValidPhoneNumbers(this List<PhoneData> phonesNumbers)
         {
+            var regexValidator = new Regex(@"^(\+?[0-9]{8,20})$");
+
             foreach (var phone in phonesNumbers)
             {
-                if (!Regex.Match(phone.Number, @"^(\+[0-9]{10,20})$").Success)
-                {
+                if (!regexValidator.IsMatch(phone.Number))
                     return false;
-                }
             }
 
             return true;

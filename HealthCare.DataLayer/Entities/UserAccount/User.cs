@@ -2,7 +2,9 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations.Schema;
+   
     using Base;
+    using Contacts;
     using MedicalCenter;
     using MedicalData;
     using MedicalMan;
@@ -13,8 +15,6 @@
     public class User : SystemData
     {
         public string Username { get; set; }
-
-        public string Password { get; set; }
 
         public string PasswordHash { get; set; }
 
@@ -40,6 +40,12 @@
         public List<NotificationUser> UserNotifications { get; set; } = new List<NotificationUser>();
 
         public List<NotificationTypeUser> NotificationTypeUsers { get; set; } = new List<NotificationTypeUser>();
+
+        [InverseProperty("Sender")]
+        public List<Referral> SentReferrals { get; set; } = new List<Referral>();
+
+        [InverseProperty("Recipient")]
+        public List<Referral> ReceivedReferrals { get; set; } = new List<Referral>();
 
         [InverseProperty("Doctor")]
         public List<OutpatientCard> DoctorsOutpatientCards { get; set; } = new List<OutpatientCard>();

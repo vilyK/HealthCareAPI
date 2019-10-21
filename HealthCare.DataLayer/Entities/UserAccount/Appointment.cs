@@ -1,8 +1,8 @@
-﻿namespace HealthCare.DataLayer.Entities
+﻿namespace HealthCare.DataLayer.Entities.UserAccount
 {
     using System;
     using System.ComponentModel.DataAnnotations.Schema;
-
+    
     using Base;
     using Utilities.Enums;
 
@@ -12,13 +12,13 @@
 
         [ForeignKey("PatientId")]
         [InverseProperty("PatientAppointments")]
-        public UserAccount.User Patient { get; set; }
+        public User Patient { get; set; }
 
         public int DoctorId { get; set; }
 
         [ForeignKey("DoctorId")]
         [InverseProperty("DoctorAppointments")]
-        public UserAccount.User Doctor { get; set; }
+        public User Doctor { get; set; }
 
         public DateTime AppointmentDate { get; set; }
 

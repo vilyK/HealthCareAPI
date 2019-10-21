@@ -1,10 +1,11 @@
 ﻿namespace HealthCare.DataLayer.Configurations
 {
-    using Entities;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-    public class AppointmentConfiguration : IEntityTypeConfiguration<Appointment>
+    using Entities.UserAccount;
+    
+    public class AppointmentConfig : IEntityTypeConfiguration<Appointment>
     {
         public void Configure(EntityTypeBuilder<Appointment> modelBuilder)
         {

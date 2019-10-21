@@ -1,9 +1,10 @@
 ﻿namespace HealthCare.Validation.ModelValidators
 {
-    using Contracts.Models.MedicalCenterAccount.Requests;
-    using Extensions;
     using FluentValidation;
 
+    using Contracts.Models.MedicalCenterAccount.Requests;
+    using Extensions;
+    
     public class MedicalCenterDataValidator : BaseValidator<PersistMedicalCenterDataRequest>
     {
         public MedicalCenterDataValidator()

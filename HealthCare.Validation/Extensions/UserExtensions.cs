@@ -2,9 +2,10 @@
 {
     using System;
     using System.Collections.Generic;
+    using FluentValidation;
+
     using Contracts.Models.UserAccount.Data;
     using Contracts.Models.UserAccount.Requests;
-    using FluentValidation;
     using Helpers;
     using Utilities.Enums;
     using Utilities.Extensions;
@@ -36,21 +37,21 @@
 
         public static IRuleBuilderOptions<T, List<EmailData>> VerifyEmails<T>(this IRuleBuilder<T, List<EmailData>> ruleBuilder)
         {
-            return ruleBuilder.Must(emails => emails.Count == 0 || emails.IsValidEmail())
+            return ruleBuilder.Must(emails => emails.Count > 0 && emails.HasValidEmails())
                 .WithMessage("Request contains one or more invalid emails.")
                 .WithErrorCode("InvalidEmail.");
         }
 
         public static IRuleBuilderOptions<T, List<PhoneData>> VerifyPhoneNumbers<T>(this IRuleBuilder<T, List<PhoneData>> ruleBuilder)
         {
-            return ruleBuilder.Must(phones => phones.Count == 0 || phones.IsValidPhoneNumber())
+            return ruleBuilder.Must(phones => phones.Count > 0 && phones.HasValidPhoneNumbers())
                 .WithMessage("Request contains one or more invalid phone numbers.")
                 .WithErrorCode("InvalidPhoneNumber");
         }
 
         public static IRuleBuilderOptions<T, List<AddressData>> VerifyAddresses<T>(this IRuleBuilder<T, List<AddressData>> ruleBuilder)
         {
-            return ruleBuilder.Must(addresses => addresses.Count == 0)
+            return ruleBuilder.Must(addresses => addresses.Count > 0)
                 .WithMessage("Request contains one or more invalid addresses")
                 .WithErrorCode("InvalidAddress");
         }

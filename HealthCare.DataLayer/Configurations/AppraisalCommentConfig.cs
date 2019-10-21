@@ -1,10 +1,11 @@
 ﻿namespace HealthCare.DataLayer.Configurations
 {
-    using Entities;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-    public class AppraisalCommentConfiguration : IEntityTypeConfiguration<AppraisalComment>
+    using Entities.UserAccount;
+    
+    public class AppraisalCommentConfig : IEntityTypeConfiguration<AppraisalComment>
     {
         public void Configure(EntityTypeBuilder<AppraisalComment> modelBuilder)
         {

@@ -1,7 +1,7 @@
-﻿namespace HealthCare.DataLayer.Entities
+﻿namespace HealthCare.DataLayer.Entities.UserAccount
 {
     using System.ComponentModel.DataAnnotations.Schema;
-
+   
     using Base;
     using Utilities.Enums;
 

@@ -2,7 +2,7 @@
 {
     using AutoMapper;
     using Contracts.Models.UserAccount.Data;
-    using DataLayer.Entities.UserAccount;
+    using DataLayer.Entities.UserAccount.Contacts;
 
     public class ContactsProfile : Profile
     {

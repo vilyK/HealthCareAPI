@@ -8,8 +8,8 @@
     using Contracts.Models.Appointment.Requests;
     using Contracts.Models.Appointment.Responses;
     using DataLayer;
-    using DataLayer.Entities;
     using DataLayer.Entities.MedicalMan;
+    using DataLayer.Entities.UserAccount;
     using Exceptions;
     using Extensions;
     using Interfaces;

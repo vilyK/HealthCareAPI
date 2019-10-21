@@ -2,12 +2,12 @@
 {
     using System;
     using System.Linq;
+    using Microsoft.AspNetCore.Http;
+    
     using BusinessLayer.Interfaces;
     using Contracts.Interfaces;
     using Contracts.Models;
     using Exceptions;
-    using Interfaces;
-    using Microsoft.AspNetCore.Http;
     using Utilities.Enums;
 
     public class HttpSessionResolver : ISessionResolver

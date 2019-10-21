@@ -1,6 +1,7 @@
-﻿namespace HealthCare.DataLayer.Entities.UserAccount
+﻿namespace HealthCare.DataLayer.Entities.UserAccount.Contacts
 {
     using System.ComponentModel.DataAnnotations.Schema;
+    
     using Base;
 
     public class City : SystemData

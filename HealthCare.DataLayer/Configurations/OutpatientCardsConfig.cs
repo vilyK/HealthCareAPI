@@ -4,7 +4,7 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-    public class OutpatientCardConfiguration : IEntityTypeConfiguration<OutpatientCard>
+    public class OutpatientCardConfig : IEntityTypeConfiguration<OutpatientCard>
     {
         public void Configure(EntityTypeBuilder<OutpatientCard> modelBuilder)
         {

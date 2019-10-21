@@ -1,11 +1,11 @@
 ﻿namespace HealthCare.DataLayer.Utils
 {
-    using Entities.MedicalCenter;
     using Microsoft.EntityFrameworkCore;
 
     using Entities.MedicalData;
     using Entities.MedicalMan;
-    using Entities.UserAccount;
+    using Entities.UserAccount.Contacts;
+    using Entities.MedicalCenter;
     using Interfaces;
 
     public static class ModelBuilderExtensions

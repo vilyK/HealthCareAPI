@@ -13,6 +13,7 @@
     using Contracts.Models.UserAccount.Responses;
     using DataLayer;
     using DataLayer.Entities.UserAccount;
+    using DataLayer.Entities.UserAccount.Contacts;
     using Exceptions;
     using Exceptions.ImagesExceptions;
     using Extensions;
@@ -29,6 +30,7 @@
         private readonly ISessionResolver _sessionResolver;
         private readonly IContactsService _contactsService;
         private readonly IImageService _imageService;
+        private readonly IAuthService _authService;
 
         private const int SaltByteSize = 64;
         private const int HashByteSize = 256;
@@ -38,13 +40,15 @@
             IMapper mapper,
             ISessionResolver sessionResolver,
             IContactsService contactsService,
-            IImageService imageService)
+            IImageService imageService, 
+            IAuthService authService)
         {
             _dbContext = dbContext;
             _mapper = mapper;
             _sessionResolver = sessionResolver;
             _contactsService = contactsService;
             _imageService = imageService;
+            _authService = authService;
         }
 
         public async Task<RegisterUserResponse> RegisterUser(RegisterUserRequest request)
@@ -88,9 +92,12 @@
             var isPasswordMatch = VerifyPassword(request.Password, user.PasswordHash, user.Secret);
             ValidationUtils.ValidateAndThrow<IncorrectUserDataException>(() => !isPasswordMatch);
 
+            var token = _authService.GenerateToken(user.Username, user.Id);
+
             return new LoginUserResponse
             {
-                Username = request.Username
+                Username = request.Username,
+                Token = token
             };
         }
 

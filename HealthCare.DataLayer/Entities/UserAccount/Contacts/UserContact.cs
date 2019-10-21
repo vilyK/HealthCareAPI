@@ -1,7 +1,8 @@
-﻿namespace HealthCare.DataLayer.Entities.UserAccount
+﻿namespace HealthCare.DataLayer.Entities.UserAccount.Contacts
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations.Schema;
+    
     using Base;
 
     public class UserContact : SystemData
