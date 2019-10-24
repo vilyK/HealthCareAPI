@@ -3,6 +3,7 @@
     using System;
     using System.IO;
     using Exceptions.ImagesExceptions;
+    
     using Utilities.Enums;
     using Utilities.Helpers;
 
@@ -13,7 +14,6 @@
             image.ValidateImage();
 
             var imageName = Guid.NewGuid().ToString();
-
             image.CopyTo(Path.Combine(destinationPath, imageName));
 
             return imageName;

@@ -2,7 +2,6 @@
 {
     using AutoMapper;
     using FluentValidation.AspNetCore;
-    using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +15,7 @@
     using DataLayer.Utils;
     using Filters;
     using Interfaces;
+    using Newtonsoft.Json;
     using Templates;
     using Utilities.Helpers.EmailSender;
     using Utils;
@@ -29,9 +29,9 @@
                 .AddMvc(options =>
                 {
                     options.Filters.Add(typeof(GlobalExceptionFilter));
+                        
                 })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-                .AddControllersAsServices()
+                .AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore)
                 .AddFluentValidation(f =>
                 {
                     f.RegisterValidatorsFromAssemblyContaining<AddContactValidator>();

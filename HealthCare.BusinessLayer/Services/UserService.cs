@@ -235,31 +235,25 @@
 
         private (string, string) GenerateSaltedHash(string password)
         {
-            using (var provider = new RNGCryptoServiceProvider())
-            {
-                var saltBytes = new byte[SaltByteSize];
-                provider.GetNonZeroBytes(saltBytes);
-                var salt = Convert.ToBase64String(saltBytes);
+            using var provider = new RNGCryptoServiceProvider();
+            var saltBytes = new byte[SaltByteSize];
+            provider.GetNonZeroBytes(saltBytes);
+            var salt = Convert.ToBase64String(saltBytes);
 
-                using (var hashGenerator = new Rfc2898DeriveBytes(password, saltBytes, HashingIterationsCount))
-                {
-                    var hashPassword = Convert.ToBase64String(hashGenerator.GetBytes(HashByteSize));
+            using var hashGenerator = new Rfc2898DeriveBytes(password, saltBytes, HashingIterationsCount);
+            var hashPassword = Convert.ToBase64String(hashGenerator.GetBytes(HashByteSize));
 
-                    return (hashPassword, salt);
-                }
-            }
+            return (hashPassword, salt);
         }
 
         private bool VerifyPassword(string password, string storedHash, string salt)
         {
             var saltBytes = Convert.FromBase64String(salt);
 
-            using (var hashGenerator = new Rfc2898DeriveBytes(password, saltBytes, HashingIterationsCount))
-            {
-                var generatedHash = Convert.ToBase64String(hashGenerator.GetBytes(HashByteSize));
+            using var hashGenerator = new Rfc2898DeriveBytes(password, saltBytes, HashingIterationsCount);
+            var generatedHash = Convert.ToBase64String(hashGenerator.GetBytes(HashByteSize));
 
-                return generatedHash == storedHash;
-            }
+            return generatedHash == storedHash;
         }
     }
 }
