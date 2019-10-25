@@ -71,7 +71,7 @@
                 User = user
             };
 
-            _dbContext.AddRange(user, userContact);
+            await _dbContext.AddRangeAsync(user, userContact);
 
             PersistUserContacts(request.Contacts, userContact.Id, DatabaseOperation.Insert);
             _dbContext.AddInfoModel(user.Id, request.Name, user.RoleType);

@@ -22,6 +22,7 @@
                 .AddDbContext(Configuration)
                 .AddConfigurations(Configuration)
                 .AddSystemServices()
+                //.AddHostedServices()
                 .AddBusinessServices()
                 .AddCommunicationServices()
                 .AddMappers()

@@ -20,6 +20,7 @@
     using Utilities.Helpers.EmailSender;
     using Utils;
     using Validation.ModelValidators;
+    using Workers;
 
     internal static class ServiceCollectionExtensions
     {
@@ -84,6 +85,13 @@
             services.AddScoped<IDataRetriever, DataRetriever>();
             services.AddScoped<ISessionResolver, HttpSessionResolver>();
             services.AddTransient<IAuthService, JWTService>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddHostedServices(this IServiceCollection services)
+        {
+            services.AddHostedService<DatabaseCleaner>();
 
             return services;
         }
