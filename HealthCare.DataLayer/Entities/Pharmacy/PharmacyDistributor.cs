@@ -9,11 +9,13 @@
         public int PharmacyId { get; set; }
 
         [ForeignKey("PharmacyId")]
+        [InverseProperty("PharmaciesPerDistributor")]
         public User Pharmacy { get; set; }
 
         public int DistributorId { get; set; }
 
         [ForeignKey("DistributorId")]
+        [InverseProperty("DistributorsPerPharmacy")]
         public User Distributor { get; set; }
 
     }

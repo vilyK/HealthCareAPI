@@ -1,6 +1,7 @@
 ﻿namespace HealthCare.DataLayer.Configurations
 {
     using Entities.Pharmacy;
+    
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -10,13 +11,13 @@
         {
             modelBuilder
                 .HasOne(e => e.Distributor)
-                .WithMany(e => e.PharmaciesPerDistributor)
+                .WithMany(e => e.DistributorsPerPharmacy)
                 .HasForeignKey(e => e.DistributorId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder
                 .HasOne(e => e.Pharmacy)
-                .WithMany(e => e.DistributorsPerPharmacy)
+                .WithMany(e => e.PharmaciesPerDistributor)
                 .HasForeignKey(e => e.PharmacyId)
                 .OnDelete(DeleteBehavior.Restrict);
         }

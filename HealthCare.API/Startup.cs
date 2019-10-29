@@ -1,10 +1,10 @@
 ﻿namespace HealthCare.API
 {
-    using Behaviour.Extensions;
     using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+
+    using Behaviour.Extensions;
 
     public class Startup
     {
@@ -22,16 +22,23 @@
                 .AddDbContext(Configuration)
                 .AddConfigurations(Configuration)
                 .AddSystemServices()
+                //.AddHostedServices()
                 .AddBusinessServices()
                 .AddCommunicationServices()
-                .AddMappers();
+                .AddMappers()
+                .AddControllers();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
             app.UseStaticFiles();
             app.UseHttpsRedirection();
-            app.UseMvc();
+            
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace HealthCare.Validation.Helpers
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Text.RegularExpressions;
    
     using Contracts.Models.Appraisal.Data;
@@ -14,26 +15,14 @@
         {
             var regexValidator = new Regex(@"^[-!#$%&'*+/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+/0-9=?A-Z^_a-z{|}~])*@[a-zA-Z](-?[a-zA-Z0-9])*(\.[a-zA-Z](-?[a-zA-Z0-9])*)+$");
 
-            foreach (var email in emails)
-            {
-                if (!regexValidator.IsMatch(email.EmailAddress)) 
-                    return false;
-            }
-
-            return true;
+            return emails.All(email => regexValidator.IsMatch(email.EmailAddress));
         }
 
         public static bool HasValidPhoneNumbers(this List<PhoneData> phonesNumbers)
         {
             var regexValidator = new Regex(@"^(\+?[0-9]{8,20})$");
 
-            foreach (var phone in phonesNumbers)
-            {
-                if (!regexValidator.IsMatch(phone.Number))
-                    return false;
-            }
-
-            return true;
+            return phonesNumbers.All(phone => regexValidator.IsMatch(phone.Number));
         }
 
         public static bool HasValidAppraisal(this List<AppraisalData> appraisals, AppraisalRecipientType recipientType)
@@ -43,13 +32,8 @@
 
             var validAppraisalTypes = recipientType.GetValidAppraisalTypes();
 
-            foreach (var item in appraisals)
-            {
-                if (!validAppraisalTypes.Contains(item.AppraisalType) || !item.AppraisalValue.Between(minValueAppraisal, maxValueAppraisal))
-                    return false;
-            }
-
-            return true;
+            return appraisals.All(item => validAppraisalTypes.Contains(item.AppraisalType) 
+                                          && item.AppraisalValue.Between(minValueAppraisal, maxValueAppraisal));
         }
     }
 }

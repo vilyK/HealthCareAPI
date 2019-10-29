@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealthCare.DataLayer", "Hea
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealthCare.Templates", "HealthCare.Templates\HealthCare.Templates.csproj", "{9247637B-B552-400C-A329-F80C50ADB23E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthCare.Exceptions", "HealthCare.Exceptions\HealthCare.Exceptions.csproj", "{BA532A68-EBC7-4146-83C9-4A7F50A7CB60}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealthCare.Exceptions", "HealthCare.Exceptions\HealthCare.Exceptions.csproj", "{BA532A68-EBC7-4146-83C9-4A7F50A7CB60}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

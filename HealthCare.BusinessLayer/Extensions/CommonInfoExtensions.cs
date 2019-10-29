@@ -8,7 +8,6 @@
     using DataLayer.Entities.Patient;
     using DataLayer.Entities.Pharmacy;
     using DataLayer.Entities.PharmacyCompany;
-    using Exceptions;
     using Microsoft.EntityFrameworkCore;
     using Utilities.Enums;
 
@@ -51,7 +50,6 @@
             }
         }
 
-
         public static void AddInfoModel(this DbContext dbContext, int userId, string name, RoleType userRoleType)
         {
             switch (userRoleType)
@@ -81,8 +79,8 @@
                     dbContext.CreateInfoObject<PharmacyCompanyInfo>(name, userId);
                     break;
                 }
-                default:
-                    throw new IncorrectUserDataException();
+                case RoleType.Admin:
+                    break;
             }
         }
     }
