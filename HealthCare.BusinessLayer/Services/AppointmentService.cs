@@ -78,14 +78,13 @@
 
         public async Task<AddAppointmentHoursResponse> AddAppointmentHours(AddAppointmentHoursRequest request)
         {
-            var medicalMannInfoId = _dbContext.MedicalManInfos.SingleOrDefault(x => x.UserId == _sessionResolver.SessionInfo.UserId).Id;
+            var medicalManInfoId = _dbContext.MedicalManInfos.SingleOrDefault(x => x.UserId == _sessionResolver.SessionInfo.UserId).Id;
 
-            // проверка за повтарящи се часове в списъка -> FluentValidation
             foreach (var hour in request.Hours)
             {
                 var appointmentHour = new AppointmentHours
                 {
-                    MedicalManInfoId = medicalMannInfoId,
+                    MedicalManInfoId = medicalManInfoId,
                     AppointmentHour = hour
                 };
 
