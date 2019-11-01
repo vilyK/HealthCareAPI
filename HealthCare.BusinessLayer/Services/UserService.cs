@@ -15,7 +15,6 @@
     using DataLayer.Entities.UserAccount;
     using DataLayer.Entities.UserAccount.Contacts;
     using Exceptions;
-    using Exceptions.ImagesExceptions;
     using Extensions;
     using Interfaces;
     using Microsoft.EntityFrameworkCore;

@@ -6,6 +6,7 @@
     using Entities.MedicalMan;
     using Entities.UserAccount.Contacts;
     using Entities.MedicalCenter;
+    using Entities.Notification;
     using Interfaces;
 
     public static class ModelBuilderExtensions
@@ -33,6 +34,8 @@
             modelBuilder.Entity<Department>().HasData(dataRetriever.RetrieveData<Department>());
 
             modelBuilder.Entity<MedicalTestType>().HasData(dataRetriever.RetrieveData<MedicalTestType>());
+
+            modelBuilder.Entity<NotificationType>().HasData(dataRetriever.RetrieveData<NotificationType>());
         }
     }
 }

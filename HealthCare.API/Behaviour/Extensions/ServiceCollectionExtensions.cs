@@ -77,6 +77,7 @@
             services.AddScoped<IAppointmentService, AppointmentService>();
             services.AddScoped<IAppraisalService, AppraisalService>();
             services.AddScoped<IImageService, ImageService>();
+            services.AddScoped<INotificationService, NotificationService>();
 
             return services;
         }
