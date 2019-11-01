@@ -15,7 +15,6 @@
     using DataLayer.Entities.UserAccount;
     using DataLayer.Entities.UserAccount.Contacts;
     using Exceptions;
-    using Exceptions.ImagesExceptions;
     using Extensions;
     using Interfaces;
     using Microsoft.EntityFrameworkCore;
@@ -181,9 +180,6 @@
 
         public void UploadProfilePhotos(List<ImageData> imagesInRequest)
         {
-            // check for more than one main photos -> should be imported in FluentValidation
-            ValidationUtils.ValidateAndThrow<IncorrectMainPhotosCountException>(() => imagesInRequest.Count(x => x.IsMain) > 1);
-
             // validation if photos in request belong to the logged customer
             var userPhotos = _dbContext.Photos
                 .Where(x => x.UserId == _sessionResolver.SessionInfo.UserId)

@@ -36,6 +36,8 @@
                 .AddFluentValidation(f =>
                 {
                     f.RegisterValidatorsFromAssemblyContaining<AddContactValidator>();
+                    f.RegisterValidatorsFromAssemblyContaining<UploadImageValidator>();
+                    f.RegisterValidatorsFromAssemblyContaining<AddAppointmentValidator>();
                     f.RegisterValidatorsFromAssemblyContaining<AppointmentStatusValidator>();
                     f.RegisterValidatorsFromAssemblyContaining<AppraisalValidator>();
                     f.RegisterValidatorsFromAssemblyContaining<MedicalCenterDataValidator>();
@@ -75,6 +77,7 @@
             services.AddScoped<IAppointmentService, AppointmentService>();
             services.AddScoped<IAppraisalService, AppraisalService>();
             services.AddScoped<IImageService, ImageService>();
+            services.AddScoped<INotificationService, NotificationService>();
 
             return services;
         }
