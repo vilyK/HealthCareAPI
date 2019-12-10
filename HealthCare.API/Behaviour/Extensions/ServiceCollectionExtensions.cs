@@ -35,13 +35,6 @@
                 .AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore)
                 .AddFluentValidation(f =>
                 {
-                    f.RegisterValidatorsFromAssemblyContaining<AddContactValidator>();
-                    f.RegisterValidatorsFromAssemblyContaining<UploadImageValidator>();
-                    f.RegisterValidatorsFromAssemblyContaining<AddAppointmentValidator>();
-                    f.RegisterValidatorsFromAssemblyContaining<AppointmentStatusValidator>();
-                    f.RegisterValidatorsFromAssemblyContaining<AppraisalValidator>();
-                    f.RegisterValidatorsFromAssemblyContaining<MedicalCenterDataValidator>();
-                    f.RegisterValidatorsFromAssemblyContaining<MedicalManDataValidator>();
                     f.RegisterValidatorsFromAssemblyContaining<RegisterUserValidator>();
                 });
 

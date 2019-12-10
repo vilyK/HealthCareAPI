@@ -11,6 +11,7 @@
 
     [Route("user")]
     [ApiController]
+    [ValidationFilter]
     [CustomAuthorizationFilter(RoleType.Admin, RoleType.Patient, RoleType.Doctor, RoleType.MedicalCenter, RoleType.Pharmacy, RoleType.PharmacyCompany)]
     public class AppraisalController : ControllerBase
     {

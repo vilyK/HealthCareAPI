@@ -5,11 +5,11 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Filters;
 
-    public class ValidationFilter : ResultFilterAttribute
+    public class ValidationFilter : ActionFilterAttribute
     {
-        public override void OnResultExecuting(ResultExecutingContext context)
+        public override void OnActionExecuting(ActionExecutingContext context)
         {
-            base.OnResultExecuting(context);
+            base.OnActionExecuting(context);
 
             var model = context.ModelState;
             if (model.IsValid)
