@@ -1,4 +1,4 @@
-﻿namespace HealthCare.API.Behaviour.Filters
+﻿namespace HealthCare.Contracts.Models
 {
     using System;
     using Newtonsoft.Json;
