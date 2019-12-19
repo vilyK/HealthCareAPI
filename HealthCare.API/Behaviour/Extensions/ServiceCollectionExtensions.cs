@@ -5,7 +5,7 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    
+
     using BusinessLayer.Interfaces;
     using BusinessLayer.Services;
     using BusinessLayer.Services.Authentication;
@@ -30,7 +30,7 @@
                 .AddMvc(options =>
                 {
                     options.Filters.Add(typeof(GlobalExceptionFilter));
-                        
+
                 })
                 .AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore)
                 .AddFluentValidation(f =>
@@ -50,39 +50,35 @@
 
         public static IServiceCollection AddConfigurations(this IServiceCollection service, IConfiguration configuration)
         {
-            service.Configure<SeedSettings>(configuration.GetSection("SeedSettings"));
-            service.Configure<JwtAuthentication>(configuration.GetSection("JwtAuthentication"));
-            service.Configure<CommonSettings>(configuration.GetSection("CommonSettings"));
-            service.Configure<EmailConfiguration>(configuration.GetSection("EmailConfiguration"));
-            service.Configure<EmailConfiguration>(configuration.GetSection("TwilioConfiguration"));
-
-            return service;
+            return service.Configure<SeedSettings>(configuration.GetSection("SeedSettings"))
+                          .Configure<JwtAuthentication>(configuration.GetSection("JwtAuthentication"))
+                          .Configure<CommonSettings>(configuration.GetSection("CommonSettings"))
+                          .Configure<EmailConfiguration>(configuration.GetSection("EmailConfiguration"))
+                          .Configure<EmailConfiguration>(configuration.GetSection("TwilioConfiguration"));
         }
 
         public static IServiceCollection AddBusinessServices(this IServiceCollection services)
         {
-            services.AddScoped<IContactsService, ContactsService>();
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IPatientService, PatientService>();
-            services.AddScoped<IMedicalManService, MedicalManService>();
-            services.AddScoped<IMedicalCenterService, MedicalCenterService>();
-            services.AddScoped<IMedicalDataService, MedicalDataService>();
-            services.AddScoped<IAppointmentService, AppointmentService>();
-            services.AddScoped<IAppraisalService, AppraisalService>();
-            services.AddScoped<IImageService, ImageService>();
-            services.AddScoped<INotificationService, NotificationService>();
+            return services.AddScoped<IContactsService, ContactsService>()
+                           .AddScoped<IUserService, UserService>()
+                           .AddScoped<IPatientService, PatientService>()
+                           .AddScoped<IMedicalManService, MedicalManService>()
+                           .AddScoped<IMedicalCenterService, MedicalCenterService>()
+                           .AddScoped<IMedicalDataService, MedicalDataService>()
+                           .AddScoped<IAppointmentService, AppointmentService>()
+                           .AddScoped<IAppraisalService, AppraisalService>()
+                           .AddScoped<IImageService, ImageService>()
+                           .AddScoped<INotificationService, NotificationService>();
 
-            return services;
         }
 
         public static IServiceCollection AddSystemServices(this IServiceCollection services)
         {
-            services.AddScoped<IStorageService, DatabaseService>();
-            services.AddScoped<IDataRetriever, DataRetriever>();
-            services.AddScoped<ISessionResolver, HttpSessionResolver>();
-            services.AddTransient<IAuthService, JWTService>();
+            return services.AddScoped<IStorageService, DatabaseService>()
+                           .AddScoped<IDataRetriever, DataRetriever>()
+                           .AddScoped<ISessionResolver, HttpSessionResolver>()
+                           .AddTransient<IAuthService, JWTService>();
 
-            return services;
         }
 
         public static IServiceCollection AddHostedServices(this IServiceCollection services)
@@ -94,11 +90,9 @@
 
         public static IServiceCollection AddCommunicationServices(this IServiceCollection services)
         {
-            services.AddTransient<IEmailService, EmailService>();
-            services.AddScoped<ICommunicationService, CommunicationService>();
-            services.AddScoped<IRazorViewToStringRenderer, RazorViewToStringRenderer>();
-
-            return services;
+            return services.AddTransient<IEmailService, EmailService>()
+                           .AddScoped<ICommunicationService, CommunicationService>()
+                           .AddScoped<IRazorViewToStringRenderer, RazorViewToStringRenderer>();
         }
 
         public static IServiceCollection AddMappers(this IServiceCollection services)
