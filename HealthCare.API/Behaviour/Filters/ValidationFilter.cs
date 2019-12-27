@@ -2,6 +2,7 @@
 {
     using System.Linq;
     using System.Net;
+    using Contracts.Models;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Filters;
 
