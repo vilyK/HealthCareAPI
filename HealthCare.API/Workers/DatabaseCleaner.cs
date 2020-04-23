@@ -20,24 +20,26 @@
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            await ClearAppointmentHoursTable(stoppingToken);
+        }
+
+        private async Task ClearAppointmentHoursTable(CancellationToken stoppingToken)
+        {
             while (!stoppingToken.IsCancellationRequested)
             {
                 using var scope = _scopeFactory.CreateScope();
                 var dbContext = scope.ServiceProvider.GetRequiredService<HealthCareDbContext>();
-                
-                await ClearAppointmentHoursTable(dbContext);
+
+                var hours = dbContext.AppointmentHours
+                    .Where(x => x.AppointmentHour < DateTime.Now.AddHours(-12))
+                    .ToList();
+
+                dbContext.RemoveRange(hours);
+
+                await dbContext.SaveChangesAsync();
+
+                await Task.Delay(10000);
             }
-        }
-
-        private async Task ClearAppointmentHoursTable(HealthCareDbContext dbContext)
-        {
-            var hours = dbContext.AppointmentHours
-                .Where(x => x.AppointmentHour < DateTime.Now.AddHours(-12))
-                .ToList();
-
-            dbContext.RemoveRange(hours);
-
-            await dbContext.SaveChangesAsync();
         }
     }
 }

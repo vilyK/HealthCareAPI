@@ -1,7 +1,7 @@
 ﻿namespace HealthCare.API.Behaviour.Filters
 {
     using System.Net;
-    using Contracts.Models;
+    using Contracts.Models.Common;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Filters;
 

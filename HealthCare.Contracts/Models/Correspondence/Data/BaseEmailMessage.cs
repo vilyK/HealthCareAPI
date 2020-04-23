@@ -1,6 +1,6 @@
 ﻿namespace HealthCare.Contracts.Models.Correspondence.Data
 {
-    using Utilities.Helpers.EmailSender.Models;
+    using Email;
 
     public class BaseEmailMessage
     {

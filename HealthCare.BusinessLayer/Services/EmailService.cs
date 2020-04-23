@@ -1,7 +1,8 @@
-﻿namespace HealthCare.Utilities.Helpers.EmailSender
+﻿namespace HealthCare.BusinessLayer.Services
 {
     using System.Threading.Tasks;
-    using Interfaces;
+    using Contracts.Configuration;
+    using HealthCare.Interfaces;
     using MailKit.Net.Smtp;
     using MailKit.Security;
     using Microsoft.Extensions.Options;

@@ -6,7 +6,7 @@
     
     using BusinessLayer.Interfaces;
     using Contracts.Interfaces;
-    using Contracts.Models;
+    using Contracts.Models.Common;
     using Exceptions;
     using Utilities.Enums;
 

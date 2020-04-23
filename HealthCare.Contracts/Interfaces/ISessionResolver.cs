@@ -2,7 +2,7 @@
 {
     using Microsoft.AspNetCore.Http;
 
-    using Models;
+    using Models.Common;
     using Utilities.Enums;
 
     public interface ISessionResolver

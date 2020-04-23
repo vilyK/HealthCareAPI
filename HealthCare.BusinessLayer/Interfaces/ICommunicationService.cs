@@ -2,7 +2,7 @@
 {
     using System.Threading.Tasks;
     using Contracts.Models.Correspondence.Responses;
-    using Utilities.Helpers.EmailSender.Models;
+    using Contracts.Models.Email;
 
     public interface ICommunicationService
     {

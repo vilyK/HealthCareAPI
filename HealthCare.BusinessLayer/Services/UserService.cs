@@ -6,7 +6,7 @@
     using System.Security.Cryptography;
     using System.Threading.Tasks;
     using AutoMapper;
-  
+    
     using Contracts.Interfaces;
     using Contracts.Models.UserAccount.Data;
     using Contracts.Models.UserAccount.Requests;
@@ -39,7 +39,7 @@
             IMapper mapper,
             ISessionResolver sessionResolver,
             IContactsService contactsService,
-            IImageService imageService, 
+            IImageService imageService,
             IAuthService authService)
         {
             _dbContext = dbContext;
@@ -180,7 +180,6 @@
 
         public void UploadProfilePhotos(List<ImageData> imagesInRequest)
         {
-            // validation if photos in request belong to the logged customer
             var userPhotos = _dbContext.Photos
                 .Where(x => x.UserId == _sessionResolver.SessionInfo.UserId)
                 .Select(x => x.Id)
@@ -205,7 +204,7 @@
             return user;
         }
 
-        private void EditUsernameAndPass(GeneralUserData data, User user)
+        private static void EditUsernameAndPass(GeneralUserData data, User user)
         {
             if (data.Username != null)
             {
@@ -229,7 +228,7 @@
             _contactsService.PersistEntities<PhoneData, Phone>(contacts.Phones.EmptyIfNull(), userContactId, operation);
         }
 
-        private (string, string) GenerateSaltedHash(string password)
+        private static (string, string) GenerateSaltedHash(string password)
         {
             using var provider = new RNGCryptoServiceProvider();
             var saltBytes = new byte[SaltByteSize];
@@ -242,7 +241,7 @@
             return (hashPassword, salt);
         }
 
-        private bool VerifyPassword(string password, string storedHash, string salt)
+        private static bool VerifyPassword(string password, string storedHash, string salt)
         {
             var saltBytes = Convert.FromBase64String(salt);
 

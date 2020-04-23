@@ -17,7 +17,6 @@
     using Interfaces;
     using Newtonsoft.Json;
     using Templates;
-    using Utilities.Helpers.EmailSender;
     using Utils;
     using Validation.ModelValidators;
     using Workers;
@@ -54,9 +53,9 @@
                           .Configure<JwtAuthentication>(configuration.GetSection("JwtAuthentication"))
                           .Configure<CommonSettings>(configuration.GetSection("CommonSettings"))
                           .Configure<EmailConfiguration>(configuration.GetSection("EmailConfiguration"))
-                          .Configure<EmailConfiguration>(configuration.GetSection("TwilioConfiguration"));
+                          .Configure<TwilioConfiguration>(configuration.GetSection("TwilioConfiguration"));
         }
-
+        
         public static IServiceCollection AddBusinessServices(this IServiceCollection services)
         {
             return services.AddScoped<IContactsService, ContactsService>()
@@ -69,7 +68,6 @@
                            .AddScoped<IAppraisalService, AppraisalService>()
                            .AddScoped<IImageService, ImageService>()
                            .AddScoped<INotificationService, NotificationService>();
-
         }
 
         public static IServiceCollection AddSystemServices(this IServiceCollection services)
@@ -78,14 +76,11 @@
                            .AddScoped<IDataRetriever, DataRetriever>()
                            .AddScoped<ISessionResolver, HttpSessionResolver>()
                            .AddTransient<IAuthService, JWTService>();
-
         }
 
         public static IServiceCollection AddHostedServices(this IServiceCollection services)
         {
-            services.AddHostedService<DatabaseCleaner>();
-
-            return services;
+            return services.AddHostedService<DatabaseCleaner>();
         }
 
         public static IServiceCollection AddCommunicationServices(this IServiceCollection services)

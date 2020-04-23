@@ -1,4 +1,4 @@
-﻿namespace HealthCare.Contracts.Models
+﻿namespace HealthCare.Contracts.Models.Common
 {
     using System;
     using Newtonsoft.Json;

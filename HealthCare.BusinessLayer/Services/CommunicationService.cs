@@ -6,11 +6,11 @@
 
     using Contracts.Configuration;
     using Contracts.Models.Correspondence.Responses;
+    using Contracts.Models.Email;
+    using Extensions;
     using HealthCare.Interfaces;
     using Interfaces;
     using Microsoft.Extensions.Options;
-    using Utilities.Helpers.EmailSender.Extensions;
-    using Utilities.Helpers.EmailSender.Models;
 
     public class CommunicationService : ICommunicationService
     {
