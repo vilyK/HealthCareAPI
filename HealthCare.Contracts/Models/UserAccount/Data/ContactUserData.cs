@@ -7,7 +7,5 @@
         public List<EmailData> Emails { get; set; }
 
         public List<PhoneData> Phones { get; set; }
-
-        public List<AddressData> Addresses { get; set; }
     }
 }

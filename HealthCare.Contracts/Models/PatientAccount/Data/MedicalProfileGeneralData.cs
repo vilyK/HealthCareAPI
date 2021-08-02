@@ -13,6 +13,5 @@
         public Level StressLevel { get; set; }
 
         public BloodGroup BloodGroup { get; set; }
-
     }
 }

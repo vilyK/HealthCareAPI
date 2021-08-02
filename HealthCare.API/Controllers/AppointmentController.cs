@@ -1,5 +1,6 @@
 ﻿namespace HealthCare.API.Controllers
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +8,7 @@
     using BusinessLayer.Interfaces;
     using Contracts.Models.Appointment.Requests;
     using Contracts.Models.Appointment.Responses;
+    using Contracts.Models.Common;
     using Utilities.Enums;
 
     [Route("appointment")]
@@ -23,16 +25,54 @@
 
         [Route("request")]
         [HttpPost]
-        public async Task<RequestAppointmentResponse> RequestAppointment(RequestAppointmentRequest request)
+        [DisableCustomAuthorizationFilter]
+        public async Task RequestAppointment(RequestAppointmentRequest request)
         {
-            return await _appointmentService.RequestAppointment(request);
+            await _appointmentService.RequestAppointment(request);
         }
 
         [Route("changeStatus")]
         [HttpPost]
-        public async Task<RequestAppointmentResponse> ChangeAppointmentStatus(ChangeAppointmentStatusRequest request)
+        public async Task<TokenData> ChangeAppointmentStatus(ChangeAppointmentStatusRequest request)
         {
             return await _appointmentService.ChangeAppointmentStatus(request);
+        }
+
+        [Route("getDoctorAppointments")]
+        [HttpGet]
+        public GetAppointmentsResponse GetAppointmentsForDoctor()
+        {
+            return  _appointmentService.GetAppointmentsForDoctor();
+        }
+
+        [Route("getPatientAppointments/{patientId}")]
+        [HttpGet]
+        public GetAppointmentsResponse GetPatientAppointmentsByDoctor(int patientId)
+        {
+            return _appointmentService.GetAppointmentsForPatientsByDoctor(patientId);
+        }
+
+
+        [Route("getAvailableHours/{medicalCenterId}/{medManId}")]
+        [HttpGet]
+        [DisableCustomAuthorizationFilter]
+        public async Task<List<HourData>> GetAvailableHours(int medicalCenterId, int medManId)
+        {
+            return await _appointmentService.GetAvailableHours(medicalCenterId, medManId);
+        }
+
+        [Route("addAppointmentHours")]
+        [HttpPost]
+        public async Task<TokenData> AddAppointmentHours(AddAppointmentHoursRequest request)
+        {
+            return await _appointmentService.AddAppointmentHours(request);
+        }
+
+        [Route("getUpComingApps")]
+        [HttpGet]
+        public GetAppointmentsResponse GetUpComingApps()
+        {
+            return _appointmentService.GetUpComingAppointmentsForDoctor();
         }
     }
 }

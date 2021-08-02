@@ -12,7 +12,8 @@
             CascadeMode = CascadeMode.StopOnFirstFailure;
 
             RuleFor(request => request.GeneralDataData)
-                .VerifyName();
+                .VerifyName()
+                .VerifyIdentityNumber();
         }
     }
 }

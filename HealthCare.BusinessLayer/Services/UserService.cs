@@ -5,9 +5,11 @@
     using System.Linq;
     using System.Security.Cryptography;
     using System.Threading.Tasks;
+    using Microsoft.EntityFrameworkCore;
     using AutoMapper;
-    
+
     using Contracts.Interfaces;
+    using Contracts.Models.Common;
     using Contracts.Models.UserAccount.Data;
     using Contracts.Models.UserAccount.Requests;
     using Contracts.Models.UserAccount.Responses;
@@ -16,9 +18,10 @@
     using DataLayer.Entities.UserAccount.Contacts;
     using Exceptions;
     using Extensions;
+    using Helpers;
     using Interfaces;
-    using Microsoft.EntityFrameworkCore;
     using Utilities.Enums;
+    using Utilities.Enums.Common;
     using Utilities.Extensions;
     using Utilities.Helpers;
 
@@ -30,6 +33,7 @@
         private readonly IContactsService _contactsService;
         private readonly IImageService _imageService;
         private readonly IAuthService _authService;
+        private readonly ICommunicationService _communicationService;
 
         private const int SaltByteSize = 64;
         private const int HashByteSize = 256;
@@ -40,7 +44,8 @@
             ISessionResolver sessionResolver,
             IContactsService contactsService,
             IImageService imageService,
-            IAuthService authService)
+            IAuthService authService,
+            ICommunicationService communicationService)
         {
             _dbContext = dbContext;
             _mapper = mapper;
@@ -48,23 +53,28 @@
             _contactsService = contactsService;
             _imageService = imageService;
             _authService = authService;
+            _communicationService = communicationService;
         }
 
         public async Task<RegisterUserResponse> RegisterUser(RegisterUserRequest request)
         {
-            var userExists = await _dbContext.Users.SingleOrDefaultAsync(x => x.Username == request.GeneralData.Username);
-            ValidationUtils.ValidateAndThrow<ExistedUserNameException>(() => userExists != null);
-
-            var (hashedPassword, secret) = GenerateSaltedHash(request.GeneralData.Password);
-
             var user = new User
             {
-                Username = request.GeneralData.Username,
-                PasswordHash = hashedPassword,
-                Secret = secret,
                 RoleType = request.UserRole
             };
 
+            if (request.UserRole == RoleType.Doctor)
+            {
+                var userExists = await _dbContext.Users.SingleOrDefaultAsync(x => x.Username == request.GeneralData.Username);
+                ValidationUtils.ValidateAndThrow<ExistedUserNameException>(() => userExists != null);
+
+                var (hashedPassword, secret) = GenerateSaltedHash(request.GeneralData.Password);
+
+                user.Username = request.GeneralData.Username;
+                user.PasswordHash = hashedPassword;
+                user.Secret = secret;
+            }
+            
             var userContact = new UserContact
             {
                 User = user
@@ -72,10 +82,19 @@
 
             await _dbContext.AddRangeAsync(user, userContact);
 
-            PersistUserContacts(request.Contacts, userContact.Id, DatabaseOperation.Insert);
             _dbContext.AddInfoModel(user.Id, request.Name, user.RoleType);
+
+            PersistUserContactsOnRegistration(request.Contacts, userContact.Id, DatabaseOperation.Insert);
+
+            if(request.UserRole == RoleType.Patient)
+            {
+                _contactsService.PersistEntity<AddressData, Address>(request.Contacts.Address, userContact.Id, DatabaseOperation.Insert);
+            }
             
             await _dbContext.SaveChangesAsync();
+
+            //var (emailMessage, model) = EmailBuilderHelper.BuildWelcomeEmail(request.GeneralData.Username ?? request.Name, request.Contacts.Email.EmailAddress);
+            //await _communicationService.SendEmail(emailMessage, model);
 
             return new RegisterUserResponse
             {
@@ -100,15 +119,15 @@
             };
         }
 
-        public async Task<AddContactResponse> AddContact(AddContactRequest request)
+        public async Task<TokenData> AddContact(AddContactRequest request)
         {
             var userContactId = _dbContext.UserContacts.SingleOrDefault(x => x.UserId == _sessionResolver.SessionInfo.UserId)?.Id;
 
-            PersistUserContacts(request.Contacts, userContactId.GetValueOrDefault(), DatabaseOperation.Insert);
+            PersistUserContacts(request.Contacts, userContactId.GetValueOrDefault());
 
             await _dbContext.SaveChangesAsync();
 
-            return new AddContactResponse
+            return new TokenData
             {
                 Token = _sessionResolver.SessionInfo.NewToken
             };
@@ -126,7 +145,7 @@
             var userContactId = _dbContext.UserContacts.SingleOrDefault(x => x.UserId == _sessionResolver.SessionInfo.UserId)?.Id;
             ValidationUtils.ValidateAndThrow<DataMismatchException>(() => userContactId == 0);
 
-            PersistUserContacts(request.Contacts, userContactId.GetValueOrDefault(), DatabaseOperation.Update);
+            PersistUserContacts(request.Contacts, userContactId.GetValueOrDefault());
 
             await _dbContext.SaveChangesAsync();
 
@@ -136,47 +155,60 @@
             };
         }
 
-        public async Task<UploadImagesResponse> UploadImages(UploadImagesRequest request)
+        public async Task<TokenData> UploadImages(UploadImagesRequest request)
         {
             UploadProfilePhotos(request.Images);
 
             await _dbContext.SaveChangesAsync();
 
-            return new UploadImagesResponse
+            return new TokenData
             {
                 Token = _sessionResolver.SessionInfo.NewToken
             };
         }
 
-        public Task<RetrieveDoctorsResponse> RetrieveDoctors(RetrieveDoctorsRequest request)
+        public async Task ForgotPassword(ForgotPasswordRequest request)
         {
-            var users = _dbContext.Users.Where(u => u.RoleType == RoleType.Doctor).Where(u => u.MedicalManInfo.IsNzok == request.WorkingWithNzok)
-                .Where(u => u.MedicalManInfo.IsAdditionalHealthInsurance == request.IsAdditionalHealthInsurance)
-                .Where(u => u.MedicalManInfo.ExperienceInYears > request.Experience.ExperienceInYearsLowLimit
-                            && u.MedicalManInfo.ExperienceInYears < request.Experience.ExperienceInYearsHighLimit)
-                .Where(s => request.DoctorCategories.CategoryIds
-                    .Any(_dbContext.MedicalManSpecialties
-                        .SelectMany(u => u.MedManInfo.Specialties
-                            .Select(sp => sp.SpecialtyId))
-                        .ToList()
-                        .Contains))
-                .Where(c => request.Cities.CityIds
-                    .Any(_dbContext.Users
-                        .SelectMany(u => u.UserContact.Addresses
-                            .Select(city => city.CityId))
-                        .ToList()
-                        .Contains))
-                .ToList();
+            var emailContact = _dbContext.Emails.SingleOrDefault(email => email.EmailAddress.Contains(request.Email));
+            ValidationUtils.ValidateAndThrow<NonExistingEmailException>(() => emailContact == null);
 
-            var map = _mapper.Map<RetrieveDoctorsResponse>(users);
+            var user = _dbContext.Users.SingleOrDefault(usr => usr.UserContact.Id == emailContact.UserContactId);
 
-            throw new NotImplementedException();
+            var newPassword = Guid.NewGuid().ToString();
+            var (hashedPassword, secret) = GenerateSaltedHash(newPassword);
+
+            user.PasswordHash = hashedPassword;
+            user.Secret = secret;
+
+            await _dbContext.SaveChangesAsync();
+
+            var (emailMessage, model) = EmailBuilderHelper.BuildForgottenPasswordEmail(user.Username, request.Email, newPassword);
+  
+            await _communicationService.SendEmail(emailMessage, model);
+
         }
 
-        public Task<RetrieveMedicalCentersResponse> RetrieveMedicalCenters(RetrieveMedicalCentersRequest request)
+        public async Task<TokenData> ChangePassword(ChangePasswordRequest request)
         {
-            throw new NotImplementedException();
+            var user = RetrieveUser(_sessionResolver.SessionInfo.Username, _sessionResolver.SessionInfo.UserId);
+
+            var isPasswordMatch = VerifyPassword(request.OldPassword, user.PasswordHash, user.Secret);
+            ValidationUtils.ValidateAndThrow<IncorrectPasswordException>(() => !isPasswordMatch);
+
+            var (hashedPassword, secret) = GenerateSaltedHash(request.NewPassword);
+            user.PasswordHash = hashedPassword;
+            user.Secret = secret;
+
+            await _dbContext.SaveChangesAsync();
+            
+            var token = _authService.GenerateToken(user.Username, user.Id);
+
+            return new TokenData
+            {
+                Token = token
+            };
         }
+
 
         public void UploadProfilePhotos(List<ImageData> imagesInRequest)
         {
@@ -194,6 +226,28 @@
                 () => existedPhotosInRequest.Count > 0 && !existedPhotosInRequest.All(userPhotos.Contains));
 
             _imageService.UploadImages(imagesInRequest);
+        }
+
+        public async Task AddMedicalCenter(AddMedicalCenterRequest request)
+        {
+            var user = new User
+            {
+                Username = request.Name,
+                RoleType = RoleType.MedicalCenter
+            };
+
+            var userContact = new UserContact
+            {
+                User = user
+            };
+
+            await _dbContext.AddRangeAsync(user, userContact);
+
+            _dbContext.AddInfoModel(user.Id, request.Name, user.RoleType);
+
+            _contactsService.PersistEntity<AddressData, Address>(request.Address, userContact.UserId, DatabaseOperation.Insert);
+            
+            await _dbContext.SaveChangesAsync();
         }
 
         private User RetrieveUser(string username, int userId)
@@ -221,11 +275,22 @@
             user.UpdateDate = DateTime.Now;
         }
 
-        private void PersistUserContacts(ContactUserData contacts, int userContactId, DatabaseOperation operation)
+        private void PersistUserContactsOnRegistration(RegisterContactData contacts, int userContactId, DatabaseOperation operation)
         {
-            _contactsService.PersistEntities<AddressData, Address>(contacts.Addresses.EmptyIfNull(), userContactId, operation);
-            _contactsService.PersistEntities<EmailData, Email>(contacts.Emails.EmptyIfNull(), userContactId, operation);
-            _contactsService.PersistEntities<PhoneData, Phone>(contacts.Phones.EmptyIfNull(), userContactId, operation);
+            _contactsService.PersistEntity<EmailData, Email>(contacts.Email, userContactId, operation);
+            _contactsService.PersistEntity<PhoneData, Phone>(contacts.Phone, userContactId, operation);
+        }
+
+        private void PersistUserContacts(ContactUserData contacts, int userContactId)
+        {
+            var emails = contacts.Emails.EmptyIfNull();
+            foreach ( var email in emails)
+                _contactsService.PersistEntity<EmailData, Email>(email, userContactId, email.Id.GetDbOperation());
+            
+
+            var phones = contacts.Phones.EmptyIfNull();
+            foreach (var phone in phones)
+                _contactsService.PersistEntity<PhoneData, Phone>(phone, userContactId, phone.Id.GetDbOperation());
         }
 
         private static (string, string) GenerateSaltedHash(string password)

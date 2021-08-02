@@ -5,6 +5,7 @@
 
     using Behaviour.Filters;
     using BusinessLayer.Interfaces;
+    using Contracts.Models.Common;
     using Contracts.Models.UserAccount.Requests;
     using Contracts.Models.UserAccount.Responses;
     using Utilities.Enums;
@@ -39,6 +40,21 @@
             return await _userService.LoginUser(request);
         }
 
+        [Route("forgotPassword")]
+        [HttpPost]
+        [DisableCustomAuthorizationFilter]
+        public async Task ForgotPassword(ForgotPasswordRequest request)
+        {
+            await _userService.ForgotPassword(request);
+        }
+
+        [Route("changePassword")]
+        [HttpPost]
+        public async Task ChangePassword(ChangePasswordRequest request)
+        {
+            await _userService.ChangePassword(request);
+        }
+
         [Route("editData")]
         [HttpPost]
         public async Task<EditUserGeneraDataResponse> EditGeneralInfo(EditUserGeneraDataRequest request)
@@ -46,19 +62,28 @@
             return await _userService.EditGeneralData(request);
         }
 
-        [Route("addContact")]
+        [Route("editContacts")]
         [HttpPost]
-        public async Task<AddContactResponse> AddContact(AddContactRequest request)
+        public async Task<TokenData> AddContact(AddContactRequest request)
         {
             return await _userService.AddContact(request);
         }
 
         [Route("uploadImages")]
-        [HttpGet]
-        [DisableCustomAuthorizationFilter]
-        public async Task<UploadImagesResponse> UploadImages(UploadImagesRequest request)
+        [HttpPost]
+        public async Task<TokenData> UploadImages(UploadImagesRequest request)
         {
             return await _userService.UploadImages(request);
+        }
+
+        [Route("addMedicalCenter")]
+        [HttpPost]
+        [DisableCustomAuthorizationFilter]
+        public async Task<OkObjectResult> AddMedicalCenter(AddMedicalCenterRequest request)
+        {
+            await _userService.AddMedicalCenter(request);
+
+            return Ok("Bingo");
         }
     }
 }

@@ -1,9 +1,12 @@
 ﻿namespace HealthCare.API.Behaviour.Utils.AutoMapperProfiles
 {
     using AutoMapper;
+
+    using Contracts.Models.Common;
     using Contracts.Models.UserAccount.Requests;
     using Contracts.Models.UserAccount.Responses;
     using DataLayer.Entities.UserAccount;
+    using DataLayer.Entities.UserAccount.Contacts;
 
     public class BaseProfile : Profile
     {
@@ -16,6 +19,10 @@
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Contacts, opt => opt.MapFrom(src => src.UserContact))
                 .ForMember(dest => dest.Biography, opt => opt.MapFrom(src => src.MedicalManInfo.Biography));
+
+            CreateMap<City, CityData>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
         }
     }
 }

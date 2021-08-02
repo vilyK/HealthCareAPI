@@ -1,6 +1,6 @@
 ﻿namespace HealthCare.Contracts.Models.Appointment.Requests
 {
-    using Utilities.Enums;
+    using Utilities.Enums.Appointment;
 
     public class ChangeAppointmentStatusRequest
     {

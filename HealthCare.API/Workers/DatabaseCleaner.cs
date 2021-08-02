@@ -30,11 +30,11 @@
                 using var scope = _scopeFactory.CreateScope();
                 var dbContext = scope.ServiceProvider.GetRequiredService<HealthCareDbContext>();
 
-                var hours = dbContext.AppointmentHours
-                    .Where(x => x.AppointmentHour < DateTime.Now.AddHours(-12))
-                    .ToList();
+                //var hours = dbContext.AppointmentHours
+                //    //.Where(x => x.AppointmentHour < DateTime.Now.AddHours(-12))
+                //    .ToList();
 
-                dbContext.RemoveRange(hours);
+                //dbContext.RemoveRange(hours);
 
                 await dbContext.SaveChangesAsync();
 

@@ -8,8 +8,8 @@
     {
         public MedicalManGeneralData GeneralDataData { get; set; }
 
-        public List<AwardData> Awards { get; set; }
-
         public List<int> Specialties { get; set; }
+
+        public List<int> MedicalCenters { get; set; }
     }
 }

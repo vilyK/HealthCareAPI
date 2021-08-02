@@ -27,7 +27,7 @@
         {
             try
             {
-                request.Headers.TryGetValue("Authorization", out var token);
+                request.Headers.TryGetValue("Token", out var token);
 
                 var (userName, userId) = _jwtService.RetrieveTokenData(token);
                 var userRole = _storageService.RetrieveUserRole(userId, userName);

@@ -15,8 +15,6 @@
         {
             modelBuilder.Entity<Area>().HasData(dataRetriever.RetrieveData<Area>());
 
-            modelBuilder.Entity<AllergyType>().HasData(dataRetriever.RetrieveData<AllergyType>());
-
             modelBuilder.Entity<City>().HasData(dataRetriever.RetrieveData<City>());
 
             modelBuilder.Entity<Country>().HasData(dataRetriever.RetrieveData<Country>());
@@ -25,13 +23,9 @@
 
             modelBuilder.Entity<IllnessType>().HasData(dataRetriever.RetrieveData<IllnessType>());
 
-            modelBuilder.Entity<Medicament>().HasData(dataRetriever.RetrieveData<Medicament>());
-
             modelBuilder.Entity<MedicamentCategory>().HasData(dataRetriever.RetrieveData<MedicamentCategory>());
 
             modelBuilder.Entity<Specialty>().HasData(dataRetriever.RetrieveData<Specialty>());
-
-            modelBuilder.Entity<Department>().HasData(dataRetriever.RetrieveData<Department>());
 
             modelBuilder.Entity<MedicalTestType>().HasData(dataRetriever.RetrieveData<MedicalTestType>());
 

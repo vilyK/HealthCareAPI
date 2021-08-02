@@ -22,7 +22,7 @@
                 .AddDbContext(Configuration)
                 .AddConfigurations(Configuration)
                 .AddSystemServices()
-                .AddHostedServices()
+                //.AddHostedServices()
                 .AddBusinessServices()
                 .AddCommunicationServices()
                 .AddMappers()
@@ -31,9 +31,21 @@
 
         public void Configure(IApplicationBuilder app)
         {
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "HealthCare API");
+            });
+
             app.UseStaticFiles();
             app.UseHttpsRedirection();
             
+            app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true) // allow any origin
+                .AllowCredentials()); // allow credentials
+
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {

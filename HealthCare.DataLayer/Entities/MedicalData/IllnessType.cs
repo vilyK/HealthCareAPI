@@ -14,5 +14,7 @@
         public IllnessCategory IllnessCategory { get; set; }
 
         public string OtherName { get; set; }
+
+        public string MkbCode { get; set; } = "A00-B99";
     }
 }

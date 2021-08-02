@@ -9,10 +9,13 @@
     using DataLayer.Entities.Base;
     using HealthCare.Interfaces;
     using Utilities.Enums;
+    using Utilities.Enums.Common;
 
     public static class GenericExtensions
     {
         public static IEnumerable<T> EmptyIfNull<T>(this IEnumerable<T> enumerable) => enumerable ?? Enumerable.Empty<T>();
+
+        public static List<T> EmptyIfNullToList<T>(this IEnumerable<T> enumerable) => enumerable.ToList();
 
         public static int PersistModel<TModel>(this DbContext dbContext, TModel model, DatabaseOperation operation)
             where TModel : SystemData
@@ -21,7 +24,7 @@
             {
                 case DatabaseOperation.Update:
                     {
-                        model.UpdateDate = DateTime.Now;
+                        model.UpdateDate = DateTime.UtcNow;
 
                         dbContext.Entry(model).State = EntityState.Modified;
                         break;
@@ -54,7 +57,9 @@
         public static void DeleteEntity<TModel>(this DbContext dbContext, TModel model)
             where TModel : SystemData
         {
+            model.UpdateDate = DateTime.UtcNow;
             model.IsDeleted = true;
+
             dbContext.Entry(model).State = EntityState.Modified;
         }
 
@@ -79,6 +84,11 @@
             where TModel : class, new()
         {
             return source.SingleOrDefault(predicate) ?? new TModel();
+        }
+
+        public static object NullIfDefault<T>(this T value)
+        {
+            return value == null || EqualityComparer<T>.Default.Equals(value, default) ? (object) null : value;
         }
     }
 }

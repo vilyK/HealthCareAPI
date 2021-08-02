@@ -16,6 +16,7 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Options;
     using Utilities.Enums;
+    using Utilities.Enums.Common;
 
     public class ImageService : IImageService
     {

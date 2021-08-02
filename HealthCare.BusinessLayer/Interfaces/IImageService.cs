@@ -4,6 +4,7 @@
 
     using Contracts.Models.UserAccount.Data;
     using Utilities.Enums;
+    using Utilities.Enums.Common;
 
     public interface IImageService
     {

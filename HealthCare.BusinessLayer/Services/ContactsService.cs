@@ -11,6 +11,7 @@
     using HealthCare.Interfaces;
     using Interfaces;
     using Utilities.Enums;
+    using Utilities.Enums.Common;
     using Utilities.Helpers;
 
     public class ContactsService : IContactsService

@@ -16,9 +16,6 @@
 
             RuleFor(request => request.Contacts.Phones)
                 .VerifyPhoneNumbers();
-
-            RuleFor(request => request.Contacts.Addresses)
-                .VerifyAddresses();
         }
     }
 }

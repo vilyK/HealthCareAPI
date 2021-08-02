@@ -5,6 +5,6 @@
 
     public class WelcomeEmailRequest : BaseEmailMessage
     {
-        public WelcomeEmail Content { get; set; }
+        public WelcomeEmailModel Content { get; set; }
     }
 }

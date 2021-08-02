@@ -1,14 +1,20 @@
 ﻿namespace HealthCare.BusinessLayer.Interfaces
 {
     using System.Threading.Tasks;
-
+    using Contracts.Models.Appointment.Responses;
+    using Contracts.Models.Common;
+    using Contracts.Models.OutpatientCard.Responses;
     using Contracts.Models.PatientAccount.Requests;
     using Contracts.Models.PatientAccount.Responses;
 
     public interface IPatientService
     {
-        Task<PersistMedicalProfileResponse> PersistMedicalProfile(PersistMedicalProfileRequest request);
+        Task<TokenData> PersistMedicalProfile(PersistMedicalProfileRequest request);
 
-        //Task<bool> ShareContact(int doctorId, string receiverEmail);
+        Task<GetPatientByEgnResponse> GetPatientByEng(int egn);
+        
+        Task<GetPatientAppointmentsResponse> GetAppointments(int patientInfoId);
+
+        GetOutPatientCardsResponse GetOutPatientCards(int patientInfoId);
     }
 }

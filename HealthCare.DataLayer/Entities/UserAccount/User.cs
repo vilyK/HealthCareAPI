@@ -9,7 +9,6 @@
     using MedicalData;
     using MedicalMan;
     using Notification;
-    using Pharmacy;
     using Utilities.Enums;
 
     public class User : SystemData
@@ -33,19 +32,13 @@
 
         public MedicalProfile MedicalProfile { get; set; }
 
-        public MedicalCenterInfo MedicalCenter { get; set; }
+        public MedicalCenterInfo MedicalCenterInfo { get; set; }
 
         public List<Photo> Photos { get; set; } = new List<Photo>();
 
         public List<NotificationUser> UserNotifications { get; set; } = new List<NotificationUser>();
 
         public List<NotificationTypeUser> NotificationTypeUsers { get; set; } = new List<NotificationTypeUser>();
-
-        [InverseProperty("Sender")]
-        public List<Referral> SentReferrals { get; set; } = new List<Referral>();
-
-        [InverseProperty("Recipient")]
-        public List<Referral> ReceivedReferrals { get; set; } = new List<Referral>();
 
         [InverseProperty("Doctor")]
         public List<OutpatientCard> DoctorsOutpatientCards { get; set; } = new List<OutpatientCard>();
@@ -56,28 +49,16 @@
         [InverseProperty("Patient")]
         public List<Appointment> PatientAppointments { get; set; } = new List<Appointment>();
 
-        [InverseProperty("Sender")]
-        public List<AppraisalComment> SentAppraisalComments { get; set; } = new List<AppraisalComment>();
-
-        [InverseProperty("Sender")]
-        public List<Appraisal> SentAppraisals { get; set; } = new List<Appraisal>();
-
-        [InverseProperty("Recipient")]
-        public List<AppraisalComment> ReceivedAppraisalComments { get; set; } = new List<AppraisalComment>();
-
-        [InverseProperty("Recipient")]
-        public List<Appraisal> ReceivedAppraisals { get; set; } = new List<Appraisal>();
-
         [InverseProperty("Doctor")]
         public List<MedicalCenterDoctor> DoctorWorkPlaces { get; set; } = new List<MedicalCenterDoctor>();
 
         [InverseProperty("MedicalCenter")]
         public List<MedicalCenterDoctor> MedicalCenterEmployees { get; set; } = new List<MedicalCenterDoctor>();
 
-        [InverseProperty("Distributor")]
-        public List<PharmacyDistributor> DistributorsPerPharmacy { get; set; } = new List<PharmacyDistributor>();
+        [InverseProperty("Doctor")]
+        public List<Prescription> DoctorsPrescriptions { get; set; } = new List<Prescription>();
 
-        [InverseProperty("Pharmacy")]
-        public List<PharmacyDistributor> PharmaciesPerDistributor { get; set; } = new List<PharmacyDistributor>();
+        [InverseProperty("Patient")]
+        public List<Prescription> PatientPrescriptions { get; set; } = new List<Prescription>();
     }
 }

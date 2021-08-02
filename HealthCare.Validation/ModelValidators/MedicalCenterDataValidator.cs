@@ -12,8 +12,7 @@
             CascadeMode = CascadeMode.StopOnFirstFailure;
 
             RuleFor(request => request.Data)
-                .VerifyName()
-                .VerifyType();
+                .VerifyName();
         }
     }
 }

@@ -5,6 +5,7 @@
 
     using Base;
     using Interfaces;
+    using MedicalMan;
     using UserAccount;
     using Utilities.Enums;
 
@@ -25,6 +26,6 @@
         [ForeignKey("UserId")]
         public User User { get; set; }
 
-        public List<MedicalCenterDepartment> MedicalCenterDepartments { get; set; } = new List<MedicalCenterDepartment>();
+        public List<AppointmentHours> AppointmentHours { get; set; } = new List<AppointmentHours>();
     }
 }

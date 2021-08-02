@@ -12,6 +12,8 @@
     {
         public string Name { get; set; }
 
+        public long EGN { get; set; }
+
         public DateTime BirthDate { get; set; }
 
         public Gender Gender { get; set; }

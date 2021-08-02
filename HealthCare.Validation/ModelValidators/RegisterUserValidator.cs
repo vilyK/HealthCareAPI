@@ -4,6 +4,7 @@
 
     using Contracts.Models.UserAccount.Requests;
     using Extensions;
+    using Utilities.Enums;
 
     public class RegisterUserValidator : BaseValidator<RegisterUserRequest>
     {
@@ -13,18 +14,14 @@
 
             RuleFor(request => request)
                 .VerifyName()
-                .VerifyUserRole()
-                .VerifyUserName()
-                .VerifyPassword();
+                .VerifyUserRole();
 
-            RuleFor(request => request.Contacts.Emails)
-                .VerifyEmails();
-
-            RuleFor(request => request.Contacts.Phones)
-                .VerifyPhoneNumbers();
-
-            RuleFor(request => request.Contacts.Addresses)
-                .VerifyAddresses();
+            When(request => request.UserRole == RoleType.Doctor, () =>
+                {
+                    RuleFor(request => request)
+                        .VerifyUserName()
+                        .VerifyPassword();
+                });
         }
     }
 }

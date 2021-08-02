@@ -12,6 +12,5 @@
 
         [ForeignKey("MedicalTestId")]
         public MedicalTest MedicalTest { get; set; }
-
     }
 }

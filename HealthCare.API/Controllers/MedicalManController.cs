@@ -1,12 +1,14 @@
 ﻿namespace HealthCare.API.Controllers
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
 
     using Behaviour.Filters;
     using BusinessLayer.Interfaces;
     using Contracts.Models.Appointment.Requests;
-    using Contracts.Models.Appointment.Responses;
+    using Contracts.Models.Common;
+    using Contracts.Models.MedicalManAccount.Data;
     using Contracts.Models.MedicalManAccount.Requests;
     using Contracts.Models.MedicalManAccount.Responses;
     using Utilities.Enums;
@@ -28,30 +30,38 @@
 
         [Route("persistData")]
         [HttpPost]
-        public async Task<PersistPersonalDataResponse> PersistData(PersistPersonalDataRequest request)
+        public async Task<TokenData> PersistData(PersistPersonalDataRequest request)
         {
             return await _medicalManService.PersistPersonalData(request);
         }
 
-        [Route("persistOutpatientCard")]
-        [HttpPost]
-        public async Task<PersistOutpatientCardResponse> PersistOutpatientCard(PersistOutpatientCardRequest request)
+        [Route("retrieveData")]
+        [HttpGet]
+        public async Task<RetrieveMainDataResponse> RetrieveData()
         {
-            return await _medicalManService.PersistOutpatientCard(request);
+            return await _medicalManService.RetrievePersonalData();
         }
 
-        [Route("addAppointmentHours")]
-        [HttpPost]
-        public async Task<AddAppointmentHoursResponse> AddAppointmentHours(AddAppointmentHoursRequest request)
+        [Route("retrieveContacts")]
+        [HttpGet]
+        public async Task<RetrieveContactsResponse> RetrieveContacts()
         {
-            return await _appointmentService.AddAppointmentHours(request);
+            return await _medicalManService.RetrieveContacts();
         }
 
-        [Route("setPrices")]
-        [HttpPost]
-        public async Task<SetPricesResponse> SetPrices(SetPricesRequest request)
+        [Route("getByMedCenterId/{centerId}")]
+        [HttpGet]
+        [DisableCustomAuthorizationFilter]
+        public List<CommonMedicalData> GetByMedCenterId(int centerId)
         {
-            return await _medicalManService.SetPrices(request);
+            return  _medicalManService.GetByMedicalCenter(centerId);
+        }
+
+        [Route("getStatistics")]
+        [HttpGet]
+        public StatisticsData GetStatistics()
+        {
+            return  _medicalManService.GetStatisticsData();
         }
     }
 }

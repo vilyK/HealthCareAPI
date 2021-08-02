@@ -4,7 +4,7 @@
     using System.ComponentModel.DataAnnotations.Schema;
     
     using Base;
-    using Utilities.Enums;
+    using Utilities.Enums.Appointment;
 
     public class Appointment : SystemData
     {

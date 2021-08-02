@@ -20,6 +20,7 @@
 
         public string Notes { get; set; }
 
+
         public int? MedicalProfileId { get; set; }
 
         [ForeignKey("MedicalProfileId")]
@@ -29,7 +30,5 @@
 
         [ForeignKey("OutpatientCardId")]
         public OutpatientCard OutpatientCard { get; set; }
-
-        public List<Treatment> IllnessTreatments { get; set; }  = new List<Treatment>();
     }
 }

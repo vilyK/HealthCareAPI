@@ -1,17 +1,45 @@
 ﻿namespace HealthCare.DataLayer.Entities.MedicalData
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations.Schema;
 
     using Base;
     using UserAccount;
     using Utilities.Enums;
+    using Utilities.Enums.Visitation;
 
     public class OutpatientCard : SystemData
     {
+        public DateTime Date { get; set; }
+
+        public DateTime Time { get; set; }
+
+        public VisitationReason VisitationReason { get; set; }
+
+        public VisitationType VisitationType { get; set; }
+
         public DocumentStatus Status { get; set; }
 
-        public string Notes { get; set; }
+        public string FinancedBy { get; set; }
+
+        public int PrescriptionBookId { get; set; }
+
+        public bool QuickTest { get; set; }
+
+        public bool StageEpicrisis { get; set; }
+
+        public bool MedicalNote { get; set; }
+
+        public bool Prescription { get; set; }
+
+        public int MainDiagnoseId { get; set; }
+
+        public string MedicalHistory { get; set; }
+
+        public string ObjectiveCondition { get;set; }
+
+        public string Therapies { get;set; }
 
         public int DoctorId { get; set; }
 
@@ -26,7 +54,5 @@
         public List<MedicalTest> OutpatientCardMedicalTests { get; set; }  = new List<MedicalTest>();
 
         public List<Illness> OutpatientCardIllnesses { get; set; }  = new List<Illness>();
-
-        public List<Allergy> OutpatientCardAllergies { get; set; }  = new List<Allergy>();
     }
 }

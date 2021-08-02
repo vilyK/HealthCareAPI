@@ -3,14 +3,12 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-
-    using Contracts.Models.Appraisal.Requests;
-    using Contracts.Models.MedicalCenterAccount.Data;
+    using Contracts.Models.Appointment.Requests;
+    using Contracts.Models.MedicalManAccount.Data;
     using Contracts.Models.UserAccount.Data;
     using FluentValidation;
     using Helpers;
     using Interfaces;
-    using Utilities.Enums;
     using Utilities.Extensions;
 
     public static class CommonValidationExtensions
@@ -23,6 +21,15 @@
                 .WithErrorCode("InvalidName");
         }
 
+        public static IRuleBuilderOptions<T, MedicalManGeneralData> VerifyIdentityNumber<T>(this IRuleBuilder<T, MedicalManGeneralData> ruleBuilder)
+        {
+            return ruleBuilder.Must(request => /*request.IdentityNumber.ToString().Length >= 10 
+                                               &&*/ request.IdentityNumber.ToString().All(char.IsDigit)
+                                               && request.IdentityNumber.ToString().Any(ch => ch != 0))
+                .WithMessage("Invalid uin number")
+                .WithErrorCode("InvalidUIN");
+        }
+
         public static IRuleBuilderOptions<T, List<ImageData>> HasValidMainImagesCount<T>(this IRuleBuilder<T, List<ImageData>> ruleBuilder)
         {
             return ruleBuilder.Must(images => images.Count(img => img.IsMain) <= 1)
@@ -30,25 +37,19 @@
                 .WithErrorCode("InvalidMainImgCount");
         }
 
-        public static IRuleBuilderOptions<T, List<DateTime>> HasNotRepeatedHours<T>(this IRuleBuilder<T, List<DateTime>> ruleBuilder)
+        public static IRuleBuilderOptions<T, List<HourData>> HasOverlappingHours<T>(this IRuleBuilder<T, List<HourData>> ruleBuilder)
         {
-            return ruleBuilder.Must(hours => hours.Count == hours.Distinct().Count())
-                .WithMessage("Your request contains hours with same values.")
+            return ruleBuilder.Must(hours => hours.Count == hours.Select(hr => hr.StartDate).Distinct().Count())
+                .WithMessage("Your request contains overlapping hours.")
                 .WithErrorCode("InvalidAppointmentHours");
         }
 
-        public static IRuleBuilderOptions<T, SetAppraisalRequest> HasValidAppraisals<T>(this IRuleBuilder<T, SetAppraisalRequest> ruleBuilder)
+        public static IRuleBuilderOptions<T, List<HourData>> HasNotRepeatedHours<T>(this IRuleBuilder<T, List<HourData>> ruleBuilder)
         {
-            return ruleBuilder.Must(appraisals => appraisals.Appraisals.HasValidAppraisal(appraisals.RecipientType))
-                .WithMessage("Appraisal types or value are invalid")
-                .WithErrorCode("InvalidAppraisals");
-        }
+            return ruleBuilder.Must(hours => hours.Count == hours.Select(hr => new{ hr.StartDate, hr.EndDate}).Distinct().Count())
+                .WithMessage("Your request contains hours with same values.")
+                .WithErrorCode("InvalidAppointmentHours");
 
-        public static IRuleBuilderOptions<T, MedicalCenterData> VerifyType<T>(this IRuleBuilder<T, MedicalCenterData> ruleBuilder)
-        {
-            return ruleBuilder.Must(center => Enum.IsDefined(typeof(MedicalCenterType), center.Type))
-                .WithMessage("Medical center type is invalid.")
-                .WithErrorCode("InvalidType");
         }
     }
 }

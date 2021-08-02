@@ -6,40 +6,25 @@
     using DataLayer.Entities.MedicalCenter;
     using DataLayer.Entities.MedicalMan;
     using DataLayer.Entities.Patient;
-    using DataLayer.Entities.Pharmacy;
-    using DataLayer.Entities.PharmacyCompany;
+    using DataLayer.Entities.UserAccount;
     using Microsoft.EntityFrameworkCore;
+
     using Utilities.Enums;
 
     public static class CommonInfoExtensions
     {
-        public static void AddDepartments(this MedicalCenterInfo dbModel,
-            IEnumerable<int> departmentsInRequest,
-            IList<MedicalCenterDepartment> currentDepartments,
-            int medicalCenterInfoId)
-        {
-            foreach (var department in departmentsInRequest)
-            {
-                if (currentDepartments.Any(x => x.MedicalCenterInfoId == department))
-                    continue;
-
-                dbModel.MedicalCenterDepartments.Add(new MedicalCenterDepartment
-                {
-                    MedicalCenterInfoId = medicalCenterInfoId,
-                    DepartmentId = department
-                });
-            }
-        }
-
         public static void AddSpecialties(this MedicalManInfo dbModel,
             IEnumerable<int> specialtiesInRequest,
-            IList<MedicalManSpecialty> currentSpecialties,
+            List<MedicalManSpecialty> currentSpecialties,
             int medicalManInfoId)
         {
             foreach (var specialty in specialtiesInRequest)
             {
                 if (currentSpecialties.Any(x => x.SpecialtyId == specialty))
+                {
+                    currentSpecialties.RemoveAll(x => x.SpecialtyId == specialty);
                     continue;
+                }
 
                 dbModel.Specialties.Add(
                     new MedicalManSpecialty
@@ -48,6 +33,34 @@
                         SpecialtyId = specialty
                     });
             }
+
+            foreach (var currentSpec in currentSpecialties)
+                currentSpec.IsDeleted = true;
+        }
+
+        public static void AddMedicalCenters(this User dbModel,
+            IEnumerable<int> medicalCenterInRequest,
+            List<MedicalCenterDoctor> currentMedicalCenters,
+            int doctorId)
+        {
+            foreach (var medicalCenter in medicalCenterInRequest)
+            {
+                if (currentMedicalCenters.Any(x => x.Id == medicalCenter))
+                {
+                    currentMedicalCenters.RemoveAll(x => x.Id == medicalCenter);
+                    continue;
+                }
+                
+                dbModel.DoctorWorkPlaces.Add(
+                    new MedicalCenterDoctor
+                    {
+                        MedicalCenterId = medicalCenter,
+                        DoctorId = doctorId
+                    });
+            }
+
+            foreach (var currentCenter in currentMedicalCenters)
+                currentCenter.IsDeleted = true;
         }
 
         public static void AddInfoModel(this DbContext dbContext, int userId, string name, RoleType userRoleType)
@@ -55,30 +68,20 @@
             switch (userRoleType)
             {
                 case RoleType.Patient:
-                {
-                    dbContext.CreateInfoObject<PatientInfo>(name, userId);
-                    break;
-                }
+                    {
+                        dbContext.CreateInfoObject<PatientInfo>(name, userId);
+                        break;
+                    }
                 case RoleType.Doctor:
-                {
-                    dbContext.CreateInfoObject<MedicalManInfo>(name, userId);
-                    break;
-                }
+                    {
+                        dbContext.CreateInfoObject<MedicalManInfo>(name, userId);
+                        break;
+                    }
                 case RoleType.MedicalCenter:
-                {
-                    dbContext.CreateInfoObject<MedicalCenterInfo>(name, userId);
-                    break;
-                }
-                case RoleType.Pharmacy:
-                {
-                    dbContext.CreateInfoObject<PharmacyInfo>(name, userId);
-                    break;
-                }
-                case RoleType.PharmacyCompany:
-                {
-                    dbContext.CreateInfoObject<PharmacyCompanyInfo>(name, userId);
-                    break;
-                }
+                    {
+                        dbContext.CreateInfoObject<MedicalCenterInfo>(name, userId);
+                        break;
+                    }
                 case RoleType.Admin:
                     break;
             }

@@ -10,10 +10,8 @@
 
         public MedicalProfileGeneralData MedicalData { get; set; }
 
-        public List<AllergyData> Allergies { get; set; }
-
         public List<IllnessData> Illnesses { get; set; }
 
-        public List<MedicalTestData> MedicalTests { get; set; }
+        public List<AttachmentData> MedicalTests { get; set; }
     }
 }

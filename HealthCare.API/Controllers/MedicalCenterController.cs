@@ -5,6 +5,7 @@
     using Microsoft.AspNetCore.Mvc;
 
     using BusinessLayer.Interfaces;
+    using Contracts.Models.Common;
     using Contracts.Models.MedicalCenterAccount.Requests;
     using Contracts.Models.MedicalCenterAccount.Responses;
     using Utilities.Enums;
@@ -24,9 +25,24 @@
 
         [Route("persistMedicalCenterData")]
         [HttpPost]
-        public async Task<PersistMedicalCenterDataResponse> PersistMedicalCenterData(PersistMedicalCenterDataRequest request)
+        public async Task<TokenData> PersistMedicalCenterData(PersistMedicalCenterDataRequest request)
         {
             return await _medicalCenterService.PersistMedicalCenterData(request);
         }
+
+        [Route("getMedCenters/{cityId?}")]
+        [HttpGet]
+        [DisableCustomAuthorizationFilter]
+        public GetMedicalCentersResponse GetByCity(int? cityId = null)
+        {
+            return _medicalCenterService.GetMedicalCenters(cityId);
+        }
+
+        [Route("getMedCentersForDoctor")]
+        [HttpGet]
+        public async Task<GetMedicalCentersResponse> GetForDoctor()
+        {
+            return await _medicalCenterService.GetMedicalCentersForDoctor();
+        }
     }
-}
+}   

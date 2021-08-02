@@ -2,7 +2,7 @@
 {
     public enum PhoneType
     {
-        Private,
+        Private = 1,
         Public
     }
 }

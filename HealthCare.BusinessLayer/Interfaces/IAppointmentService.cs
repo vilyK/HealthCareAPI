@@ -1,16 +1,26 @@
 ﻿namespace HealthCare.BusinessLayer.Interfaces
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     
     using Contracts.Models.Appointment.Requests;
     using Contracts.Models.Appointment.Responses;
+    using Contracts.Models.Common;
 
     public interface IAppointmentService
     {
-        Task<RequestAppointmentResponse> RequestAppointment(RequestAppointmentRequest request);
+        Task RequestAppointment(RequestAppointmentRequest request);
 
-        Task<RequestAppointmentResponse> ChangeAppointmentStatus(ChangeAppointmentStatusRequest request);
+        Task<TokenData> ChangeAppointmentStatus(ChangeAppointmentStatusRequest request);
 
-        Task<AddAppointmentHoursResponse> AddAppointmentHours(AddAppointmentHoursRequest request);
+        GetAppointmentsResponse GetAppointmentsForDoctor();
+
+        Task<List<HourData>> GetAvailableHours(int medCenterId, int medManId);
+
+        GetAppointmentsResponse GetAppointmentsForPatientsByDoctor(int patientId);
+
+        Task<TokenData> AddAppointmentHours(AddAppointmentHoursRequest request);
+
+        GetAppointmentsResponse GetUpComingAppointmentsForDoctor();
     }
 }

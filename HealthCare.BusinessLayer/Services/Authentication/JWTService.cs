@@ -48,7 +48,7 @@
                     new Claim(ClaimUserName, username),
                     new Claim(ClaimUserId, userId.ToString()),
                 }),
-                Expires = DateTime.Now.AddMonths(Convert.ToInt32(_config.Value.ExpirationInMinutes)),
+                Expires = DateTime.UtcNow.AddMinutes(Convert.ToInt32(_config.Value.ExpirationInMinutes)),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(
                         Convert.FromBase64String(_config.Value.SecurityKey)), SecurityAlgorithms.HmacSha256)
             };

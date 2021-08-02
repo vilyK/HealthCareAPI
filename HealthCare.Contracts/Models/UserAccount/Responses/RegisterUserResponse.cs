@@ -3,6 +3,5 @@
     public class RegisterUserResponse
     {
         public string Username { get; set; }
-
     }
 }

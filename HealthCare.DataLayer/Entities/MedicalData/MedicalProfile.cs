@@ -26,8 +26,6 @@
 
         public List<Illness> MedicalProfileIllnesses { get; set; }  = new List<Illness>();
 
-        public List<Allergy> MedicalProfileAllergies { get; set; }  = new List<Allergy>();
-
         public List<MedicalTest> MedicalProfileMedicalTests { get; set; } = new List<MedicalTest>();
     }
 }

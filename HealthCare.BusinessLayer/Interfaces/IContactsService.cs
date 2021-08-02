@@ -4,6 +4,7 @@
 
     using HealthCare.Interfaces;
     using Utilities.Enums;
+    using Utilities.Enums.Common;
 
     public interface IContactsService
     {

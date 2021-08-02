@@ -37,6 +37,8 @@
                     f.RegisterValidatorsFromAssemblyContaining<RegisterUserValidator>();
                 });
 
+            services.AddSwaggerGen();
+
             return services;
         }
 
@@ -55,19 +57,20 @@
                           .Configure<EmailConfiguration>(configuration.GetSection("EmailConfiguration"))
                           .Configure<TwilioConfiguration>(configuration.GetSection("TwilioConfiguration"));
         }
-        
+
         public static IServiceCollection AddBusinessServices(this IServiceCollection services)
         {
             return services.AddScoped<IContactsService, ContactsService>()
-                           .AddScoped<IUserService, UserService>()
-                           .AddScoped<IPatientService, PatientService>()
-                           .AddScoped<IMedicalManService, MedicalManService>()
-                           .AddScoped<IMedicalCenterService, MedicalCenterService>()
-                           .AddScoped<IMedicalDataService, MedicalDataService>()
-                           .AddScoped<IAppointmentService, AppointmentService>()
-                           .AddScoped<IAppraisalService, AppraisalService>()
-                           .AddScoped<IImageService, ImageService>()
-                           .AddScoped<INotificationService, NotificationService>();
+                            .AddScoped<IUserService, UserService>()
+                            .AddScoped<IPatientService, PatientService>()
+                            .AddScoped<IMedicalManService, MedicalManService>()
+                            .AddScoped<IMedicalCenterService, MedicalCenterService>()
+                            .AddScoped<IMedicalDataService, MedicalDataService>()
+                            .AddScoped<IAppointmentService, AppointmentService>()
+                            .AddScoped<IPrescriptionService, PrescriptionService>()
+                            .AddScoped<IOutPatientCardService, OutPatientCardService>()
+                            .AddScoped<ICommonService, CommonService>()
+                            .AddScoped<IImageService, ImageService>();
         }
 
         public static IServiceCollection AddSystemServices(this IServiceCollection services)
@@ -85,9 +88,9 @@
 
         public static IServiceCollection AddCommunicationServices(this IServiceCollection services)
         {
-            return services.AddTransient<IEmailService, EmailService>()
-                           .AddScoped<ICommunicationService, CommunicationService>()
-                           .AddScoped<IRazorViewToStringRenderer, RazorViewToStringRenderer>();
+            return services.AddScoped<IEmailService, EmailService>()
+                            .AddScoped<ICommunicationService, CommunicationService>()
+                            .AddScoped<IRazorViewToStringRenderer, RazorViewToStringRenderer>();
         }
 
         public static IServiceCollection AddMappers(this IServiceCollection services)

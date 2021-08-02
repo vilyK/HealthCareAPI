@@ -11,7 +11,8 @@
             CascadeMode = CascadeMode.StopOnFirstFailure;
 
             RuleFor(x => x.Hours)
-                .HasNotRepeatedHours();
+                .HasNotRepeatedHours()
+                .HasOverlappingHours();
         }
     }
 }

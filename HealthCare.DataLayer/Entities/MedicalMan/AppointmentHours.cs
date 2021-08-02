@@ -4,7 +4,9 @@
     using System.ComponentModel.DataAnnotations.Schema;
     
     using Base;
+    using MedicalCenter;
     using Utilities.Enums;
+    using Utilities.Enums.Appointment;
 
     public class AppointmentHours : SystemData
     {
@@ -13,7 +15,14 @@
         [ForeignKey("MedicalManInfoId")]
         public MedicalManInfo MedicalManInfo { get; set; }
 
-        public DateTime AppointmentHour { get; set; }
+        public int MedicalCenterInfoId { get; set; }
+
+        [ForeignKey("MedicalCenterInfoId")]
+        public MedicalCenterInfo MedicalCenterInfo { get; set; }
+
+        public DateTime StartDate { get; set; }
+
+        public DateTime EndDate { get; set; }
 
         public AppointmentHourStatus AppointmentHourStatus { get; set; }
     }

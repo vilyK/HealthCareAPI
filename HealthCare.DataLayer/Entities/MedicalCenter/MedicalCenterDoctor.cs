@@ -10,6 +10,5 @@
 
         public int MedicalCenterId { get; set; }
         public User MedicalCenter { get; set; }
-
     }
 }

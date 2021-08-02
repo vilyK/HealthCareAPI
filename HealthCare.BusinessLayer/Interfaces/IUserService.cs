@@ -1,7 +1,8 @@
 ﻿namespace HealthCare.BusinessLayer.Interfaces
 {
     using System.Threading.Tasks;
-
+    
+    using Contracts.Models.Common;
     using Contracts.Models.UserAccount.Requests;
     using Contracts.Models.UserAccount.Responses;
 
@@ -11,14 +12,16 @@
 
         Task<LoginUserResponse> LoginUser(LoginUserRequest request);
 
-        Task<AddContactResponse> AddContact(AddContactRequest request);
+        Task<TokenData> AddContact(AddContactRequest request);
 
         Task<EditUserGeneraDataResponse> EditGeneralData(EditUserGeneraDataRequest request);
 
-        Task<UploadImagesResponse> UploadImages(UploadImagesRequest request);
+        Task<TokenData> UploadImages(UploadImagesRequest request);
 
-        Task<RetrieveDoctorsResponse> RetrieveDoctors(RetrieveDoctorsRequest request);
+        Task ForgotPassword(ForgotPasswordRequest request);
 
-        Task<RetrieveMedicalCentersResponse> RetrieveMedicalCenters(RetrieveMedicalCentersRequest request);
+        Task<TokenData> ChangePassword(ChangePasswordRequest request);
+
+        Task AddMedicalCenter(AddMedicalCenterRequest request);
     }
 }

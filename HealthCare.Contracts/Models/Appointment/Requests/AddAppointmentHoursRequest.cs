@@ -1,10 +1,11 @@
 ﻿namespace HealthCare.Contracts.Models.Appointment.Requests
 {
-    using System;
     using System.Collections.Generic;
 
     public class AddAppointmentHoursRequest
     {
-        public List<DateTime>  Hours { get; set; }
+        public int MedicalCenterId { get;set; }
+
+        public List<HourData>  Hours { get; set; }
     }
 }
