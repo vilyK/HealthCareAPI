@@ -1,6 +1,7 @@
 ﻿namespace HealthCare.API.Behaviour.Utils.AutoMapperProfiles
 {
     using AutoMapper;
+    using Contracts.Models.Common;
     using Contracts.Models.UserAccount.Data;
     using DataLayer.Entities.UserAccount.Contacts;
 
@@ -8,6 +9,10 @@
     {
         public ContactsProfile()
         {
+            CreateMap<City, CityData>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
+
             CreateMap<EmailData, Email>()
                 .ForMember(dest => dest.CreateDate, opt => opt.Ignore())
                 .ForAllMembers(opt => opt.Condition(

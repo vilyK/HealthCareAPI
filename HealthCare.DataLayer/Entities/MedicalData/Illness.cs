@@ -1,10 +1,9 @@
 ﻿namespace HealthCare.DataLayer.Entities.MedicalData
 {
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations.Schema;
 
     using Base;
-    using Interfaces;
+    using HealthCare.Interfaces;
     using Utilities.Enums;
 
     public class Illness : SystemData, IMedicalData
@@ -20,6 +19,7 @@
 
         public string Notes { get; set; }
 
+        public bool IsMain { get;set; }
 
         public int? MedicalProfileId { get; set; }
 

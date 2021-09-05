@@ -5,9 +5,8 @@
     using Entities.MedicalData;
     using Entities.MedicalMan;
     using Entities.UserAccount.Contacts;
-    using Entities.MedicalCenter;
     using Entities.Notification;
-    using Interfaces;
+    using HealthCare.Interfaces;
 
     public static class ModelBuilderExtensions
     {

@@ -13,6 +13,18 @@
                 .WithMany(e => e.DoctorsOutpatientCards)
                 .HasForeignKey(e => e.DoctorId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder
+                .HasOne(e => e.Patient)
+                .WithMany(e => e.PatientOutpatientCards)
+                .HasForeignKey(e => e.PatientId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder
+                .HasOne(e => e.MedCenter)
+                .WithMany(e => e.MedicalCenterOutpatientCards)
+                .HasForeignKey(e => e.MedCenterId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

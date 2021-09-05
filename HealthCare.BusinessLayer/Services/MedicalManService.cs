@@ -1,6 +1,5 @@
 ﻿namespace HealthCare.BusinessLayer.Services
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -13,19 +12,13 @@
     using Contracts.Models.MedicalManAccount.Data;
     using Contracts.Models.MedicalManAccount.Requests;
     using Contracts.Models.MedicalManAccount.Responses;
-    using Contracts.Models.OutpatientCard.Data;
     using Contracts.Models.UserAccount.Data;
 
     using DataLayer;
-    using DataLayer.Entities.MedicalData;
     using DataLayer.Entities.UserAccount.Contacts;
     using Exceptions;
     using Extensions;
     using Interfaces;
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Http.Internal;
-    using Microsoft.Extensions.FileProviders;
-    using Utilities.Enums;
     using Utilities.Enums.Common;
     using Utilities.Helpers;
 
@@ -34,14 +27,12 @@
         private readonly HealthCareDbContext _dbContext;
         private readonly IMapper _mapper;
         private readonly ISessionResolver _sessionResolver;
-        private readonly IMedicalDataService _medicalDataService;
 
-        public MedicalManService(HealthCareDbContext dbContext, IMapper mapper, ISessionResolver sessionResolver, IMedicalDataService medicalDataService)
+        public MedicalManService(HealthCareDbContext dbContext, IMapper mapper, ISessionResolver sessionResolver)
         {
             _dbContext = dbContext;
             _mapper = mapper;
             _sessionResolver = sessionResolver;
-            _medicalDataService = medicalDataService;
         }
 
         public async Task<TokenData> PersistPersonalData(PersistPersonalDataRequest request)
@@ -67,36 +58,6 @@
 
             dbModel.AddSpecialties(request.Specialties.EmptyIfNull(), medicalManCurrentSpecialties, medicalManInfoId);
             user.AddMedicalCenters(request.MedicalCenters.EmptyIfNull(), medicalManCurrentWorkPlaces, userId);
-
-            await _dbContext.SaveChangesAsync();
-
-            return new TokenData
-            {
-                Token = _sessionResolver.SessionInfo.NewToken
-            };
-        }
-
-        public async Task<TokenData> AddOutpatientCard(OutPatientCardInfo outPatientCardInfo, IList<IFormFile> files)
-        {
-            ValidationUtils.ValidateAndThrow<DataMismatchException>(() => !_dbContext.Users.Any(x => x.Id == outPatientCardInfo.PatientId));
-
-            var patient = _dbContext.PatientInfos.SingleOrDefault(info => info.Id == outPatientCardInfo.PatientId);
-
-            ValidationUtils.ValidateAndThrow<DataMismatchException>(() => patient == null);
-
-            var dbModel = _mapper.Map<OutpatientCard>(outPatientCardInfo);
-
-            dbModel.DoctorId = _sessionResolver.SessionInfo.UserId;
-            dbModel.PatientId = patient.UserId;
-
-            var dbOperation = dbModel.Id.GetDbOperation();
-            var outpatientCardId = _dbContext.PersistModel(dbModel, dbOperation);
-
-            // _medicalDataService.PersistMedicalDataRelatedEntities<int, Allergy>(outPatientCardInfo.OtherDiseases.EmptyIfNull(), outpatientCardId, DocumentType.OutpatientCard, DiseaseType.Allergy);
-            //_medicalDataService.PersistMedicalDataRelatedEntity<int, Illness>(outPatientCardInfo.MainDiagnoseId, outpatientCardId, DocumentType.OutpatientCard, DiseaseType.Illness);
-          
-            if(files.Any())
-                _medicalDataService.PersistMedicalTests(files, outpatientCardId, DocumentType.OutpatientCard);
 
             await _dbContext.SaveChangesAsync();
 
@@ -176,13 +137,16 @@
         public async Task<RetrieveContactsResponse> RetrieveContacts()
         {
             var user = _dbContext.Users
-                .Where(u => u.Id == _sessionResolver.SessionInfo.UserId)
+                .Where(u => u.Id == _sessionResolver.SessionInfo.UserId && !u.IsDeleted)
                 .Include(u => u.UserContact.Emails)
                 .Include(u => u.UserContact.Phones)
                 .SingleOrDefault();
 
-            var emails = _mapper.Map<List<Email>, List<EmailData>>(user.UserContact.Emails.EmptyIfNullToList());
-            var phoneNumbers = _mapper.Map<List<Phone>, List<PhoneData>>(user.UserContact.Phones.EmptyIfNullToList());
+            var emails = _mapper.Map<List<Email>, List<EmailData>>(user.UserContact.Emails.EmptyIfNullToList()
+                .Where(email => !email.IsDeleted).ToList());
+
+            var phoneNumbers = _mapper.Map<List<Phone>, List<PhoneData>>(user.UserContact.Phones.EmptyIfNullToList()
+                .Where(phone => !phone.IsDeleted).ToList());
 
             return new RetrieveContactsResponse
             {

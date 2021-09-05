@@ -3,7 +3,7 @@
     using System.ComponentModel.DataAnnotations.Schema;
     
     using Base;
-    using Interfaces;
+    using HealthCare.Interfaces;
     using Utilities.Enums;
 
     public class Phone : SystemData, IContactIdentity

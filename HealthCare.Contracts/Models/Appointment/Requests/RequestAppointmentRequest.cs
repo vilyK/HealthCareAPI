@@ -5,7 +5,7 @@
 
     public class RequestAppointmentRequest
     {
-        public long PatientEgn {get;set;}
+        public long IdentityNumber {get;set;}
 
         public int MedicalManInfoId { get; set; }
       

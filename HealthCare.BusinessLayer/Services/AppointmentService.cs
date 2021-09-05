@@ -52,7 +52,7 @@
             ValidationUtils.ValidateAndThrow<DataMismatchException>(() => appointmentHour == null || request.AppointmentDate < DateTime.UtcNow);
 
             // TODO change it to SingleOrDefault
-            var patient = _dbContext.PatientInfos.FirstOrDefault(patient => patient.EGN == request.PatientEgn);
+            var patient = _dbContext.PatientInfos.FirstOrDefault(patient => patient.EGN == request.IdentityNumber);
             ValidationUtils.ValidateAndThrow<DataMismatchException>(() => patient == null);
 
             var newAppointment = new Appointment
@@ -262,6 +262,13 @@
             {
                 Token = _sessionResolver.SessionInfo.NewToken
             };
+        } 
+
+        public async Task<List<HourData>> GetAvailableHoursAuth(int medCenterId)
+        {
+            var medManInfo = _dbContext.MedicalManInfos.FirstOrDefault(medMan => medMan.UserId == _sessionResolver.SessionInfo.UserId);
+
+            return await GetAvailableHours(medCenterId, medManInfo.Id);
         }
 
         public async Task<List<HourData>> GetAvailableHours(int medCenterId, int medManId)
@@ -279,7 +286,8 @@
                                && hour.MedicalManInfoId == medManInfo.Id
                                && !hour.IsDeleted
                                && hour.AppointmentHourStatus == AppointmentHourStatus.Free
-                               /*&& hour.StartDate.ToUniversalTime() > DateTime.UtcNow*/)
+                               && hour.StartDate.ToUniversalTime() > DateTime.UtcNow)
+                .OrderBy(hour => hour.StartDate)
                 .ToList();
             
             return _mapper.Map<List<HourData>>(hoursRaw);

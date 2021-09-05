@@ -52,9 +52,9 @@
 
         [Route("getVisitationTypes")]
         [HttpGet]
-        public List<VisitationDetailsData> GetVisitationTypes()
+        public List<CommonMedicalData> GetVisitationTypes()
         {
-            return  _commonService.GetVisitationReasons();
+            return  _commonService.GetVisitationTypes();
         }
     }
 }

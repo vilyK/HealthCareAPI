@@ -5,6 +5,7 @@
     using System.ComponentModel.DataAnnotations.Schema;
 
     using Base;
+    using OutpatientCardData;
     using UserAccount;
     using Utilities.Enums;
     using Utilities.Enums.Visitation;
@@ -41,6 +42,8 @@
 
         public string Therapies { get;set; }
 
+        public string SpecialtyCode { get; set; }
+
         public int DoctorId { get; set; }
 
         [ForeignKey("DoctorId")]
@@ -51,6 +54,15 @@
         [ForeignKey("PatientId")]
         public User Patient { get; set; }
 
+        public int MedCenterId { get; set; }
+
+        [ForeignKey("MedCenterId")]
+        public User MedCenter { get; set; }
+
+        public List<ConsultationDocument> ConsultationDocuments { get; set; } = new List<ConsultationDocument>();
+
+        public List<ConsultationDocumentMMD> ConsultationDocumentsMMD { get; set; } = new List<ConsultationDocumentMMD>();
+        
         public List<MedicalTest> OutpatientCardMedicalTests { get; set; }  = new List<MedicalTest>();
 
         public List<Illness> OutpatientCardIllnesses { get; set; }  = new List<Illness>();

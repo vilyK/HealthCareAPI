@@ -23,6 +23,8 @@
 
         public int UserId { get; set; }
 
+        public Gender Gender { get; set; } = Gender.None;
+
         [ForeignKey("UserId")]
         public User User { get; set; }
 

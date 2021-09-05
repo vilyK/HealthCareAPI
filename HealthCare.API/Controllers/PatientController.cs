@@ -33,7 +33,8 @@
 
         [Route("getByEgn/{egn}")]
         [HttpGet]
-        public async Task<GetPatientByEgnResponse> GetPatientByEgn(int egn)
+        [DisableCustomAuthorizationFilter]
+        public async Task<GetPatientByEgnResponse> GetPatientByEgn(long egn)
         {
             return await _patientService.GetPatientByEng(egn);
         }

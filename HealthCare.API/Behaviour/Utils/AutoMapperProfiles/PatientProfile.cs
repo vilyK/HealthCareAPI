@@ -2,6 +2,7 @@
 {
     using System;
     using AutoMapper;
+
     using Contracts.Models.Common;
     using Contracts.Models.PatientAccount.Data;
     using DataLayer.Entities.MedicalData;
@@ -28,11 +29,11 @@
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate))
                 .ForMember(dest => dest.PatientInfoId, opt => opt.MapFrom(src => src.Id))
-                //.ForMember(dest => dest.Address, 
-                //    opt => opt.MapFrom(src => $"{src.Patient.UserContact.Addresses[0].StreetAddress}, {src.Patient.UserContact.Addresses[0].City.Name}"))
+                .ForMember(dest => dest.Address, 
+                   opt => opt.MapFrom(src => $"{src.Patient.UserContact.Addresses[0].StreetAddress}, {src.Patient.UserContact.Addresses[0].City.Name}"))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Patient.UserContact.Emails[0].EmailAddress))
                 .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.Patient.UserContact.Phones[0].Number))
-                //.ForMember(dest => dest.Age, opt => opt.MapFrom(src => DateTime.UtcNow.Year - src.BirthDate.Year))
+                .ForMember(dest => dest.Age, opt => opt.MapFrom(src => DateTime.UtcNow.Year - src.BirthDate.Year))
                 .ForAllMembers(opt => opt.Condition(
                     (source, destination, sourceMember, destMember) => sourceMember != null));
 

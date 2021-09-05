@@ -7,6 +7,7 @@
     using DataLayer.Entities.MedicalMan;
     using DataLayer.Entities.Patient;
     using DataLayer.Entities.UserAccount;
+    using DataLayer.Interfaces;
     using Microsoft.EntityFrameworkCore;
 
     using Utilities.Enums;
@@ -63,28 +64,30 @@
                 currentCenter.IsDeleted = true;
         }
 
-        public static void AddInfoModel(this DbContext dbContext, int userId, string name, RoleType userRoleType)
+        public static IInformation AddInfoModel(this DbContext dbContext, int userId, string name, RoleType userRoleType, Gender gender = Gender.None)
         {
             switch (userRoleType)
             {
                 case RoleType.Patient:
                     {
-                        dbContext.CreateInfoObject<PatientInfo>(name, userId);
-                        break;
+                        var model = dbContext.CreateInfoObject<PatientInfo>(name, userId, gender);
+                        return model;
                     }
                 case RoleType.Doctor:
                     {
-                        dbContext.CreateInfoObject<MedicalManInfo>(name, userId);
-                        break;
+                        var model = dbContext.CreateInfoObject<MedicalManInfo>(name, userId, gender);
+                        return model;
                     }
                 case RoleType.MedicalCenter:
                     {
-                        dbContext.CreateInfoObject<MedicalCenterInfo>(name, userId);
-                        break;
+                        var model = dbContext.CreateInfoObject<MedicalCenterInfo>(name, userId, gender);
+                        return model;
                     }
                 case RoleType.Admin:
-                    break;
+                    return null;
             }
+
+            return null;
         }
     }
 }

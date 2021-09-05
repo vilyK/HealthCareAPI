@@ -12,7 +12,9 @@
 
         public RoleType UserRole { get; set; }
 
-        public long EGN { get; set; }
+        public string IdentityNumber { get; set; }
+
+        public int NotificationType { get; set; }
 
         public RegisterContactData Contacts { get; set; }
     }

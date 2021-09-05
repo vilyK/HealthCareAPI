@@ -6,7 +6,6 @@
 
     using Behaviour.Filters;
     using BusinessLayer.Interfaces;
-    using Contracts.Models.Appointment.Requests;
     using Contracts.Models.Common;
     using Contracts.Models.MedicalManAccount.Data;
     using Contracts.Models.MedicalManAccount.Requests;
@@ -20,12 +19,10 @@
     public class MedicalManController : ControllerBase
     {
         private readonly IMedicalManService _medicalManService;
-        private readonly IAppointmentService _appointmentService;
 
-        public MedicalManController(IMedicalManService medicalManService, IAppointmentService appointmentService)
+        public MedicalManController(IMedicalManService medicalManService)
         {
             _medicalManService = medicalManService;
-            _appointmentService = appointmentService;
         }
 
         [Route("persistData")]

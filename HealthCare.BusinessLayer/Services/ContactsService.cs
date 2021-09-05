@@ -10,7 +10,6 @@
     using Exceptions;
     using HealthCare.Interfaces;
     using Interfaces;
-    using Utilities.Enums;
     using Utilities.Enums.Common;
     using Utilities.Helpers;
 
@@ -39,6 +38,9 @@
             where TDBObject : class, IContactIdentity, new()
             where TRequestObj : class
         {
+            if(requestEntity == null)
+                return;
+
             var map = _mapper.Map<TDBObject>(requestEntity);
             map.UserContactId = userContactId;
 

@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc.ModelBinding;
+    using Newtonsoft.Json;
 
     public class JsonModelBinder : IModelBinder
     {
@@ -19,7 +20,7 @@
             bindingContext.ModelState.SetModelValue(bindingContext.ModelName, valueProviderResult);
 
             var valueAsString = valueProviderResult.FirstValue;
-            var result = Newtonsoft.Json.JsonConvert.DeserializeObject(valueAsString, bindingContext.ModelType);
+            var result = JsonConvert.DeserializeObject(valueAsString, bindingContext.ModelType);
             if (result == null) 
                 return Task.CompletedTask;
             

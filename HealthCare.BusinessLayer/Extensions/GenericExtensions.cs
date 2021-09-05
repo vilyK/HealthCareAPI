@@ -7,6 +7,7 @@
     using Microsoft.EntityFrameworkCore;
 
     using DataLayer.Entities.Base;
+    using DataLayer.Interfaces;
     using HealthCare.Interfaces;
     using Utilities.Enums;
     using Utilities.Enums.Common;
@@ -63,16 +64,19 @@
             dbContext.Entry(model).State = EntityState.Modified;
         }
 
-        public static void CreateInfoObject<TModel>(this DbContext dbContext, string name, int userId)
+        public static TModel CreateInfoObject<TModel>(this DbContext dbContext, string name, int userId, Gender gender = Gender.None)
             where TModel : IInformation, new()
         {
             var infoModel = new TModel
             {
                 Name = name,
-                UserId = userId
+                UserId = userId,
+                Gender = gender
             };
 
             dbContext.Add(infoModel);
+
+            return infoModel;
         }
 
         public static DatabaseOperation GetDbOperation(this int modelId)

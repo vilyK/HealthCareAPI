@@ -57,6 +57,17 @@
                 .ToList();
         }
 
+        public List<CommonMedicalData> GetVisitationTypes()
+        {
+            return Enum.GetNames(typeof(VisitationType))
+                .Select(name => new CommonMedicalData
+                {
+                    Id = (int)Enum.Parse(typeof(VisitationType), name),
+                    Name = name
+                })
+                .ToList();
+        }
+
         private List<TModel> GetEntities<TModel, TSet>() where TSet : class
         {
             var rawData = _dbContext.Set<TSet>().ToList();

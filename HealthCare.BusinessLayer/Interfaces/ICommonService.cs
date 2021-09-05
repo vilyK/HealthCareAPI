@@ -14,5 +14,7 @@
         List<CommonMedicalData> GetIllnessCategories();
 
         List<VisitationDetailsData> GetVisitationReasons();
+        
+        List<CommonMedicalData> GetVisitationTypes();
     }
 }

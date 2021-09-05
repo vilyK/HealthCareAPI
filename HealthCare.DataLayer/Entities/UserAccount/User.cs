@@ -43,6 +43,12 @@
         [InverseProperty("Doctor")]
         public List<OutpatientCard> DoctorsOutpatientCards { get; set; } = new List<OutpatientCard>();
 
+        [InverseProperty("Patient")]
+        public List<OutpatientCard> PatientOutpatientCards { get; set; } = new List<OutpatientCard>();
+
+        [InverseProperty("MedCenter")]
+        public List<OutpatientCard> MedicalCenterOutpatientCards { get; set; } = new List<OutpatientCard>();
+
         [InverseProperty("Doctor")]
         public List<Appointment> DoctorAppointments { get; set; } = new List<Appointment>();
 

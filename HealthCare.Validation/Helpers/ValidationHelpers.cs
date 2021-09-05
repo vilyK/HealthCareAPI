@@ -5,8 +5,6 @@
     using System.Text.RegularExpressions;
     
     using Contracts.Models.UserAccount.Data;
-    using Utilities.Enums;
-    using Utilities.Extensions;
 
     public static class ValidationHelpers
     {

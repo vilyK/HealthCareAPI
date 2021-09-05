@@ -17,6 +17,8 @@
 
         Task<List<HourData>> GetAvailableHours(int medCenterId, int medManId);
 
+        Task<List<HourData>> GetAvailableHoursAuth(int medCenterId);
+
         GetAppointmentsResponse GetAppointmentsForPatientsByDoctor(int patientId);
 
         Task<TokenData> AddAppointmentHours(AddAppointmentHoursRequest request);

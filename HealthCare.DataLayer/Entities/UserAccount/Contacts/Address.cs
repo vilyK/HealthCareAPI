@@ -3,7 +3,7 @@
     using System.ComponentModel.DataAnnotations.Schema;
     
     using Base;
-    using Interfaces;
+    using HealthCare.Interfaces;
 
     public class Address : SystemData, IContactIdentity
     {

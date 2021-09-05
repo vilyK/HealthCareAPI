@@ -52,13 +52,19 @@
             return _appointmentService.GetAppointmentsForPatientsByDoctor(patientId);
         }
 
-
         [Route("getAvailableHours/{medicalCenterId}/{medManId}")]
         [HttpGet]
         [DisableCustomAuthorizationFilter]
         public async Task<List<HourData>> GetAvailableHours(int medicalCenterId, int medManId)
         {
             return await _appointmentService.GetAvailableHours(medicalCenterId, medManId);
+        }
+
+        [Route("getAvailableHours/{medicalCenterId}")]
+        [HttpGet]
+        public async Task<List<HourData>> GetAvailableHoursAuth(int medicalCenterId)
+        {
+            return await _appointmentService.GetAvailableHoursAuth(medicalCenterId);
         }
 
         [Route("addAppointmentHours")]

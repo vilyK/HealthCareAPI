@@ -27,9 +27,9 @@
         [Route("register")]
         [HttpPost]
         [DisableCustomAuthorizationFilter]
-        public async Task<RegisterUserResponse> Register(RegisterUserRequest request)
-        {
-            return await _userService.RegisterUser(request);
+        public async Task Register(RegisterUserRequest request)
+        { 
+            await _userService.RegisterUser(request);
         }
 
         [Route("login")]

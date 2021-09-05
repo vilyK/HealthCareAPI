@@ -9,7 +9,5 @@
         public string FullName { get; set; }
 
         public ContactUserData Contacts { get; set; }
-        
-        public string Biography { get; set; }
     }
 }

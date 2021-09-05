@@ -7,7 +7,7 @@
     using Newtonsoft.Json;
 
     using Contracts.Configuration;
-    using Interfaces;
+    using HealthCare.Interfaces;
 
     public class DataRetriever : IDataRetriever
     {

@@ -34,31 +34,34 @@
             _settings = settings;
         }
 
-        public void PersistMedicalDataRelatedEntities<TMedicalEntity, TModel>(IEnumerable<TMedicalEntity> medicalEntities, int documentId, DocumentType documentType, DiseaseType diseaseType)
+        public void PersistMedicalDataRelatedEntities<TMedicalEntity, TModel>(IEnumerable<TMedicalEntity> medicalEntities, int documentId, DocumentType documentType)
             where TModel : SystemData, IMedicalData
         {
             foreach (var entity in medicalEntities)
             {
-                PersistMedicalDataRelatedEntity<TMedicalEntity, TModel>(entity, documentId, documentType, diseaseType);
+                PersistMedicalDataRelatedEntity<TMedicalEntity, TModel>(entity, documentId, documentType);
             }
         }
 
-        public void PersistMedicalDataRelatedEntity<TMedicalEntity, TModel>(TMedicalEntity medicalEntity, int documentId, DocumentType documentType, DiseaseType diseaseType)
+        public void PersistMedicalDataRelatedEntity<TMedicalEntity, TModel>(TMedicalEntity medicalEntity, int documentId, DocumentType documentType)
             where TModel : SystemData, IMedicalData
         {
+            if(medicalEntity == null)
+                return;
+
             var dbModel = _mapper.Map<TModel>(medicalEntity);
 
             dbModel.SetDocumentId(documentType, documentId);
 
             var dbOperation = dbModel.Id.GetDbOperation();
-            var diseaseId = _dbContext.PersistModel(dbModel, dbOperation);
+            _dbContext.PersistModel(dbModel, dbOperation);
         }
 
         public void PersistMedicalTests(IList<IFormFile> files, int documentId, DocumentType documentType)
         {
             foreach (var file in files)
             {
-                file.ValidateImage();
+               // file.ValidateImage();
 
                 var medTestDbModel = new MedicalTest();
 

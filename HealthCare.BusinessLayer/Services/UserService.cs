@@ -14,6 +14,7 @@
     using Contracts.Models.UserAccount.Requests;
     using Contracts.Models.UserAccount.Responses;
     using DataLayer;
+    using DataLayer.Entities.Patient;
     using DataLayer.Entities.UserAccount;
     using DataLayer.Entities.UserAccount.Contacts;
     using Exceptions;
@@ -56,7 +57,7 @@
             _communicationService = communicationService;
         }
 
-        public async Task<RegisterUserResponse> RegisterUser(RegisterUserRequest request)
+        public async Task RegisterUser(RegisterUserRequest request)
         {
             var user = new User
             {
@@ -64,16 +65,7 @@
             };
 
             if (request.UserRole == RoleType.Doctor)
-            {
-                var userExists = await _dbContext.Users.SingleOrDefaultAsync(x => x.Username == request.GeneralData.Username);
-                ValidationUtils.ValidateAndThrow<ExistedUserNameException>(() => userExists != null);
-
-                var (hashedPassword, secret) = GenerateSaltedHash(request.GeneralData.Password);
-
-                user.Username = request.GeneralData.Username;
-                user.PasswordHash = hashedPassword;
-                user.Secret = secret;
-            }
+                await SetDoctorData(request.GeneralData, user);
             
             var userContact = new UserContact
             {
@@ -82,24 +74,23 @@
 
             await _dbContext.AddRangeAsync(user, userContact);
 
-            _dbContext.AddInfoModel(user.Id, request.Name, user.RoleType);
-
-            PersistUserContactsOnRegistration(request.Contacts, userContact.Id, DatabaseOperation.Insert);
-
-            if(request.UserRole == RoleType.Patient)
+            if (request.UserRole == RoleType.Patient)
             {
-                _contactsService.PersistEntity<AddressData, Address>(request.Contacts.Address, userContact.Id, DatabaseOperation.Insert);
+                var infoModel = (PatientInfo)_dbContext.AddInfoModel(user.Id, request.Name, user.RoleType, request.IdentityNumber.GetGender());
+                infoModel.EGN = long.Parse(request.IdentityNumber);
+                infoModel.BirthDate = request.IdentityNumber.GetBirthDate();
+            }
+            else
+            {
+                _dbContext.AddInfoModel(user.Id, request.Name, user.RoleType);
             }
             
+            PersistUserContactsOnRegistration(request.Contacts, userContact.Id, DatabaseOperation.Insert);
+
             await _dbContext.SaveChangesAsync();
 
             //var (emailMessage, model) = EmailBuilderHelper.BuildWelcomeEmail(request.GeneralData.Username ?? request.Name, request.Contacts.Email.EmailAddress);
             //await _communicationService.SendEmail(emailMessage, model);
-
-            return new RegisterUserResponse
-            {
-                Username = request.GeneralData.Username
-            };
         }
 
         public async Task<LoginUserResponse> LoginUser(LoginUserRequest request)
@@ -183,7 +174,7 @@
             await _dbContext.SaveChangesAsync();
 
             var (emailMessage, model) = EmailBuilderHelper.BuildForgottenPasswordEmail(user.Username, request.Email, newPassword);
-  
+
             await _communicationService.SendEmail(emailMessage, model);
 
         }
@@ -200,7 +191,7 @@
             user.Secret = secret;
 
             await _dbContext.SaveChangesAsync();
-            
+
             var token = _authService.GenerateToken(user.Username, user.Id);
 
             return new TokenData
@@ -208,7 +199,6 @@
                 Token = token
             };
         }
-
 
         public void UploadProfilePhotos(List<ImageData> imagesInRequest)
         {
@@ -244,9 +234,8 @@
             await _dbContext.AddRangeAsync(user, userContact);
 
             _dbContext.AddInfoModel(user.Id, request.Name, user.RoleType);
-
             _contactsService.PersistEntity<AddressData, Address>(request.Address, userContact.UserId, DatabaseOperation.Insert);
-            
+
             await _dbContext.SaveChangesAsync();
         }
 
@@ -279,18 +268,30 @@
         {
             _contactsService.PersistEntity<EmailData, Email>(contacts.Email, userContactId, operation);
             _contactsService.PersistEntity<PhoneData, Phone>(contacts.Phone, userContactId, operation);
+            _contactsService.PersistEntity<AddressData, Address>(contacts.Address, userContactId, operation);
         }
 
         private void PersistUserContacts(ContactUserData contacts, int userContactId)
         {
             var emails = contacts.Emails.EmptyIfNull();
-            foreach ( var email in emails)
+            foreach (var email in emails)
                 _contactsService.PersistEntity<EmailData, Email>(email, userContactId, email.Id.GetDbOperation());
-            
 
             var phones = contacts.Phones.EmptyIfNull();
             foreach (var phone in phones)
                 _contactsService.PersistEntity<PhoneData, Phone>(phone, userContactId, phone.Id.GetDbOperation());
+        }
+
+        private async Task SetDoctorData(GeneralUserData generalData, User user)
+        {
+            var userExists = await _dbContext.Users.SingleOrDefaultAsync(x => x.Username == generalData.Username);
+            ValidationUtils.ValidateAndThrow<ExistedUserNameException>(() => userExists != null);
+
+            var (hashedPassword, secret) = GenerateSaltedHash(generalData.Password);
+
+            user.Username = generalData.Username;
+            user.PasswordHash = hashedPassword;
+            user.Secret = secret;
         }
 
         private static (string, string) GenerateSaltedHash(string password)

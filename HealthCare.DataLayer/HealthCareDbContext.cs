@@ -7,10 +7,11 @@
     using Entities.MedicalData;
     using Entities.MedicalMan;
     using Entities.Notification;
+    using Entities.OutpatientCardData;
     using Entities.Patient;
     using Entities.UserAccount;
     using Entities.UserAccount.Contacts;
-    using Interfaces;
+    using HealthCare.Interfaces;
     using Utils;
 
     public class HealthCareDbContext : DbContext
@@ -70,6 +71,14 @@
         public DbSet<MedicalProfile> MedicalProfiles { get; set; }
 
         public DbSet<OutpatientCard> OutpatientCards { get; set; }
+
+        public DbSet<ConsultationDocument> ConsultationDocuments { get; set; }
+
+        public DbSet<ConsultationDocumentMMD> ConsultationDocumentsMMD { get; set; }
+
+        public DbSet<ConsultationDocumentKP> ConsultationDocumentsKP { get; set; }
+       
+        public DbSet<SickLeave> SickLeaves { get; set; }
 
         public DbSet<MedicalTest> MedicalTests { get; set; }
 

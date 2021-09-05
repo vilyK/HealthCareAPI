@@ -49,10 +49,7 @@
             var patientInfoId = PersistPatientPersonalData(request.PatientData);
             var medicalProfileId = PersistMedicalProfileData(request.MedicalData, patientInfoId);
 
-            _medicalDataService.PersistMedicalDataRelatedEntities<IllnessData, Illness>(request.Illnesses.EmptyIfNull(), medicalProfileId, DocumentType.MedicalProfile, DiseaseType.Illness);
-            
-            //if(files.Any())
-            //    _medicalDataService.PersistMedicalTests(files, medicalProfileId, DocumentType.MedicalProfile);
+            _medicalDataService.PersistMedicalDataRelatedEntities<IllnessData, Illness>(request.Illnesses.EmptyIfNull(), medicalProfileId, DocumentType.MedicalProfile);
 
             await _dbContext.SaveChangesAsync();
 
@@ -61,10 +58,9 @@
                 Token = _sessionResolver.SessionInfo.NewToken
             };
         }
-
-        public async Task<GetPatientByEgnResponse> GetPatientByEng(int egn)
+        
+        public async Task<GetPatientByEgnResponse> GetPatientByEng(long egn)
         {
-            // TODO: change it to single or default
             var patientDb = await _dbContext.PatientInfos
                 .Where(x => x.EGN == egn)
                 .Include(x => x.Patient)
@@ -72,25 +68,13 @@
                 .ThenInclude(pat => pat.UserContact.Phones)
                 .ThenInclude(pat => pat.UserContact.Addresses)
                 .ThenInclude(add => add.City)
-                .FirstOrDefaultAsync();
+                .SingleOrDefaultAsync();
 
            var patient = _mapper.Map<PatientInfoData>(patientDb);
-           //var patient = new PatientInfoData
-           // {
-           //     PatientInfoId = patientDb.Id,
-           //     Name = patientDb.Name,
-           //     Gender = patientDb.Gender,
-           //     Age = patientDb.BirthDate.Year - DateTime.UtcNow.Year,
-           //     Email = patientDb.Patient.UserContact.Emails[0].EmailAddress,
-           //    // Address = $"{patientDb.Patient.UserContact.Addresses[0].StreetAddress}, {patientDb.Patient.UserContact.Addresses[0].City.Name}",
-           //     PhoneNumber = patientDb.Patient.UserContact.Phones[0].Number,
-           //     BirthDate = patientDb.BirthDate
-           // };
 
             // id-то е PatientInfoId
             return new GetPatientByEgnResponse
             {
-                Token = _sessionResolver.SessionInfo.NewToken,
                 Patient = patient,
             };
         }
@@ -131,27 +115,6 @@
             {
                 Token = _sessionResolver.SessionInfo.NewToken,
                 Appointments = results
-            };
-        }
-
-        public GetOutPatientCardsResponse GetOutPatientCards(int patientInfoId)
-        {
-            var patientInfo = _dbContext.PatientInfos.SingleOrDefault(info => info.Id == patientInfoId);
-
-            ValidationUtils.ValidateAndThrow<DataMismatchException>(() => patientInfo == null);
-
-            var patientUserId = patientInfo.UserId;
-
-            var outPatientCardDbModels = _dbContext.OutpatientCards
-                .Where(card => card.Patient.Id == patientUserId)
-                .ToList();
-
-            var result = _mapper.Map<List<OutPatientCardInfo>>(outPatientCardDbModels);
-
-            return new GetOutPatientCardsResponse
-            {
-                Token = _sessionResolver.SessionInfo.NewToken,
-                OutPatientCardInfo = result
             };
         }
 

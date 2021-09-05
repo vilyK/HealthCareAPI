@@ -8,7 +8,7 @@
 
     public interface IUserService
     {
-        Task<RegisterUserResponse> RegisterUser(RegisterUserRequest request);
+        Task RegisterUser(RegisterUserRequest request);
 
         Task<LoginUserResponse> LoginUser(LoginUserRequest request);
 

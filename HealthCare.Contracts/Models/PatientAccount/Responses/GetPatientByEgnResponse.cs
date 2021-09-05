@@ -2,7 +2,7 @@
 {
     using Common;
 
-    public class GetPatientByEgnResponse : TokenData
+    public class GetPatientByEgnResponse
     {
         public PatientInfoData Patient { get; set; }
     }

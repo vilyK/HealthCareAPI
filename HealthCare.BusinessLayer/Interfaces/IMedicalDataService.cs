@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
 
-    using Contracts.Models.CommonMedicalData;
     using DataLayer.Entities.Base;
     using HealthCare.Interfaces;
     using Microsoft.AspNetCore.Http;
@@ -11,11 +10,11 @@
     public interface IMedicalDataService
     {
         void PersistMedicalDataRelatedEntities<TMedicalEntity, TModel>(IEnumerable<TMedicalEntity> medicalEntities,
-            int documentId, DocumentType documentType, DiseaseType diseaseType)
+            int documentId, DocumentType documentType)
             where TModel : SystemData, IMedicalData;
 
         public void PersistMedicalDataRelatedEntity<TMedicalEntity, TModel>(TMedicalEntity medicalEntity,
-            int documentId, DocumentType documentType, DiseaseType diseaseType)
+            int documentId, DocumentType documentType)
             where TModel : SystemData, IMedicalData;
 
         void PersistMedicalTests(IList<IFormFile> files, int documentId, DocumentType documentType);

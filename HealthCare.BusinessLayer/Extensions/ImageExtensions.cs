@@ -21,7 +21,7 @@
 
         public static void ValidateImage(this IFormFile image)
         {
-            var extenstion = System.IO.Path.GetExtension(image.FileName);
+            var extenstion = Path.GetExtension(image.FileName);
 
             ValidationUtils.ValidateAndThrow<InvalidImageFormatException>(
                 () => !Enum.IsDefined(typeof(ImageFormat), extenstion));
